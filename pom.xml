@@ -21,7 +21,6 @@
         <module>core</module>
         <module>component</module>
         <module>module</module>
-        <module>web-vue2</module>
     </modules>
 
     <!-- 依赖版本控制 -->
@@ -56,6 +55,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--security-->
             <dependency>
