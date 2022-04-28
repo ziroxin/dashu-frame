@@ -37,6 +37,9 @@
 
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <spring-boot.version>2.6.7</spring-boot.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <hutool.version>5.8.0.M3</hutool.version>
     </properties>
 
     <!-- 依赖Jar包控制 -->
@@ -78,6 +81,29 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+            <!-- redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

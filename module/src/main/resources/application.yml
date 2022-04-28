@@ -6,6 +6,6 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     database:
       type: mysql
-    url: jdbc\:mysql\://39.107.157.91:13306/db_framework?serverTimezone\=Asia/Shanghai&useUnicode\=true&characterEncoding\=UTF-8
+    url: jdbc\:mysql\://39.107.157.91:13306/dashu_frame?serverTimezone\=Asia/Shanghai&useUnicode\=true&characterEncoding\=UTF-8
     username: root
     password: xxx666888
