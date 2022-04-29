@@ -15,9 +15,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SecurityUserDetailServiceImpl implements UserDetailsService {
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("来这里！！！");
-        return new SecurityUserDetailEntity();
+        SecurityUserDetailEntity user = new SecurityUserDetailEntity();
+        System.out.println(user.getPassword());
+        return user;
     }
 }
