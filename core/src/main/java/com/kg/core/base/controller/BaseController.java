@@ -1,4 +1,4 @@
-package com.kg.core.common.controller;
+package com.kg.core.base.controller;
 
 /**
  * @author ziro

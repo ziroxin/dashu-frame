@@ -1,8 +1,8 @@
-package com.kg.core.common.service;
+package com.kg.core.base.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kg.core.common.dao.BaseDao;
-import com.kg.core.common.model.BaseEntity;
+import com.kg.core.base.dao.BaseDao;
+import com.kg.core.base.model.BaseEntity;
 
 /**
  * @author ziro

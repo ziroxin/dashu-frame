@@ -1,8 +1,8 @@
-package com.kg.core.common.model.mybatisplus;
+package com.kg.core.base.model.mybatisplus;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.kg.core.common.model.BaseEntity;
+import com.kg.core.base.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

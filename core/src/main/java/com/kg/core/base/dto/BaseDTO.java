@@ -1,4 +1,4 @@
-package com.kg.core.common.dto;
+package com.kg.core.base.dto;
 
 import java.io.Serializable;
 

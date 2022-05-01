@@ -1,7 +1,7 @@
-package com.kg.core.common.dao;
+package com.kg.core.base.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kg.core.common.model.BaseEntity;
+import com.kg.core.base.model.BaseEntity;
 
 /**
  * @author ziro

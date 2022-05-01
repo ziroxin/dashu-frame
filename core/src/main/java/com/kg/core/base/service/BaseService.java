@@ -1,7 +1,7 @@
-package com.kg.core.common.service;
+package com.kg.core.base.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kg.core.common.model.BaseEntity;
+import com.kg.core.base.model.BaseEntity;
 
 /**
  * @author ziro

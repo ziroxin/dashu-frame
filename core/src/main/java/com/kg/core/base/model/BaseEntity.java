@@ -1,4 +1,4 @@
-package com.kg.core.common.model;
+package com.kg.core.base.model;
 
 import java.io.Serializable;
 
