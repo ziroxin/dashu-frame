@@ -11,6 +11,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger生成API配置类
@@ -42,7 +43,7 @@ public class SwaggerConfig {
      * @return
      */
     @Bean
-    private ApiInfo apiInfo() {
+    public ApiInfo apiInfo() {
         Contact contact = new Contact(name, www, email);
         return new ApiInfoBuilder()
                 .title(title)
@@ -62,7 +63,7 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket api1() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .groupName("test")
                 .select()
@@ -73,6 +74,7 @@ public class SwaggerConfig {
                 // 所有接口
                 //.paths(PathSelectors.any())
                 .build();
+
     }
 
 }

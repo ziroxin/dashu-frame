@@ -1,7 +1,7 @@
 package com.kg.core.base.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.kg.core.base.dao.BaseDao;
+import com.kg.core.base.mapper.BaseDao;
 import com.kg.core.base.model.BaseEntity;
 
 /**

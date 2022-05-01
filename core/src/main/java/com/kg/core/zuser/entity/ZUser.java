@@ -1,10 +1,11 @@
 package com.kg.core.zuser.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -63,6 +64,7 @@ public class ZUser implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     public String getUserName() {
         return userName;
     }
@@ -70,6 +72,7 @@ public class ZUser implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     public String getPassword() {
         return password;
     }
@@ -77,6 +80,7 @@ public class ZUser implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getSex() {
         return sex;
     }
@@ -84,6 +88,7 @@ public class ZUser implements Serializable {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
     public String getNickName() {
         return nickName;
     }
@@ -91,6 +96,7 @@ public class ZUser implements Serializable {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
     public String getIntroduce() {
         return introduce;
     }
@@ -98,6 +104,7 @@ public class ZUser implements Serializable {
     public void setIntroduce(String introduce) {
         this.introduce = introduce;
     }
+
     public String getAvatar() {
         return avatar;
     }
@@ -105,6 +112,7 @@ public class ZUser implements Serializable {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
     public String getName() {
         return name;
     }
@@ -112,6 +120,7 @@ public class ZUser implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getPhone() {
         return phone;
     }
@@ -119,6 +128,7 @@ public class ZUser implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public String getStatus() {
         return status;
     }
@@ -126,6 +136,7 @@ public class ZUser implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -133,6 +144,7 @@ public class ZUser implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -144,18 +156,18 @@ public class ZUser implements Serializable {
     @Override
     public String toString() {
         return "ZUser{" +
-            "userId=" + userId +
-            ", userName=" + userName +
-            ", password=" + password +
-            ", sex=" + sex +
-            ", nickName=" + nickName +
-            ", introduce=" + introduce +
-            ", avatar=" + avatar +
-            ", name=" + name +
-            ", phone=" + phone +
-            ", status=" + status +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "userId=" + userId +
+                ", userName=" + userName +
+                ", password=" + password +
+                ", sex=" + sex +
+                ", nickName=" + nickName +
+                ", introduce=" + introduce +
+                ", avatar=" + avatar +
+                ", name=" + name +
+                ", phone=" + phone +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

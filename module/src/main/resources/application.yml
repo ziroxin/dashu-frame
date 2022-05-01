@@ -1,5 +1,8 @@
+#端口
 server:
   port: 8000
+
+#数据库配置
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -10,6 +13,12 @@ spring:
     username: root
     password: xxx666888
 
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:/com/kg/**/mapper/xml/*Mapper.xml
+  type-aliases-package: com.kg.**.entity
+
+#自定义配置
 com:
   kg:
     swagger:
@@ -17,6 +26,7 @@ com:
       description: "基于swagger的Api接口信息"
       termsOfServiceUrl: "http://www.keepgrown.com"
       version: "1.0.0"
-      name: "ziro"
-      www: "http://www.keepgrown.com"
-      email: "877185959@qq.com"
+      concat:
+        name: "ziro"
+        www: "http://www.keepgrown.com"
+        email: "877185959@qq.com"

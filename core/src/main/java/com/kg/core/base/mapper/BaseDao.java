@@ -1,4 +1,4 @@
-package com.kg.core.base.dao;
+package com.kg.core.base.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kg.core.base.model.BaseEntity;

@@ -1,6 +1,8 @@
-package com.kg.core.security.model;
+package com.kg.core.security.entity;
 
+import com.kg.core.zuser.entity.ZUser;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,14 @@ import java.util.Collection;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class SecurityUserDetailEntity implements UserDetails {
+
+    public SecurityUserDetailEntity(ZUser zUser) {
+        this.zUser = zUser;
+    }
+
+    private ZUser zUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,12 +33,12 @@ public class SecurityUserDetailEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "$2a$10$.T5HhNJ862boE7A6nWRM/O3wNG9VlL0mdzTiSI9W9adwI5No49jmy";
+        return zUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "user";
+        return zUser.getUserName();
     }
 
     /**

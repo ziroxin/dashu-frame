@@ -2,6 +2,7 @@ package com.kg.core.zuser.mapper;
 
 import com.kg.core.zuser.entity.ZUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ziro
  * @since 2022-05-01
  */
+@Repository
 public interface ZUserMapper extends BaseMapper<ZUser> {
 
 }
