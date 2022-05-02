@@ -1,4 +1,4 @@
-package com.kg.dashu.test.controller;
+package com.kg.module.test.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

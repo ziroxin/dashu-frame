@@ -1,4 +1,4 @@
-package com.kg.dashu;
+package com.kg;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
