@@ -1,7 +1,14 @@
 package com.kg.core.zlogin.controller;
 
 import com.kg.core.base.controller.BaseController;
+import com.kg.core.exception.BaseException;
+import com.kg.core.zlogin.dto.LoginSuccessDTO;
+import com.kg.core.zlogin.service.ZLoginService;
+import com.kg.core.zuser.entity.ZUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,13 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2022/5/2 9:46
  */
 @RestController
+@Validated
 @RequestMapping("login")
 public class ZLoginController implements BaseController {
 
-    @PostMapping("login")
-    public boolean login() {
+    @Autowired
+    private ZLoginService zLoginService;
 
-        return true;
+    @PostMapping("login")
+    public LoginSuccessDTO login(@RequestBody ZUser zUser) {
+        return zLoginService.login(zUser);
     }
 
 }
