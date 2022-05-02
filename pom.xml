@@ -39,7 +39,6 @@
         <spring-boot.version>2.6.7</spring-boot.version>
 
         <fastjson.version>1.2.76</fastjson.version>
-        <jjwt.version>0.9.1</jjwt.version>
         <hutool.version>5.8.0.M3</hutool.version>
         <springfox.version>3.0.0</springfox.version>
     </properties>
@@ -85,12 +84,7 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            <!-- jwt -->
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
+            <!-- hutool -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
