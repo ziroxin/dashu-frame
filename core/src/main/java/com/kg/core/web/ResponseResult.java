@@ -1,4 +1,4 @@
-package com.kg.core.common;
+package com.kg.core.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
