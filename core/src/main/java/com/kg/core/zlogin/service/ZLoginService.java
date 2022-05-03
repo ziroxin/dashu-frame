@@ -9,5 +9,5 @@ import com.kg.core.zuser.entity.ZUser;
  * @date 2022/5/2 22:14
  */
 public interface ZLoginService {
-    LoginSuccessDTO login(ZUser zUser);
+    LoginSuccessDTO login(ZUser zUser) throws BaseException;
 }

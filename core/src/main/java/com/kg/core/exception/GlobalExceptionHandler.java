@@ -37,9 +37,9 @@ import java.util.Set;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 自定义全局异常处理 500
+    // 自定义全局异常处理 200 但返回错误码500
     @ExceptionHandler(BaseException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleBaseException(BaseException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseResult.error(ex.getMessage());

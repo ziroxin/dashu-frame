@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 用户登录
  *
@@ -27,7 +29,7 @@ public class ZLoginController implements BaseController {
     private ZLoginService zLoginService;
 
     @PostMapping("login")
-    public LoginSuccessDTO login(@RequestBody ZUser zUser) {
+    public LoginSuccessDTO login(@RequestBody ZUser zUser, HttpServletRequest request) throws BaseException {
         return zLoginService.login(zUser);
     }
 
