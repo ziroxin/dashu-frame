@@ -3,3 +3,4 @@
 
 # 登录接口
 /login/login
+/login/logout
