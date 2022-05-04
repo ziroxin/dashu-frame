@@ -2,6 +2,7 @@ package com.kg.core.zlogin.service.impl;
 
 import com.kg.component.jwt.JwtUtils;
 import com.kg.component.redis.RedisUtils;
+import com.kg.core.common.constant.LoginConstant;
 import com.kg.core.exception.BaseException;
 import com.kg.core.security.entity.SecurityUserDetailEntity;
 import com.kg.core.zlogin.dto.LoginSuccessDTO;
@@ -11,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author ziro
@@ -33,14 +33,9 @@ public class ZLoginServiceImpl implements ZLoginService {
         // AuthenticationManager 进行用户认证
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(zUser.getUserName(), zUser.getPassword());
-        Authentication authenticate = null;
-        try {
-            authenticate = authenticationManager.authenticate(authenticationToken);
-        } catch (AuthenticationException e) {
-            throw new BaseException(String.format("登录失败！%s", e.getMessage()));
-        }
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         // 认证不通过
-        if (Objects.isNull(authenticate)) {
+        if (ObjectUtils.isEmpty(authenticate)) {
             throw new BaseException("登录失败，用户名或密码错误！");
         }
         // 获取登录成功的userId
@@ -50,8 +45,21 @@ public class ZLoginServiceImpl implements ZLoginService {
         LoginSuccessDTO loginSuccessDTO = new LoginSuccessDTO();
         loginSuccessDTO.setAccessToken(JwtUtils.createToken(userId));
         // 把用户信息存入redis
-        redisUtils.set("login@" + userId, userDetailEntity);
+        redisUtils.set(LoginConstant.LOGIN_INFO_FOR_REDIS_PRE + userId, userDetailEntity);
         loginSuccessDTO.setSuccessMsg("登录成功！");
         return loginSuccessDTO;
+    }
+
+    @Override
+    public void logout() {
+        // 从SecurityContextHolder中获取用户信息
+        UsernamePasswordAuthenticationToken authentication =
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        SecurityUserDetailEntity userDetailEntity = (SecurityUserDetailEntity) authentication.getPrincipal();
+        String userId = userDetailEntity.getZUser().getUserId();
+        // 清空redis中的登录信息
+        redisUtils.delete(LoginConstant.LOGIN_INFO_FOR_REDIS_PRE + userId);
+        // 清空上下文
+        SecurityContextHolder.clearContext();
     }
 }

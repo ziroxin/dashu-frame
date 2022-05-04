@@ -7,10 +7,7 @@ import com.kg.core.zlogin.service.ZLoginService;
 import com.kg.core.zuser.entity.ZUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +28,11 @@ public class ZLoginController implements BaseController {
     @PostMapping("login")
     public LoginSuccessDTO login(@RequestBody ZUser zUser, HttpServletRequest request) throws BaseException {
         return zLoginService.login(zUser);
+    }
+
+    @GetMapping("logout")
+    public void logout(){
+        zLoginService.logout();
     }
 
 }

@@ -2,8 +2,6 @@ package com.kg.core.security.config;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.CharsetUtil;
-import org.apache.logging.log4j.util.Strings;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,9 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 读取忽略列表
         List<String> antMatchers = FileUtil.readLines("security.ignore", CharsetUtil.defaultCharset());
-        String antUrls = StringUtils.join(antMatchers.stream()
-                .filter(url -> Strings.isNotBlank(url) && !url.startsWith("#"))
-                .collect(Collectors.toList()));
+        String[] antUrls = antMatchers.stream()
+                .filter(url -> StringUtils.hasText(url) && !url.startsWith("#"))
+                .collect(Collectors.toList()).toArray(new String[]{});
 
         // 配置Security
         http
@@ -58,7 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 关闭session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 配置忽略认证的请求（如登录页）
-                .authorizeRequests().antMatchers(antUrls).anonymous()
+                .authorizeRequests()
+                .antMatchers(antUrls).anonymous()
                 // 其他请求，均需认证
                 .anyRequest().authenticated();
     }

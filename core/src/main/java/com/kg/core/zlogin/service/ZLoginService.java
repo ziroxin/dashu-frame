@@ -10,4 +10,6 @@ import com.kg.core.zuser.entity.ZUser;
  */
 public interface ZLoginService {
     LoginSuccessDTO login(ZUser zUser) throws BaseException;
+
+    void logout();
 }
