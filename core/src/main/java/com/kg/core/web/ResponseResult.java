@@ -1,5 +1,10 @@
 package com.kg.core.web;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,6 +59,7 @@ public class ResponseResult<T> {
     // 提示信息
     private String message;
     // 响应时间
+    @JSONField(serialize = false)
     private LocalDateTime timestamp = LocalDateTime.now();
     // 响应数据
     private T data;
@@ -167,5 +173,8 @@ public class ResponseResult<T> {
                     + "]";
         }
 
+        public String toJsonString(){
+            return JSON.toJSONString(new ResponseResult<>(this.code, this.message, this.timestamp, this.data));
+        }
     }
 }

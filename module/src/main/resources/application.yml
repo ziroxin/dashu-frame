@@ -15,7 +15,7 @@ spring:
 
 #mybatis-plus配置
 mybatis-plus:
-  mapper-locations: classpath*:/com/kg/**/mapper/xml/*Mapper.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.kg.**.entity
 
 #自定义配置

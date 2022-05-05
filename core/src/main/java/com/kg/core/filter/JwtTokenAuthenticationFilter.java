@@ -62,7 +62,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         }
         // 存入SecurityContextHolder
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetailEntity, null, null);
+                new UsernamePasswordAuthenticationToken(userDetailEntity, null, userDetailEntity.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         // 继续
