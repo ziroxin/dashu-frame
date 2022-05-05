@@ -37,7 +37,7 @@ import java.util.Set;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 自定义全局异常处理 200 但返回错误码500
+    // 自定义全局异常处理 500
     @ExceptionHandler(BaseException.class)
     @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleBaseException(BaseException ex) {
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 
     // 默认异常处理 500
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
         return ResponseResult.error(ex.getMessage());
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
     // 文件大小超限 500
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseResult.error("上传文件大小超限制！");
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
 
     // 数据库错误 500
     @ExceptionHandler(SQLException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleSQLException(MaxUploadSizeExceededException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseResult.error("数据库错误");
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
 
     // 请求类型错误 405
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         log.error(ex.getMessage(), ex);
         return ResponseResult.builder()
@@ -83,14 +83,14 @@ public class GlobalExceptionHandler {
 
     // BindException（例如：端口被占用） 400
     @ExceptionHandler(BindException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleBindException(BindException ex) {
         return handleBindingResult(ex.getBindingResult());
     }
 
     // 方法参数无效 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         return handleBindingResult(ex.getBindingResult());
     }
@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
 
     // 参数格式不正确 400
     @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseResult<Object> handleConstraintViolationException(ConstraintViolationException ex) {
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
         StringBuilder message = new StringBuilder();

@@ -2,6 +2,8 @@ package com.kg.core.security.config;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.CharsetUtil;
+import com.kg.core.filter.JwtTokenAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -23,6 +26,9 @@ import java.util.stream.Collectors;
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
 
     /**
      * 配置默认解密方法
@@ -46,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // 读取忽略列表
         List<String> antMatchers = FileUtil.readLines("security.ignore", CharsetUtil.defaultCharset());
-        String[] antUrls = antMatchers.stream()
+        String[] ignoreUrls = antMatchers.stream()
                 .filter(url -> StringUtils.hasText(url) && !url.startsWith("#"))
                 .collect(Collectors.toList()).toArray(new String[]{});
 
@@ -58,8 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 配置忽略认证的请求（如登录页）
                 .authorizeRequests()
-                .antMatchers(antUrls).anonymous()
+                .antMatchers(ignoreUrls).permitAll()
                 // 其他请求，均需认证
                 .anyRequest().authenticated();
+
+        // 配置JwtToken过滤器，早于用户名密码验证过滤器
+        http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

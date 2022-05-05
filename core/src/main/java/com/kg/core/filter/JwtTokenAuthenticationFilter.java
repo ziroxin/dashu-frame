@@ -7,6 +7,7 @@ import com.kg.core.exception.BaseException;
 import com.kg.core.security.entity.SecurityUserDetailEntity;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,6 @@ import java.io.IOException;
  * @author ziro
  * @date 2022/5/4 22:41
  */
-@Order(100000)
 @Component
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -48,6 +48,9 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         Object userId;
         try {
             userId = JwtUtils.parseToken(jwtToken);
+            if (ObjectUtils.isEmpty(userId)) {
+                throw new BaseException("无效的TOKEN");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException("无效的TOKEN");
