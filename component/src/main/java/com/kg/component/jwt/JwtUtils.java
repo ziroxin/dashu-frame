@@ -3,8 +3,9 @@ package com.kg.component.jwt;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * Jwt工具类
@@ -18,6 +19,8 @@ public class JwtUtils {
     public static final String TOKEN_VALUE_NAME = "jwt_token_value";
     // 生成token的key
     private static final byte[] JWT_TOKEN_KEY = "com.keepgrown.dashu.frame".getBytes();
+    // 生成Token的有效期（单位：分，默认：120分钟）
+    private static Integer JWT_EXPIRE_TIME = 1;
 
     /**
      * 生成 jwt_token
@@ -26,9 +29,10 @@ public class JwtUtils {
      * @return jwt_token
      */
     public static String createToken(Object value) {
-        Map<String, Object> payload = new HashMap<>();
-        payload.put(TOKEN_VALUE_NAME, value);
-        return JWTUtil.createToken(payload, JWT_TOKEN_KEY);
+        return JWT.create().setKey(JWT_TOKEN_KEY)
+                .setExpiresAt(Date.from(LocalDateTime.now().plusMinutes(JWT_EXPIRE_TIME).atZone(ZoneId.systemDefault()).toInstant()))
+                .setPayload(TOKEN_VALUE_NAME, value)
+                .sign();
     }
 
     /**
@@ -42,7 +46,7 @@ public class JwtUtils {
             JWT jwt = JWTUtil.parseToken(token);
             return jwt.getPayload(TOKEN_VALUE_NAME);
         }
-        return null;
+        throw new RuntimeException("Token已失效");
     }
 
     /**
@@ -52,7 +56,7 @@ public class JwtUtils {
      * @return jwt_token是否正确
      */
     public static boolean verifyToken(String token) {
-        return JWTUtil.verify(token, JWT_TOKEN_KEY);
+        return JWT.of(token).setKey(JWT_TOKEN_KEY).validate(0);
     }
 
 }
