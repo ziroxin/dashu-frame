@@ -3,3 +3,6 @@
 
 # 登录接口
 /login/login
+
+#swagger api 地址（注意：生产环境请删除）
+/v2/api-docs

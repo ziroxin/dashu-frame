@@ -19,6 +19,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import springfox.documentation.swagger2.web.Swagger2Controller;
 
 import java.lang.reflect.AnnotatedElement;
 
@@ -45,6 +46,11 @@ public class ResponseResultBodyAdvice implements ResponseBodyAdvice<Object> {
 
         // 忽略：Spring boot ErrorController
         if (ErrorController.class.isAssignableFrom(containingClass)) {
+            return false;
+        }
+
+        // 忽略：swagger
+        if (Swagger2Controller.class.isAssignableFrom(containingClass)) {
             return false;
         }
 

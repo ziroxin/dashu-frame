@@ -26,8 +26,7 @@ public class SimpleAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         String result = ResponseResult.builder()
                 .code("" + HttpStatus.UNAUTHORIZED.value())
-                .message("用户认证失败，请重新登录！")
-                .toJsonString();
+                .message("用户认证失败，您未登录！").toString();
         ResponseWriteUtils.writeJson200(response, result);
     }
 }

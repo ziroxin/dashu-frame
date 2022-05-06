@@ -24,8 +24,7 @@ public class SimpleAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         String result = ResponseResult.builder()
                 .code("" + HttpStatus.FORBIDDEN.value())
-                .message("访问被拒绝！您的权限不足")
-                .toJsonString();
+                .message("访问被拒绝！您的权限不足").toString();
         ResponseWriteUtils.writeJson200(response, result);
     }
 }

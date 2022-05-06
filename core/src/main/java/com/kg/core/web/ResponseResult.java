@@ -166,14 +166,6 @@ public class ResponseResult<T> {
 
         @Override
         public String toString() {
-            return "ResponseResultBuilder [code=" + code
-                    + ", data=" + data
-                    + ", message=" + message
-                    + ", timestamp=" + timestamp
-                    + "]";
-        }
-
-        public String toJsonString(){
             return JSON.toJSONString(new ResponseResult<>(this.code, this.message, this.timestamp, this.data));
         }
     }
