@@ -11,6 +11,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger生成API配置类
@@ -19,6 +20,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @date 2019/7/24 17:28
  */
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig {
     @Value("${com.kg.swagger.title}")
     private String title;
@@ -62,7 +64,7 @@ public class SwaggerConfig {
      */
     @Bean
     public Docket api1() {
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .groupName("test")
                 .select()
@@ -73,7 +75,21 @@ public class SwaggerConfig {
                 // 所有接口
                 //.paths(PathSelectors.any())
                 .build();
+    }
 
+    @Bean
+    public Docket api2() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .groupName("login")
+                .select()
+                // 这里采用包含注解的方式来确定要显示的接口(建议使用这种)
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                // 以/test/开头的接口
+                .paths(PathSelectors.ant("/login/**"))
+                // 所有接口
+                //.paths(PathSelectors.any())
+                .build();
     }
 
 }
