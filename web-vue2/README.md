@@ -7,9 +7,10 @@ https://element.eleme.cn/#/zh-CN/component/installation
 # VUE 中文文档
 https://cn.vuejs.org/v2/guide/
 
-# 安装（以下命令二选一）
-npm install --force --registry=https://registry.npm.taobao.org
-npm install --force --registry=https://registry.npmmirror.com
+# 安装
+npm config set registry=https://registry.npm.taobao.org
+npm config get registry
+npm install --force
 
 # 项目启动
 npm run dev
