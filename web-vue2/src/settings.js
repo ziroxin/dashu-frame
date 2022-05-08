@@ -3,33 +3,33 @@ module.exports = {
 
   /**
    * @type {boolean} true | false
-   * @description Whether show the settings right-panel
+   * @description 是否显示右侧面板（设置）
    */
   showSettings: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether need tagsView
+   * @description 是否显示标签页
    */
   tagsView: true,
 
   /**
    * @type {boolean} true | false
-   * @description Whether fix the header
+   * @description 是否固定头部
    */
   fixedHeader: false,
 
   /**
    * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
+   * @description 是否显示左侧logo
    */
   sidebarLogo: false,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']
-   * @description Need show err logs component.
-   * The default is only used in the production env
-   * If you want to also use it in dev, you can pass ['production', 'development']
+   * @description 错误日志组件
+   * 默认只在生产环境使用
+   * 如果想在开发环境使用，可以配置成：['production', 'development']
    */
   errorLog: 'production'
 }
