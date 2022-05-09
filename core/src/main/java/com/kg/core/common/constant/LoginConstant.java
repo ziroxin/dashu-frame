@@ -8,7 +8,9 @@ package com.kg.core.common.constant;
  */
 public class LoginConstant {
     // 登录信息存储到reids的前缀
-    public static final String LOGIN_INFO_FOR_REDIS_PRE = "zlogin@";
+    public static final String LOGIN_INFO_REDIS_PRE = "zlogin@";
     // 登录token的key
     public static final String LOGIN_JWT_TOKEN_KEY = "z_jwt_token";
+    // 权限信息存储到redis的前缀
+    public static final String PERMISSION_REDIS_PRE = "zpermission@";
 }

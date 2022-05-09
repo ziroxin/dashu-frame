@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -45,6 +46,18 @@ public class GlobalExceptionHandler {
         return ResponseResult.error(ex.getMessage());
     }
 
+    // 数据库错误 40001
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseResult<Object> handleBadCredentialsException(BadCredentialsException ex) {
+        log.error(ex.getMessage(), ex);
+        return ResponseResult.builder()
+                .code("40001")
+                .message("用户名或密码错误！")
+                .data(ex.getMessage())
+                .build();
+    }
+
     // 默认异常处理 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
@@ -68,6 +81,7 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage(), ex);
         return ResponseResult.error("数据库错误");
     }
+
 
     // 请求类型错误 405
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

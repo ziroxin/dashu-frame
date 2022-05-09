@@ -5,6 +5,7 @@ import com.kg.core.exception.BaseException;
 import com.kg.core.security.entity.SecurityUserDetailEntity;
 import com.kg.core.zapi.entity.ZApi;
 import com.kg.core.zapi.service.IZApiService;
+import com.kg.core.zpermission.service.IZPermissionService;
 import com.kg.core.zuser.entity.ZUser;
 import com.kg.core.zuser.mapper.ZUserMapper;
 import com.kg.core.zuser.service.IZUserService;

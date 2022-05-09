@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import {Message, MessageBox} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
 
 // 创建axios
 const service = axios.create({
@@ -38,7 +38,9 @@ service.interceptors.response.use(
     const res = response.data
 
     // 处理自定义状态码
-    if (res.code !== 200) {
+    if (res.code === "200" || res.code === 200) {
+      return res
+    } else {
       Message({
         message: res.message || '请求出错',
         type: 'error',
@@ -59,8 +61,6 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
     }
   },
   error => {

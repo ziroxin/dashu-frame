@@ -45,7 +45,7 @@ public class ZLoginServiceImpl implements ZLoginService {
         LoginSuccessDTO loginSuccessDTO = new LoginSuccessDTO();
         loginSuccessDTO.setAccessToken(JwtUtils.createToken(userId));
         // 把用户信息存入redis
-        redisUtils.set(LoginConstant.LOGIN_INFO_FOR_REDIS_PRE + userId, userDetailEntity);
+        redisUtils.set(LoginConstant.LOGIN_INFO_REDIS_PRE + userId, userDetailEntity);
         loginSuccessDTO.setSuccessMsg("登录成功！");
         return loginSuccessDTO;
     }
@@ -53,12 +53,11 @@ public class ZLoginServiceImpl implements ZLoginService {
     @Override
     public void logout() {
         // 从SecurityContextHolder中获取用户信息
-        UsernamePasswordAuthenticationToken authentication =
-                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        SecurityUserDetailEntity userDetailEntity = (SecurityUserDetailEntity) authentication.getPrincipal();
+        SecurityUserDetailEntity userDetailEntity =
+                (SecurityUserDetailEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = userDetailEntity.getZUser().getUserId();
         // 清空redis中的登录信息
-        redisUtils.delete(LoginConstant.LOGIN_INFO_FOR_REDIS_PRE + userId);
+        redisUtils.delete(LoginConstant.LOGIN_INFO_REDIS_PRE + userId);
         // 清空上下文
         SecurityContextHolder.clearContext();
     }
