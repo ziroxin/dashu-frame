@@ -1,5 +1,5 @@
-import {login, logout, getInfo} from '@/api/user'
-import {getToken, setToken, removeToken} from '@/utils/auth'
+import {getInfo, login, logout} from '@/api/user'
+import {getToken, removeToken, setToken} from '@/utils/auth'
 import router, {resetRouter} from '@/router'
 
 const state = {
@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  perrouters: [],
+  permissions: []
 }
 
 const mutations = {
@@ -23,8 +24,11 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
+  SET_PERROUTERS: (state, perrouters) => {
+    state.perrouters = perrouters
+  },
+  SET_PERMISSIONS: (state, permissions) => {
+    state.permissios = permissions
   }
 }
 
@@ -54,20 +58,14 @@ const actions = {
           reject('验证失败，请重新登录！')
         }
 
-        console.dir(data)
+        const {permissions, perrouters} = data
         const {nickName, avatar, introduce} = data.user
 
-        // 先默认一个role
-        // const {deepClone} = require('../../utils/index.js')
-        // const {asyncRoutes, constantRoutes} = require('../../router/index.js')
-        // const routes = deepClone([...constantRoutes, ...asyncRoutes])
-        // {key: 'admin', name: 'admin', description: '超级管理员', routes: routes}
-        const roles = ['admin']
-        commit('SET_ROLES', roles)
+        commit('SET_PERMISSIONS', permissions)
+        commit('SET_PERROUTERS', perrouters)
         commit('SET_NAME', nickName)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduce)
-        data.roles = roles
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -99,7 +97,8 @@ const actions = {
   resetToken({commit}) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
+      commit('SET_PERROUTERS', [])
+      commit('SET_PERMISSIONS', [])
       removeToken()
       resolve()
     })

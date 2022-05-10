@@ -1,61 +1,72 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import Layout from '@/layout'
 
-/**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
+// 转换成组件
+function convertComponent(component) {
+  if (!component) {
+    // 空直接返回
+    return
+  }
+  if (component === 'Layout') {
+    // 返回Layout
+    return Layout
   } else {
-    return true
+    // 转换组件
+    const view = component.indexOf('/') === 0 ? component.substring(1) : component
+
+    if (process.env.NODE_ENV === 'development') {
+      return resolve => require([`@/views/${view}`], resolve)
+    } else {
+      return () => import('@/views/' + view)
+    }
   }
 }
 
 /**
- * Filter asynchronous routing tables by recursion
+ * 迭代（递归）循环出动态路由
  * @param routes asyncRoutes
- * @param roles
+ * @param permissions
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routers) {
   const res = []
-
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+  // 遍历路由
+  routers.forEach(route => {
+    // 是否显示，是否禁用
+    if (route.permissionIsShow && route.permissionIsEnabled) {
+      // 组装路由
+      const temp = {
+        path: route.permissionRouter,
+        component: convertComponent(route.permissionComponent),
+        name: route.permissionName || '',
+        meta: {
+          title: route.permissionTitle,
+          icon: route.permission_icon || ''
+        }
       }
-      res.push(tmp)
+      // 迭代子路由
+      if (route.children) {
+        temp.children = filterAsyncRoutes(route.children)
+      }
+      res.push(temp)
     }
   })
-
   return res
 }
 
 const state = {
-  routes: [],
-  addRoutes: []
+  routes: []
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.routes = routes
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({commit}, routers) {
     return new Promise(resolve => {
-      let accessedRoutes
-      console.log(roles)
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      // 动态生成菜单
+      const accessedRoutes = filterAsyncRoutes(routers)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
