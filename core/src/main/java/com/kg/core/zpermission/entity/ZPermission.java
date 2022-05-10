@@ -1,8 +1,11 @@
 package com.kg.core.zpermission.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.kg.core.base.model.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,7 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("z_permission")
 @ApiModel(value = "ZPermission对象", description = "资源权限表")
-public class ZPermission implements Serializable {
+public class ZPermission implements BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,6 +47,9 @@ public class ZPermission implements Serializable {
     @ApiModelProperty("资源标记（路由/外链/标记）")
     private String permissionRouter;
 
+    @ApiModelProperty("组件地址")
+    private String permissionComponent;
+
     @ApiModelProperty("自定义配置（JSON）")
     private String permissionConfig;
 
@@ -69,6 +75,7 @@ public class ZPermission implements Serializable {
     public void setPermissionId(String permissionId) {
         this.permissionId = permissionId;
     }
+
     public String getParentId() {
         return parentId;
     }
@@ -76,6 +83,7 @@ public class ZPermission implements Serializable {
     public void setParentId(String parentId) {
         this.parentId = parentId;
     }
+
     public String getPermissionName() {
         return permissionName;
     }
@@ -83,6 +91,7 @@ public class ZPermission implements Serializable {
     public void setPermissionName(String permissionName) {
         this.permissionName = permissionName;
     }
+
     public String getPermissionDescription() {
         return permissionDescription;
     }
@@ -90,6 +99,7 @@ public class ZPermission implements Serializable {
     public void setPermissionDescription(String permissionDescription) {
         this.permissionDescription = permissionDescription;
     }
+
     public String getPermissionType() {
         return permissionType;
     }
@@ -97,6 +107,7 @@ public class ZPermission implements Serializable {
     public void setPermissionType(String permissionType) {
         this.permissionType = permissionType;
     }
+
     public String getPermissionTitle() {
         return permissionTitle;
     }
@@ -104,6 +115,7 @@ public class ZPermission implements Serializable {
     public void setPermissionTitle(String permissionTitle) {
         this.permissionTitle = permissionTitle;
     }
+
     public String getPermissionIcon() {
         return permissionIcon;
     }
@@ -111,6 +123,7 @@ public class ZPermission implements Serializable {
     public void setPermissionIcon(String permissionIcon) {
         this.permissionIcon = permissionIcon;
     }
+
     public String getPermissionRouter() {
         return permissionRouter;
     }
@@ -118,6 +131,7 @@ public class ZPermission implements Serializable {
     public void setPermissionRouter(String permissionRouter) {
         this.permissionRouter = permissionRouter;
     }
+
     public String getPermissionConfig() {
         return permissionConfig;
     }
@@ -125,6 +139,7 @@ public class ZPermission implements Serializable {
     public void setPermissionConfig(String permissionConfig) {
         this.permissionConfig = permissionConfig;
     }
+
     public String getPermissionIsShow() {
         return permissionIsShow;
     }
@@ -132,6 +147,7 @@ public class ZPermission implements Serializable {
     public void setPermissionIsShow(String permissionIsShow) {
         this.permissionIsShow = permissionIsShow;
     }
+
     public String getPermissionIsEnabled() {
         return permissionIsEnabled;
     }
@@ -139,6 +155,7 @@ public class ZPermission implements Serializable {
     public void setPermissionIsEnabled(String permissionIsEnabled) {
         this.permissionIsEnabled = permissionIsEnabled;
     }
+
     public Integer getPermissionOrder() {
         return permissionOrder;
     }
@@ -146,6 +163,7 @@ public class ZPermission implements Serializable {
     public void setPermissionOrder(Integer permissionOrder) {
         this.permissionOrder = permissionOrder;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -153,6 +171,7 @@ public class ZPermission implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -161,23 +180,32 @@ public class ZPermission implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getPermissionComponent() {
+        return permissionComponent;
+    }
+
+    public void setPermissionComponent(String permissionComponent) {
+        this.permissionComponent = permissionComponent;
+    }
+
     @Override
     public String toString() {
         return "ZPermission{" +
-            "permissionId=" + permissionId +
-            ", parentId=" + parentId +
-            ", permissionName=" + permissionName +
-            ", permissionDescription=" + permissionDescription +
-            ", permissionType=" + permissionType +
-            ", permissionTitle=" + permissionTitle +
-            ", permissionIcon=" + permissionIcon +
-            ", permissionRouter=" + permissionRouter +
-            ", permissionConfig=" + permissionConfig +
-            ", permissionIsShow=" + permissionIsShow +
-            ", permissionIsEnabled=" + permissionIsEnabled +
-            ", permissionOrder=" + permissionOrder +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "permissionId=" + permissionId +
+                ", parentId=" + parentId +
+                ", permissionName=" + permissionName +
+                ", permissionDescription=" + permissionDescription +
+                ", permissionType=" + permissionType +
+                ", permissionTitle=" + permissionTitle +
+                ", permissionIcon=" + permissionIcon +
+                ", permissionRouter=" + permissionRouter +
+                ", permissionComponent=" + permissionComponent +
+                ", permissionConfig=" + permissionConfig +
+                ", permissionIsShow=" + permissionIsShow +
+                ", permissionIsEnabled=" + permissionIsEnabled +
+                ", permissionOrder=" + permissionOrder +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

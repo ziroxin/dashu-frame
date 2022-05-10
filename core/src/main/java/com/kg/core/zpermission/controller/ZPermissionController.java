@@ -36,7 +36,7 @@ public class ZPermissionController {
         Map<String, Object> map = new HashMap<>();
         ZUser currentUser = CurrentUserUtils.getCurrentUser();
         map.put("user", currentUser);
-        map.put("permission", permissionService.listPermissionByUserId(currentUser.getUserId()));
+        map.putAll(permissionService.listPermissionByUserId(currentUser.getUserId()));
         return map;
     }
 

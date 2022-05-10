@@ -1,9 +1,9 @@
 package com.kg.core.zpermission.service;
 
-import com.kg.core.zpermission.entity.ZPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.core.zpermission.entity.ZPermission;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface IZPermissionService extends IService<ZPermission> {
 
-    List<ZPermission> listPermissionByUserId(String userId);
+    Map<String, Object> listPermissionByUserId(String userId);
 }

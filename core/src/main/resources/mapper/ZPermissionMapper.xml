@@ -8,5 +8,6 @@
                  LEFT JOIN z_role_permission b ON a.permission_id = b.permission_id
                  LEFT JOIN z_user_role c ON b.role_id = c.role_id
         WHERE c.user_id = #{userId}
+        ORDER BY permission_order
     </select>
 </mapper>
