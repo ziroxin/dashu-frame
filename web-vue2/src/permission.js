@@ -42,10 +42,9 @@ router.beforeEach(async(to, from, next) => {
 
           // 根据角色，生成可访问权限（路由）
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+
           // 动态加载路由
           router.addRoutes(accessRoutes)
-
-          console.log(to)
 
           // 加载路由完成，跳转
           // replace: true 不缓存，每次页面都刷新

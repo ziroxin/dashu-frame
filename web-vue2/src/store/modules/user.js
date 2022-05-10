@@ -58,15 +58,16 @@ const actions = {
         const {nickName, avatar, introduce} = data.user
 
         // 先默认一个role
-        const {deepClone} = require('../../utils/index.js')
-        const {asyncRoutes, constantRoutes} = require('../../router/index.js')
-        const routes = deepClone([...constantRoutes, ...asyncRoutes])
-        const roles = {key: 'admin', name: 'admin', description: '超级管理员', routes: routes}
+        // const {deepClone} = require('../../utils/index.js')
+        // const {asyncRoutes, constantRoutes} = require('../../router/index.js')
+        // const routes = deepClone([...constantRoutes, ...asyncRoutes])
+        // {key: 'admin', name: 'admin', description: '超级管理员', routes: routes}
+        const roles = ['admin']
         commit('SET_ROLES', roles)
         commit('SET_NAME', nickName)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduce)
-        data.roles = 'admin'
+        data.roles = roles
         resolve(data)
       }).catch(error => {
         reject(error)

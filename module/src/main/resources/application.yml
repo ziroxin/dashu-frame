@@ -2,8 +2,8 @@
 server:
   port: 8000
 
-#数据库配置
 spring:
+  #数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
@@ -12,6 +12,13 @@ spring:
     url: jdbc:mysql://39.107.157.91:13306/dashu_frame?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: xxx666888
+  #Redis配置
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+
 
 #mybatis-plus配置
 mybatis-plus:
@@ -21,6 +28,7 @@ mybatis-plus:
 #自定义配置
 com:
   kg:
+    #swagger相关配置
     swagger:
       title: "大树快速开发平台API"
       description: "基于swagger的Api接口信息"

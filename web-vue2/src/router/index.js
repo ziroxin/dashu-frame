@@ -125,8 +125,7 @@ export const constantRoutes = [
 ]
 
 /**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * 根据角色动态加载路由
  */
 export const asyncRoutes = [
   {
@@ -184,7 +183,7 @@ export const asyncRoutes = [
     ]
   },
 
-  /** when your routing map is too long, you can split it into small modules **/
+  /** 路由太多，可以拆分成多个，组合在一起 **/
   componentsRouter,
   chartsRouter,
   nestedRouter,
