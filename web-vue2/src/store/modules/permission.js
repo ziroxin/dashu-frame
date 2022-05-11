@@ -30,25 +30,42 @@ export function filterAsyncRoutes(routers) {
   const res = []
   // 遍历路由
   routers.forEach(route => {
-    // 是否显示，是否禁用
-    if (route.permissionIsShow && route.permissionIsEnabled) {
-      // 组装路由
-      const temp = {
-        path: route.permissionRouter,
-        component: convertComponent(route.permissionComponent),
-        name: route.permissionName || '',
-        meta: {
-          title: route.permissionTitle,
-          icon: route.permission_icon || ''
+      // 是否显示，是否禁用
+      if (route.permissionIsShow && route.permissionIsEnabled) {
+        if (route.children) {
+          // 组装路由
+          const temp = {
+            path: route.permissionRouter,
+            component: convertComponent(route.permissionComponent),
+            name: route.permissionName || '',
+            meta: {
+              title: route.permissionTitle,
+              icon: route.permissionIcon || ''
+            },
+            alwaysShow: true,
+            // 迭代子路由
+            children: filterAsyncRoutes(route.children)
+          }
+          res.push(temp)
+        } else {
+          const temp = {
+            path: route.permissionRouter,
+            component: Layout,
+            children: [{
+              path: 'index',
+              component: convertComponent(route.permissionComponent),
+              name: route.permissionName || '',
+              meta: {
+                title: route.permissionTitle,
+                icon: route.permissionIcon || ''
+              }
+            }]
+          }
+          res.push(temp)
         }
       }
-      // 迭代子路由
-      if (route.children) {
-        temp.children = filterAsyncRoutes(route.children)
-      }
-      res.push(temp)
     }
-  })
+  )
   return res
 }
 
