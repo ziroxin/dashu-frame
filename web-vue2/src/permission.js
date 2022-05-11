@@ -33,6 +33,7 @@ router.beforeEach(async (to, from, next) => {
       // 登录后，跳转到原来打开的页面
       // 跳转前，先判断：store里是否有角色信息
       const hasRouters = store.getters.perrouters && store.getters.perrouters.length > 0
+      console.dir(store.getters.permission_routes)
       if (hasRouters) {
         next()
       } else {

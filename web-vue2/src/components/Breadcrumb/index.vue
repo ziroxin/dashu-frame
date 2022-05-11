@@ -20,7 +20,7 @@ export default {
   },
   watch: {
     $route(route) {
-      // if you go to the redirect page, do not update the breadcrumbs
+      // 如果是重定向，不需要改变面包屑
       if (route.path.startsWith('/redirect/')) {
         return
       }

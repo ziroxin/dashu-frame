@@ -33,7 +33,7 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+  // 登录
   login({commit}, userInfo) {
     const {userName, password} = userInfo
     return new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // 加载用户信息
   getInfo({commit, state}) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
@@ -73,17 +73,17 @@ const actions = {
     })
   },
 
-  // user logout
+  // 退出登录
   logout({commit, state, dispatch}) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
+        commit('SET_PERROUTERS', [])
+        commit('SET_PERMISSIONS', [])
         removeToken()
         resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+        // 重置标签缓存
         dispatch('tagsView/delAllViews', null, {root: true})
 
         resolve()
@@ -93,7 +93,7 @@ const actions = {
     })
   },
 
-  // remove token
+  // 清除Token
   resetToken({commit}) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
@@ -104,7 +104,7 @@ const actions = {
     })
   },
 
-  // dynamically modify permissions
+  // 动态修改权限
   async changeRoles({commit, dispatch}, role) {
     const token = role + '-token'
 
