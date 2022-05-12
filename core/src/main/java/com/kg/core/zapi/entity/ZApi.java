@@ -1,10 +1,13 @@
 package com.kg.core.zapi.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 
 /**
  * <p>
@@ -16,6 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("z_api")
 @ApiModel(value = "ZApi对象", description = "API信息表")
+@ToString
 public class ZApi implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,6 +67,7 @@ public class ZApi implements Serializable {
     public void setApiId(String apiId) {
         this.apiId = apiId;
     }
+
     public String getApiGroupId() {
         return apiGroupId;
     }
@@ -70,6 +75,7 @@ public class ZApi implements Serializable {
     public void setApiGroupId(String apiGroupId) {
         this.apiGroupId = apiGroupId;
     }
+
     public String getApiName() {
         return apiName;
     }
@@ -77,6 +83,7 @@ public class ZApi implements Serializable {
     public void setApiName(String apiName) {
         this.apiName = apiName;
     }
+
     public String getApiPermission() {
         return apiPermission;
     }
@@ -84,6 +91,7 @@ public class ZApi implements Serializable {
     public void setApiPermission(String apiPermission) {
         this.apiPermission = apiPermission;
     }
+
     public String getApiRequestUrl() {
         return apiRequestUrl;
     }
@@ -91,6 +99,7 @@ public class ZApi implements Serializable {
     public void setApiRequestUrl(String apiRequestUrl) {
         this.apiRequestUrl = apiRequestUrl;
     }
+
     public String getApiRequestMethod() {
         return apiRequestMethod;
     }
@@ -98,6 +107,7 @@ public class ZApi implements Serializable {
     public void setApiRequestMethod(String apiRequestMethod) {
         this.apiRequestMethod = apiRequestMethod;
     }
+
     public String getApiDescription() {
         return apiDescription;
     }
@@ -105,6 +115,7 @@ public class ZApi implements Serializable {
     public void setApiDescription(String apiDescription) {
         this.apiDescription = apiDescription;
     }
+
     public String getApiClassName() {
         return apiClassName;
     }
@@ -112,6 +123,7 @@ public class ZApi implements Serializable {
     public void setApiClassName(String apiClassName) {
         this.apiClassName = apiClassName;
     }
+
     public String getApiMethodName() {
         return apiMethodName;
     }
@@ -119,6 +131,7 @@ public class ZApi implements Serializable {
     public void setApiMethodName(String apiMethodName) {
         this.apiMethodName = apiMethodName;
     }
+
     public Integer getApiOrder() {
         return apiOrder;
     }
@@ -126,6 +139,7 @@ public class ZApi implements Serializable {
     public void setApiOrder(Integer apiOrder) {
         this.apiOrder = apiOrder;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -133,6 +147,7 @@ public class ZApi implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -144,18 +159,18 @@ public class ZApi implements Serializable {
     @Override
     public String toString() {
         return "ZApi{" +
-            "apiId=" + apiId +
-            ", apiGroupId=" + apiGroupId +
-            ", apiName=" + apiName +
-            ", apiPermission=" + apiPermission +
-            ", apiRequestUrl=" + apiRequestUrl +
-            ", apiRequestMethod=" + apiRequestMethod +
-            ", apiDescription=" + apiDescription +
-            ", apiClassName=" + apiClassName +
-            ", apiMethodName=" + apiMethodName +
-            ", apiOrder=" + apiOrder +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "apiId=" + apiId +
+                ", apiGroupId=" + apiGroupId +
+                ", apiName=" + apiName +
+                ", apiPermission=" + apiPermission +
+                ", apiRequestUrl=" + apiRequestUrl +
+                ", apiRequestMethod=" + apiRequestMethod +
+                ", apiDescription=" + apiDescription +
+                ", apiClassName=" + apiClassName +
+                ", apiMethodName=" + apiMethodName +
+                ", apiOrder=" + apiOrder +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

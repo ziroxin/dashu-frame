@@ -4,6 +4,7 @@ package com.kg.core.zuser.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @author ziro
  * @since 2022-05-01
  */
-@Controller
+@RestController
 @RequestMapping("/zuser/z-user")
 public class ZUserController {
 
