@@ -42,6 +42,7 @@
         <hutool.version>5.8.0.M3</hutool.version>
         <springfox.version>2.6.1</springfox.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <reflection.version>0.10.2</reflection.version>
     </properties>
 
     <!-- 依赖Jar包控制 -->
@@ -113,6 +114,12 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
+            </dependency>
+            <!-- Java反射依赖 -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflection.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
