@@ -2,6 +2,7 @@ package com.kg.core.zpermission.controller;
 
 
 import com.kg.core.security.util.CurrentUserUtils;
+import com.kg.core.zpermission.dto.ZPermissionDTO;
 import com.kg.core.zpermission.entity.ZPermission;
 import com.kg.core.zpermission.service.IZPermissionService;
 import com.kg.core.zuser.entity.ZUser;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,9 +70,17 @@ public class ZPermissionController {
         return false;
     }
 
+    @ApiOperation(value = "permission/tree/list", notes = "查询资源树表格", httpMethod = "GET")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/tree/list")
+    @PreAuthorize("hasAuthority('permission:tree:list')")
+    public List<ZPermissionDTO> treeList() {
+        return permissionService.treeList();
+    }
+
     @ApiOperation(value = "permission/user/all", notes = "查询当前用户所有资源权限", httpMethod = "GET")
     @GetMapping("user/all")
-    @PreAuthorize("hasAuthority('permission:user:all')")
     public Map<String, Object> userAll() {
         Map<String, Object> map = new HashMap<>();
         ZUser currentUser = CurrentUserUtils.getCurrentUser();
