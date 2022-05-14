@@ -1,12 +1,15 @@
 package com.kg.core.zapi.controller;
 
 
+import com.kg.core.base.controller.BaseController;
 import com.kg.core.zapi.entity.ZApi;
+import com.kg.core.zapi.service.IZApiService;
 import io.swagger.annotations.ApiOperation;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +30,22 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("api")
-public class ZApiController {
+public class ZApiController implements BaseController {
+    @Autowired
+    private IZApiService apiService;
 
     @ApiOperation(value = "api/getAllApiList", notes = "查询扫描到的所有API接口", httpMethod = "GET")
     @GetMapping("getAllApiList")
     @PreAuthorize("hasAuthority('api:getAllApiList')")
     public List<ZApi> getAllApiList() {
-        System.out.println(zApiList);
         return zApiList;
+    }
+
+    @ApiOperation(value = "api/saveScanApi", notes = "保存扫描到的API（已存在的不再保存）", httpMethod = "GET")
+    @GetMapping("saveScanApi")
+    @PreAuthorize("hasAuthority('api:saveScanApi')")
+    public void saveScanApi() {
+        apiService.saveScanApi(zApiList);
     }
 
     /**
@@ -43,6 +54,7 @@ public class ZApiController {
     private List<ZApi> zApiList = new ArrayList<>();
 
     ZApiController() {
+        // 扫描所有接口
         gatApiList("com.kg");
     }
 

@@ -38,3 +38,8 @@ com:
         name: "ziro"
         www: "http://www.keepgrown.com"
         email: "877185959@qq.com"
+    #开发管理员配置
+    developer:
+      user:
+        # 所有开发管理员的ids，多个用逗号隔开
+        ids: 1

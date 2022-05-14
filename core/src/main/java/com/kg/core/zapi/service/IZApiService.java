@@ -15,5 +15,18 @@ import java.util.List;
  */
 public interface IZApiService extends IService<ZApi> {
 
+    /**
+     * 根据userId查询用户的api权限
+     *
+     * @param userId 用户id
+     * @return 用户api权限列表
+     */
     List<String> listApiByUserId(String userId);
+
+    /**
+     * 保存扫描到的API（已存在的不再保存）
+     *
+     * @param zApiList 扫描到的API列表
+     */
+    void saveScanApi(List<ZApi> zApiList);
 }
