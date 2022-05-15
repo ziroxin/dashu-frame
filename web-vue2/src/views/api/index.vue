@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="listLoading" default-expand-all style="width: 470px;margin-bottom: 20px;" border
+    <el-table v-loading="listLoading" default-expand-all style="width: 440px;margin-bottom: 20px;" border
               :data="tableData" row-key="permissionId" :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
       <el-table-column label="名称" sortable width="180">
@@ -13,11 +13,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="permissionRouter" label="路由" sortable width="180" />
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" width="70">
         <template>
-          <el-button type="text" size="small" @click.native.prevent="deleteRow(scope.$index, tableData)">
-            设置API
-          </el-button>
+          <el-button type="info" icon="el-icon-setting" circle />
         </template>
       </el-table-column>
     </el-table>
