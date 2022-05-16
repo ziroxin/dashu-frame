@@ -63,7 +63,9 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
         // 不存在的apiList，填充空字段
         List<ZApi> saveList = noList.stream().map(zApi -> {
             zApi.setApiId(GuidUtils.getUuid());
-            Optional<Integer> maxOrder = list.stream().map(zApi1 -> zApi1.getApiOrder())
+            Optional<Integer> maxOrder = list.stream()
+                    .filter(zApi1 -> zApi1.getApiOrder() != null)
+                    .map(zApi1 -> zApi1.getApiOrder())
                     .distinct().sorted((o1, o2) -> o2 - o1).findFirst();
             zApi.setApiOrder(maxOrder.isPresent() ? maxOrder.get() + 1 : 1);
             zApi.setCreateTime(LocalDateTime.now());
@@ -106,7 +108,6 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
         Set<Method> methods = reflections.getMethodsAnnotatedWith(PreAuthorize.class);
 
         methods.forEach(method -> {
-
             PreAuthorize annotation = method.getAnnotation(PreAuthorize.class);
             ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
 

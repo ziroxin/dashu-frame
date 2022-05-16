@@ -14,3 +14,10 @@ export function permissionTreeList(params) {
     method: 'get'
   })
 }
+
+export function scanApi() {
+  return request({
+    url: 'api/saveScanApi',
+    method: 'get'
+  })
+}
