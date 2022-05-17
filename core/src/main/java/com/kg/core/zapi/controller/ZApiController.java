@@ -1,18 +1,15 @@
 package com.kg.core.zapi.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kg.core.base.controller.BaseController;
+import com.kg.core.zapi.dto.ZApiDTO;
 import com.kg.core.zapi.entity.ZApi;
 import com.kg.core.zapi.service.IZApiService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,16 +28,11 @@ public class ZApiController implements BaseController {
     @Autowired
     private IZApiService apiService;
 
-    @ApiOperation(value = "api/list", notes = "查询扫描到的所有API接口", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页", paramType = "query", required = false, dataType = "String"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", paramType = "query", required = false, dataType = "String")
-    })
-    @GetMapping("list")
-    @PreAuthorize("hasAuthority('api:list')")
-    public Page<ZApi> list(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                           @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit) {
-        return apiService.page(new Page<>(page, limit));
+    @ApiOperation(value = "api/listGroupApi", notes = "查询扫描到的所有API接口", httpMethod = "GET")
+    @GetMapping("listGroupApi")
+    @PreAuthorize("hasAuthority('api:listGroupApi')")
+    public List<ZApiDTO> listGroupApi() {
+        return apiService.listGroupApi();
     }
 
     @ApiOperation(value = "api/getAllApiList", notes = "查询扫描到的所有API接口", httpMethod = "GET")

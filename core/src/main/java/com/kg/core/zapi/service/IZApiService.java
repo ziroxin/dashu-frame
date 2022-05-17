@@ -1,6 +1,7 @@
 package com.kg.core.zapi.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.core.zapi.dto.ZApiDTO;
 import com.kg.core.zapi.entity.ZApi;
 
 import java.util.List;
@@ -32,4 +33,10 @@ public interface IZApiService extends IService<ZApi> {
      * 获得扫描到的API列表
      */
     List<ZApi> getZApiList();
+
+    /**
+     * 分组查询Api列表
+     * @return
+     */
+    List<ZApiDTO> listGroupApi();
 }

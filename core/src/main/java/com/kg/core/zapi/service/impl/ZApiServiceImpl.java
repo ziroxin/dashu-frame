@@ -1,10 +1,14 @@
 package com.kg.core.zapi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.zapi.dto.ZApiDTO;
 import com.kg.core.zapi.entity.ZApi;
 import com.kg.core.zapi.mapper.ZApiMapper;
 import com.kg.core.zapi.service.IZApiService;
+import com.kg.core.zapigroup.entity.ZApiGroup;
+import com.kg.core.zapigroup.service.IZApiGroupService;
 import io.swagger.annotations.ApiOperation;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -36,6 +40,8 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
 
     @Autowired
     private ZApiMapper zApiMapper;
+    @Autowired
+    private IZApiGroupService apiGroupService;
 
     @Value("${com.kg.developer.user.ids}")
     private String DeveloperUserIds;
@@ -75,6 +81,44 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
         saveBatch(saveList);
     }
 
+    /**
+     * 得到zApi列表
+     */
+    @Override
+    public List<ZApi> getZApiList() {
+        return zApiList;
+    }
+
+    @Override
+    public List<ZApiDTO> listGroupApi() {
+        List<ZApiDTO> result = new ArrayList<>();
+        // 查询所有list
+        QueryWrapper<ZApi> wrapper = new QueryWrapper<>();
+        wrapper.lambda().orderByAsc(ZApi::getApiGroupId).orderByAsc(ZApi::getApiOrder);
+        List<ZApi> apiList = list(wrapper);
+        // 查询分组
+        List<ZApiGroup> list = apiGroupService.list();
+        if (list != null && list.size() > 0) {
+            List<ZApiGroup> listGroup = list.stream().sorted().collect(Collectors.toList());
+            for (ZApiGroup group : listGroup) {
+                List<ZApi> collect = apiList.stream()
+                        .filter(api -> api.getApiGroupId().equals(group.getApiGroupId()))
+                        .collect(Collectors.toList());
+                ZApiDTO apiDTO = new ZApiDTO();
+                apiDTO.setApiGroupId(group.getApiGroupId());
+                apiDTO.setGroupName(group.getGroupName());
+                apiDTO.setApiList(collect);
+                result.add(apiDTO);
+            }
+        } else {
+            ZApiDTO apiDTO = new ZApiDTO();
+            apiDTO.setApiGroupId(GuidUtils.getUuid());
+            apiDTO.setGroupName("全部API");
+            apiDTO.setApiList(apiList);
+            result.add(apiDTO);
+        }
+        return result;
+    }
 
     /**
      * api列表
@@ -84,14 +128,6 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
     ZApiServiceImpl() {
         // 扫描所有接口
         scanApiList("com.kg");
-    }
-
-    /**
-     * 得到zApi列表
-     */
-    @Override
-    public List<ZApi> getZApiList() {
-        return zApiList;
     }
 
     /**
