@@ -28,26 +28,23 @@ public class MybatisPlusGenerator {
 
     @Test
     public void generator() {
-        // 指定输出目录
-        String basePath = "C:\\Users\\Administrator\\IdeaProjects\\dashu\\core\\src\\main\\java";
+        // 指定输出目录==========改成自己的目录
+        String basePath = "E:\\IdeaProjects\\fwwbsyb\\dashu-frame\\core\\src\\main";
         // 配置生成器
         FastAutoGenerator.create(dbUrl, dbUserName, dbPassword)
                 .globalConfig(builder -> {
                     builder.author("ziro") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
-
-
-
                             .fileOverride() // 覆盖已生成文件
-                            .outputDir(basePath); // 指定输出目录
+                            .outputDir(basePath + "\\java"); // 指定输出目录
                 })
                 .packageConfig(builder -> {
                     builder.parent("com.kg.core") // 设置父包名
-                            .moduleName("zuser"); // 设置父包模块名
-//                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, basePath + "\\com\\kg\\core\\zuser\\mapper")); // 设置mapperXml生成路径
+                            .moduleName("zapigroup") // 设置父包模块名
+                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, basePath + "\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("z_user"); // 设置需要生成的表名
+                    builder.addInclude("z_api_group"); // 设置需要生成的表名
 //                            .addTablePrefix("t_", "c_"); // 设置过滤表前缀
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
