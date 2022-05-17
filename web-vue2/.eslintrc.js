@@ -26,11 +26,11 @@ module.exports = {
     "vue/name-property-casing": ["error", "PascalCase"],
     "vue/no-v-html": "off",
     'accessor-pairs': 2,
-    'arrow-spacing': [2, {
+    'arrow-spacing': [0, {
       'before': true,
       'after': true
     }],
-    'block-spacing': [2, 'always'],
+    'block-spacing': [0, 'always'],
     'brace-style': [2, '1tbs', {
       'allowSingleLine': true
     }],
@@ -38,7 +38,7 @@ module.exports = {
       'properties': 'always'
     }],
     'comma-dangle': [2, 'never'],
-    'comma-spacing': [2, {
+    'comma-spacing': [0, {
       'before': false,
       'after': true
     }],
@@ -48,7 +48,7 @@ module.exports = {
     'dot-location': [2, 'property'],
     'eol-last': 2,
     'eqeqeq': ["error", "always", {"null": "ignore"}],
-    'generator-star-spacing': [2, {
+    'generator-star-spacing': [0, {
       'before': true,
       'after': true
     }],
@@ -57,11 +57,11 @@ module.exports = {
       'SwitchCase': 1
     }],
     'jsx-quotes': [2, 'prefer-single'],
-    'key-spacing': [2, {
+    'key-spacing': [0, {
       'beforeColon': false,
       'afterColon': true
     }],
-    'keyword-spacing': [2, {
+    'keyword-spacing': [0, {
       'before': true,
       'after': true
     }],
@@ -182,17 +182,17 @@ module.exports = {
     'spaced-comment': [2, 'always', {
       'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
     }],
-    'template-curly-spacing': [2, 'never'],
+    'template-curly-spacing': [0, 'never'],
     'use-isnan': 2,
     'valid-typeof': 2,
     'wrap-iife': [2, 'any'],
-    'yield-star-spacing': [2, 'both'],
+    'yield-star-spacing': [0, 'both'],
     'yoda': [2, 'never'],
     'prefer-const': 2,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'object-curly-spacing': [0, 'never', {
       objectsInObjects: false
     }],
-    'array-bracket-spacing': [2, 'never']
+    'array-bracket-spacing': [0, 'never']
   }
 }

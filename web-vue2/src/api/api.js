@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getApiList(params) {
   return request({
-    url: '/api/list',
+    url: '/api/listGroupApi',
     method: 'get',
     params
   })
