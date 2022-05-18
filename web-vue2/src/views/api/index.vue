@@ -38,7 +38,19 @@
           <div style="margin-bottom: 20px;">
             <el-button type="danger" round @click="scanApi()">扫描API</el-button>
           </div>
-          <div />
+          <div>
+            <el-collapse v-model="activeNames">
+              <el-collapse-item v-for="group2 in tableData2" :key="group2.apiGroupId"
+                                :title="group2.groupName" :name="group2.apiGroupId"
+              >
+                <el-checkbox-group v-model="checkboxGroup">
+                  <el-checkbox v-for="api2 in group2.apiList"
+                               :key="api2.apiId" border :label="api2.apiName"
+                  />
+                </el-checkbox-group>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
         </div>
       </el-col>
     </el-row>

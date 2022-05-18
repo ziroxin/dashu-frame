@@ -5,6 +5,7 @@
     <a class="document-btn" target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/zh/guide/#%E5%AE%89%E8%A3%85">国内文档</a>
     <a class="document-btn" target="_blank" href="https://element.eleme.cn/#/zh-CN/component/installation">Element-ui</a>
     <a class="document-btn" target="_blank" href="https://cn.vuejs.org/v2/guide/">VUE</a>
+    <a class="document-btn" target="_blank" href="https://www.runoob.com/vue2/vue-tutorial.html">VUE-菜鸟</a>
   </div>
 </template>
 
