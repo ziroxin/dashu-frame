@@ -1,6 +1,6 @@
 package com.kg.core.zpermission.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -24,6 +24,7 @@ public class ZPermission implements BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("资源ID")
+    @TableId(value = "permission_id")
     private String permissionId;
 
     @ApiModelProperty("父级ID")

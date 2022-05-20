@@ -1,6 +1,7 @@
 package com.kg.core.zpermission.controller;
 
 
+import com.kg.component.utils.GuidUtils;
 import com.kg.core.security.util.CurrentUserUtils;
 import com.kg.core.zpermission.dto.ZPermissionDTO;
 import com.kg.core.zpermission.entity.ZPermission;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +40,10 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('permission:add')")
-    public boolean add(ZPermission zPermission) {
+    /*@PreAuthorize("hasAuthority('permission:add')")*/
+    public boolean add(@RequestBody ZPermission zPermission) {
+        zPermission.setPermissionId(GuidUtils.getUuid());
+        zPermission.setCreateTime(LocalDateTime.now());
         if (permissionService.save(zPermission)) {
             return true;
         }
@@ -50,8 +54,9 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @PostMapping("/update")
-    @PreAuthorize("hasAuthority('permission:update')")
-    public boolean update(ZPermission zPermission) {
+//    @PreAuthorize("hasAuthority('permission:update')")
+    public boolean update(@RequestBody ZPermission zPermission) {
+        zPermission.setUpdateTime(LocalDateTime.now());
         if (permissionService.updateById(zPermission)) {
             return true;
         }
@@ -62,8 +67,8 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('permission:delete')")
-    public boolean delete(String[] permissionIds) {
+//    @PreAuthorize("hasAuthority('permission:delete')")
+    public boolean delete(@RequestBody String[] permissionIds) {
         if (permissionService.removeBatchByIds(Arrays.asList(permissionIds))) {
             return true;
         }
@@ -77,6 +82,15 @@ public class ZPermissionController {
     @PreAuthorize("hasAuthority('permission:tree:list')")
     public List<ZPermissionDTO> treeList() {
         return permissionService.treeList();
+    }
+
+    @ApiOperation(value = "permission/list", notes = "查询资源列表", httpMethod = "GET")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/list")
+    /*@PreAuthorize("hasAuthority('permission:list')")*/
+    public List<ZPermission> list() {
+        return permissionService.list();
     }
 
     @ApiOperation(value = "permission/user/all", notes = "查询当前用户所有资源权限", httpMethod = "GET")
