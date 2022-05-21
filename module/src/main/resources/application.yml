@@ -43,3 +43,8 @@ com:
       user:
         # 所有开发管理员的ids，多个用逗号隔开
         ids: 1
+    #登录常量配置
+    login:
+      jwt:
+        token:
+          expiry: 120
