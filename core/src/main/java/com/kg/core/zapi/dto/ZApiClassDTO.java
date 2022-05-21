@@ -1,6 +1,7 @@
 package com.kg.core.zapi.dto;
 
 import com.kg.core.base.dto.BaseDTO;
+import com.kg.core.zapi.entity.ZApi;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,17 +10,15 @@ import java.util.List;
 
 /**
  * @author ziro
- * @date 2022-05-17 21:20:08
+ * @date 2022-05-20 22:50:57
  */
 @Getter
 @Setter
-public class ZApiDTO implements BaseDTO {
-    @ApiModelProperty("API分组ID")
-    private String apiGroupId;
+public class ZApiClassDTO implements BaseDTO {
 
-    @ApiModelProperty("API分组名称")
-    private String groupName;
+    @ApiModelProperty("API的Controller名称")
+    private String className;
 
     @ApiModelProperty("API列表")
-    List<ZApiClassDTO> apiClass;
+    List<ZApi> apiList;
 }

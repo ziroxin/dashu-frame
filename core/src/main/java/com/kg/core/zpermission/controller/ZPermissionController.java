@@ -40,7 +40,7 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @PostMapping("/add")
-    /*@PreAuthorize("hasAuthority('permission:add')")*/
+    @PreAuthorize("hasAuthority('permission:add')")
     public boolean add(@RequestBody ZPermission zPermission) {
         zPermission.setPermissionId(GuidUtils.getUuid());
         zPermission.setCreateTime(LocalDateTime.now());
@@ -54,7 +54,7 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @PostMapping("/update")
-//    @PreAuthorize("hasAuthority('permission:update')")
+    @PreAuthorize("hasAuthority('permission:update')")
     public boolean update(@RequestBody ZPermission zPermission) {
         zPermission.setUpdateTime(LocalDateTime.now());
         if (permissionService.updateById(zPermission)) {
@@ -67,7 +67,7 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @DeleteMapping("/delete")
-//    @PreAuthorize("hasAuthority('permission:delete')")
+    @PreAuthorize("hasAuthority('permission:delete')")
     public boolean delete(@RequestBody String[] permissionIds) {
         if (permissionService.removeBatchByIds(Arrays.asList(permissionIds))) {
             return true;
@@ -88,7 +88,7 @@ public class ZPermissionController {
     @ApiImplicitParams({
     })
     @GetMapping("/list")
-    /*@PreAuthorize("hasAuthority('permission:list')")*/
+    @PreAuthorize("hasAuthority('permission:list')")
     public List<ZPermission> list() {
         return permissionService.list();
     }

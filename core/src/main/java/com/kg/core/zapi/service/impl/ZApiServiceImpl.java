@@ -3,6 +3,7 @@ package com.kg.core.zapi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.zapi.dto.ZApiClassDTO;
 import com.kg.core.zapi.dto.ZApiDTO;
 import com.kg.core.zapi.entity.ZApi;
 import com.kg.core.zapi.mapper.ZApiMapper;
@@ -50,7 +51,7 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
     public List<String> listApiByUserId(String userId) {
         if ((DeveloperUserIds + ",").contains(userId + ",")) {
             // 判断是否开发管理员，拥有全部api权限
-            return zApiList.stream().map(zApi -> zApi.getApiPermission()).collect(Collectors.toList());
+            return scanApiList().stream().map(zApi -> zApi.getApiPermission()).collect(Collectors.toList());
         }
         return zApiMapper.listApiByUserId(userId);
     }
@@ -60,7 +61,7 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
         // 查询数据库中已有接口
         List<ZApi> list = list();
         // 在扫描到的apiList中，排除已存在的
-        List<ZApi> noList = zApiList.stream()
+        List<ZApi> noList = scanApiList().stream()
                 .filter(zApi -> {
                     Optional<ZApi> result = list.stream().filter(api -> api.getApiPermission().equals(zApi.getApiPermission())).findAny();
                     return result.isPresent() ? false : true;
@@ -86,7 +87,7 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
      */
     @Override
     public List<ZApi> getZApiList() {
-        return zApiList;
+        return scanApiList();
     }
 
     @Override
@@ -107,35 +108,50 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
                 ZApiDTO apiDTO = new ZApiDTO();
                 apiDTO.setApiGroupId(group.getApiGroupId());
                 apiDTO.setGroupName(group.getGroupName());
-                apiDTO.setApiList(collect);
+                // 查询class
+                List<String> classList = collect.stream().map(zApi -> zApi.getApiClassName())
+                        .filter(str -> str != null).distinct().collect(Collectors.toList());
+                List<ZApiClassDTO> apiClassList = new ArrayList<>();
+                // 遍历class，组合api
+                for (String cls : classList) {
+                    ZApiClassDTO apiClassDTO = new ZApiClassDTO();
+                    apiClassDTO.setClassName(cls);
+                    apiClassDTO.setApiList(collect.stream()
+                            .filter(api -> api.getApiClassName() != null && api.getApiClassName().equals(cls)).collect(Collectors.toList()));
+                    apiClassList.add(apiClassDTO);
+                }
+                apiDTO.setApiClass(apiClassList);
                 result.add(apiDTO);
             }
         } else {
             ZApiDTO apiDTO = new ZApiDTO();
             apiDTO.setApiGroupId(GuidUtils.getUuid());
-            apiDTO.setGroupName("全部API");
-            apiDTO.setApiList(apiList);
+            apiDTO.setGroupName("API分组");
+            // 查询class
+            List<String> classList = apiList.stream().map(zApi -> zApi.getApiClassName())
+                    .filter(str -> str != null).distinct().collect(Collectors.toList());
+            List<ZApiClassDTO> apiClassList = new ArrayList<>();
+            // 遍历class，组合api
+            for (String cls : classList) {
+                ZApiClassDTO apiClassDTO = new ZApiClassDTO();
+                apiClassDTO.setClassName(cls);
+                apiClassDTO.setApiList(apiList.stream()
+                        .filter(api -> api.getApiClassName() != null && api.getApiClassName().equals(cls)).collect(Collectors.toList()));
+                apiClassList.add(apiClassDTO);
+            }
+            apiDTO.setApiClass(apiClassList);
             result.add(apiDTO);
         }
         return result;
     }
 
     /**
-     * api列表
-     */
-    private List<ZApi> zApiList = new ArrayList<>();
-
-    ZApiServiceImpl() {
-        // 扫描所有接口
-        scanApiList("com.kg");
-    }
-
-    /**
      * 扫描所有Api列表
-     *
-     * @param scanPackage 需要扫描的包路径
      */
-    private List<ZApi> scanApiList(String scanPackage) {
+    private List<ZApi> scanApiList() {
+        // 需要扫描的包路径
+        String scanPackage = "com.kg";
+        List<ZApi> zApiList = new ArrayList<>();
         //设置扫描路径
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setUrls(ClasspathHelper.forPackage(scanPackage))

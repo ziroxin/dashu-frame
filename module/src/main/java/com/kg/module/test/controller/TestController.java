@@ -12,10 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @ApiOperation(value = "test", notes = "test", httpMethod = "GET")
+    @ApiOperation(value = "test/hello", notes = "test", httpMethod = "GET")
     @GetMapping("/test/hello")
     @PreAuthorize("hasAuthority('test:hello')")
     public String hello() {
         return "hello";
+    }
+
+    @ApiOperation(value = "test/hello2", notes = "test2", httpMethod = "GET")
+    @GetMapping("test/hello2")
+    @PreAuthorize("hasAuthority('test:hello2')")
+    public String hello2() {
+        return "hello2";
     }
 }

@@ -45,7 +45,8 @@ public class ZLoginServiceImpl implements ZLoginService {
         LoginSuccessDTO loginSuccessDTO = new LoginSuccessDTO();
         loginSuccessDTO.setAccessToken(JwtUtils.createToken(userId));
         // 把用户信息存入redis
-        redisUtils.set(LoginConstant.LOGIN_INFO_REDIS_PRE + userId, userDetailEntity);
+        redisUtils.set(LoginConstant.LOGIN_INFO_REDIS_PRE + userId, userDetailEntity,
+                LoginConstant.LOGIN_JWT_TOKEN_EXPIRY * 60L);
         loginSuccessDTO.setSuccessMsg("登录成功！");
         return loginSuccessDTO;
     }
