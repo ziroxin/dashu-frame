@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kg.core.zapi.mapper.ZApiMapper">
     <!-- 根据用户Id，查询权限标记 -->
-    <select id="listApiByUserId" resultType="java.lang.String">
-        SELECT api_permission
+    <select id="listAllApiForUserId" resultType="com.kg.core.zapi.dto.ApiUserIdDTO">
+        SELECT a.api_permission, c.role_id
         FROM z_api a
-                 LEFT JOIN z_role_api b ON a.api_id = b.api_id
-                 LEFT JOIN z_user_role c ON b.role_id = c.role_id
-        WHERE c.user_id = #{userId}
+                 LEFT JOIN z_permission_api b ON a.api_id = b.api_id
+                 LEFT JOIN z_role_permission c ON b.permission_id = c.permission_id
     </select>
 </mapper>
