@@ -1,6 +1,7 @@
 package com.kg.core.zapi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kg.core.zapi.dto.ApiUserIdDTO;
 import com.kg.core.zapi.entity.ZApi;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,5 @@ import java.util.List;
 @Repository
 public interface ZApiMapper extends BaseMapper<ZApi> {
 
-    List<String> listApiByUserId(String userId);
+    List<ApiUserIdDTO> listAllApiForUserId();
 }

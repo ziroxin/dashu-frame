@@ -2,6 +2,8 @@ package com.kg.core.zpermission.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kg.component.redis.RedisUtils;
+import com.kg.core.common.constant.LoginConstant;
 import com.kg.core.zpermission.dto.ZPermissionApiDTO;
 import com.kg.core.zpermission.entity.ZPermissionApi;
 import com.kg.core.zpermission.service.IZPermissionApiService;
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 public class ZPermissionApiController {
     @Autowired
     private IZPermissionApiService permissionApiService;
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     @ApiOperation(value = "permission/api/getApiListByPermissionId", notes = "查询资源对应的API", httpMethod = "GET")
@@ -61,5 +65,7 @@ public class ZPermissionApiController {
         }).collect(Collectors.toList());
         // 保存
         permissionApiService.saveBatch(collect);
+        // 清除角色权限关联关系缓存
+        redisUtils.delete(LoginConstant.ROLE_API_REDIS_KEY);
     }
 }

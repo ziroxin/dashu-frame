@@ -2,7 +2,10 @@ package com.kg.core.zapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kg.component.redis.RedisUtils;
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.common.constant.LoginConstant;
+import com.kg.core.zapi.dto.ApiUserIdDTO;
 import com.kg.core.zapi.dto.ZApiClassDTO;
 import com.kg.core.zapi.dto.ZApiDTO;
 import com.kg.core.zapi.entity.ZApi;
@@ -10,6 +13,8 @@ import com.kg.core.zapi.mapper.ZApiMapper;
 import com.kg.core.zapi.service.IZApiService;
 import com.kg.core.zapigroup.entity.ZApiGroup;
 import com.kg.core.zapigroup.service.IZApiGroupService;
+import com.kg.core.zuser.entity.ZUserRole;
+import com.kg.core.zuser.service.IZUserRoleService;
 import io.swagger.annotations.ApiOperation;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -43,6 +48,10 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
     private ZApiMapper zApiMapper;
     @Autowired
     private IZApiGroupService apiGroupService;
+    @Autowired
+    private IZUserRoleService userRoleService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Value("${com.kg.developer.user.ids}")
     private String DeveloperUserIds;
@@ -53,7 +62,22 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
             // 判断是否开发管理员，拥有全部api权限
             return scanApiList().stream().map(zApi -> zApi.getApiPermission()).collect(Collectors.toList());
         }
-        return zApiMapper.listApiByUserId(userId);
+        // 用户和api关系
+        List<ApiUserIdDTO> list;
+        if (redisUtils.hasKey(LoginConstant.ROLE_API_REDIS_KEY)) {
+            list = (List<ApiUserIdDTO>) redisUtils.get(LoginConstant.ROLE_API_REDIS_KEY);
+        } else {
+            list = zApiMapper.listAllApiForUserId();
+            redisUtils.setNoTimeLimit(LoginConstant.ROLE_API_REDIS_KEY, list);
+        }
+        // 查出用户角色
+        QueryWrapper<ZUserRole> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(ZUserRole::getUserId, userId);
+        List<ZUserRole> userRoleList = userRoleService.list(wrapper);
+        List<String> roles = userRoleList.stream().map(zUserRole -> zUserRole.getRoleId()).collect(Collectors.toList());
+        // 过滤角色权限
+        return list.stream().filter(obj -> roles.contains(obj.getRoleId()))
+                .map(obj -> obj.getApiPermission()).collect(Collectors.toList());
     }
 
     @Override

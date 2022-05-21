@@ -17,6 +17,8 @@ public class LoginConstant {
     public static final String LOGIN_JWT_TOKEN_KEY = "z_jwt_token";
     // 权限信息存储到redis的前缀
     public static final String PERMISSION_REDIS_PRE = "zpermission@";
+    // 角色和api关联关系redis缓存key
+    public static final String ROLE_API_REDIS_KEY = "role_4_api_redis";
     // 登录token的有效时间（单位：分钟）
     public static Integer LOGIN_JWT_TOKEN_EXPIRY;
 
