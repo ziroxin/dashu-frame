@@ -99,6 +99,33 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
         return treeListChildren(list, "-1");
     }
 
+    /**
+     * 查询资源树表格二号
+     */
+    @Override
+    public List<ZPermissionDTO> permissionTreeList() {
+        QueryWrapper<ZPermission> wrapper = new QueryWrapper<>();
+        wrapper.lambda().orderByAsc(ZPermission::getPermissionOrder);
+        List<ZPermission> list = list(wrapper);
+        return permissionTreeListChildren(list, "-1");
+    }
+
+    // 迭代查询子菜单二号
+    private List<ZPermissionDTO> permissionTreeListChildren(List<ZPermission> zPermissions, String parentId) {
+        return zPermissions.stream()
+                .filter(zPermission -> zPermission.getParentId().equals(parentId))
+                .map(perm -> {
+                    ZPermissionDTO zPermissionDTO = permissionConvert.entityToDto(perm);
+                    // 迭代查询子菜单
+                    List<ZPermissionDTO> childernList = permissionTreeListChildren(zPermissions, zPermissionDTO.getPermissionId());
+                    if (childernList != null && childernList.size() > 0) {
+                        zPermissionDTO.setChildren(childernList);
+                    }
+                    return zPermissionDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
     // 迭代查询子菜单
     private List<ZPermissionDTO> treeListChildren(List<ZPermission> zPermissions, String parentId) {
         return zPermissions.stream()
@@ -151,5 +178,10 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
                     return zPermissionDTO;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ZPermission> getListById(String permissionId){
+        return permissionMapper.getListById(permissionId);
     }
 }

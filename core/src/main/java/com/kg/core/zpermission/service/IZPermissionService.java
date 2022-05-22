@@ -22,5 +22,10 @@ public interface IZPermissionService extends IService<ZPermission> {
 
     List<ZPermissionDTO> treeList();
 
+    List<ZPermissionDTO> permissionTreeList();
+
+    List<ZPermission> getListById(String permissionId);
+
+
     List<ZRolePermissionDTO> listForRole();
 }

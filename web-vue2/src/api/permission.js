@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询
 export function permissionList() {
   return request({
-    url: '/permission/list',
+    url: '/permission/treeList',
     method: 'get'
   })
 }
@@ -31,3 +31,12 @@ export function permissionDelete(data) {
     data
   })
 }
+
+export function getListById(permissionId) {
+  return request({
+    url: '/permission/getListById',
+    method: 'GET',
+    params:{permissionId}
+  })
+}
+

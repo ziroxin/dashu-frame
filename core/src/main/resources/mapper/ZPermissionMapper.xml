@@ -10,4 +10,11 @@
         WHERE c.user_id = #{userId}
         ORDER BY permission_order
     </select>
+
+    <select id="getListById" resultType="com.kg.core.zpermission.entity.ZPermission">
+        SELECT *
+        from z_permission
+        WHERE parent_id = #{permissionId}
+          AND permission_type = '1'
+    </select>
 </mapper>

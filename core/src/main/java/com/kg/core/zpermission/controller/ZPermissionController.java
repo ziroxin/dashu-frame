@@ -94,13 +94,21 @@ public class ZPermissionController {
         return permissionService.listForRole();
     }
 
-    @ApiOperation(value = "permission/list", notes = "查询资源列表", httpMethod = "GET")
-    @ApiImplicitParams({
-    })
-    @GetMapping("/list")
-    @PreAuthorize("hasAuthority('permission:list')")
-    public List<ZPermission> list() {
-        return permissionService.list();
+
+    @ApiOperation(value = "permission/treeList", notes = "查询资源树表格", httpMethod = "GET")
+    @ApiImplicitParams({})
+    @GetMapping("/treeList")
+    @PreAuthorize("hasAuthority('permission:treeList')")
+    public List<ZPermissionDTO> permissionTreeList() {
+        return permissionService.permissionTreeList();
+    }
+
+    @ApiOperation(value = "permission/getListById", notes = "根据ID查询资源列表", httpMethod = "GET")
+    @ApiImplicitParams({})
+    @GetMapping("/getListById")
+    @PreAuthorize("hasAuthority('permission:getListById')")
+    public List<ZPermission> getListById(String permissionId) {
+        return permissionService.getListById(permissionId);
     }
 
     @ApiOperation(value = "permission/user/all", notes = "查询当前用户所有资源权限", httpMethod = "GET")

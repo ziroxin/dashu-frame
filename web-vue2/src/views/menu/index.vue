@@ -15,7 +15,7 @@
                   @selection-change="selectionChangeHandlerOrder"
         >
           <el-table-column type="selection" width="55" />
-          <el-table-column prop="permissionTitle" label="资源标题" sortable width="190">
+          <el-table-column prop="permissionTitle" label="资源标题" sortable width="220">
             <template v-slot="scope">
               {{ scope.row.permissionTitle }}
               <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
@@ -24,9 +24,9 @@
               <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="info">其他</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="permissionRouter" label="资源标记" sortable width="190" />
-          <el-table-column prop="permissionComponent" label="组件地址" sortable width="200" />
-          <el-table-column prop="permissionIcon" label="资源图标" sortable width="200" />
+          <el-table-column prop="permissionRouter" label="资源标记" sortable width="220" />
+          <el-table-column prop="permissionComponent" label="组件地址" sortable width="240" />
+          <el-table-column prop="permissionIcon" label="资源图标" sortable width="240" />
           <el-table-column fixed="right" label="操作" width="160">
             <template slot-scope="{row}">
               <el-button type="text" @click="openButtonTable(row)">按钮</el-button>
@@ -35,14 +35,10 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 分页组件 -->
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
-                    @pagination="getList"
-        />
       </el-col>
 
       <el-col v-if="buttontableVisible" :span="10">
-        <PermissionButton :button-table-data="ButtonTableData" />
+        <PermissionButton :button-table-data="buttonTableData" />
       </el-col>
     </el-row>
 
@@ -59,11 +55,8 @@
         </el-form-item>
 
         <el-form-item label="资源类型：" prop="permissionType">
-          <el-select v-model="temp.permissionType" placeholder="请选择" style="width: 400px;">
-            <el-option v-for="item in permissionOptions" :key="item.value" :label="item.label"
-                       :value="item.value"
-            />
-          </el-select>
+          <el-radio v-model="temp.permissionType" label="0">路由</el-radio>
+          <el-radio v-model="temp.permissionType" label="2">外链</el-radio>
         </el-form-item>
 
         <el-form-item label="资源标题：" prop="permissionTitle">
@@ -98,8 +91,6 @@
   </div>
 </template>
 <script>
-// 引入分页组件
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import {permissionAdd, permissionDelete, permissionList, permissionUpdate} from '@/api/permission.js'
 // 引入图标选择器
 import IconPicker from './component/IconPicker/index';
@@ -109,7 +100,7 @@ import PermissionButton from './component/permissionButton/index'
 import {permissionTreeList} from '@/api/api';
 
 export default {
-  components: {Pagination, IconPicker, PermissionButton},
+  components: {IconPicker, PermissionButton},
   data() {
     return {
       // 表格数据
@@ -123,7 +114,7 @@ export default {
       // 勾选的ID
       permissionIds: [],
       // 传给按钮组件的数据
-      ButtonTableData: {},
+      buttonTableData: {},
       // 对话框属性
       dialogStatus: '',
       textMap: {update: '修改', create: '新增', subordinates: '添加下级'},
@@ -131,19 +122,11 @@ export default {
       dialogFormVisible: false,
       // 按钮表格显示控制
       buttontableVisible: false,
-      elColSpanValue: 24,
-      // 下拉选项
-      permissionOptions: [
-        {value: '0', label: '路由'},
-        {value: '1', label: '页面资源'},
-        {value: '2', label: '外链'},
-        {value: '3', label: '其他'}
-      ],
+      elColSpanValue: 17,
       temp: {}
     }
   },
   created() {
-    this.getList();
     this.getPermissionTreeList()
     this.resetTemp();
   },
@@ -160,7 +143,7 @@ export default {
         parentId: '-1',
         permissionName: '',
         permissionDescription: '',
-        permissionType: '',
+        permissionType: '0',
         permissionTitle: '',
         permissionIcon: '',
         permissionRouter: '',
@@ -173,7 +156,6 @@ export default {
     // 查询表格数据
     getList() {
       permissionList().then(response => {
-        console.log(response)
         this.tableData = response.data
         this.total = response.data.length
       })
@@ -208,7 +190,6 @@ export default {
                 type: 'success',
                 message: '添加成功！'
               });
-              this.getList();
               this.getPermissionTreeList()
             } else {
               this.$message({
@@ -260,7 +241,6 @@ export default {
                 type: 'success',
                 message: '修改成功！'
               });
-              this.getList();
               this.getPermissionTreeList()
             } else {
               this.$message({
@@ -295,7 +275,6 @@ export default {
                 type: 'success',
                 message: '删除成功！'
               });
-              this.getList();
               this.getPermissionTreeList()
             } else {
               this.$message({
@@ -314,13 +293,20 @@ export default {
     },
     // 添加下级
     subordinatesAdd(row) {
-      this.resetTemp()
-      this.temp.parentId = row.permissionId
-      this.dialogFormVisible = true
-      this.dialogStatus = 'subordinates'
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      if (row.permissionType === '1') {
+        this.$message({
+          message:'按钮无法添加下级！',
+          type:'warning'
+        })
+      }else{
+        this.resetTemp()
+        this.temp.parentId = row.permissionId
+        this.dialogFormVisible = true
+        this.dialogStatus = 'subordinates'
+        this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+        })
+      }
     },
     // 对话框提交判断
     submitJudgment(dialogStatus) {
@@ -331,9 +317,16 @@ export default {
       }
     },
     openButtonTable(row) {
-      this.buttontableVisible = true
-      this.elColSpanValue = 14
-      this.ButtonTableData = row
+      if (row.permissionType === '1') {
+        this.$message({
+          message:'按钮上无法添加按钮！',
+          type:'warning'
+        })
+      }else{
+        this.buttontableVisible = true
+        this.elColSpanValue = 14
+        this.buttonTableData = row
+      }
     }
   }
 }

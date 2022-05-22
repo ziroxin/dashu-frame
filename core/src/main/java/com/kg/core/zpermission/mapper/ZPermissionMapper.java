@@ -1,7 +1,7 @@
 package com.kg.core.zpermission.mapper;
 
-import com.kg.core.zpermission.entity.ZPermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kg.core.zpermission.entity.ZPermission;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +18,6 @@ import java.util.List;
 public interface ZPermissionMapper extends BaseMapper<ZPermission> {
 
     List<ZPermission> listPermissionByUserId(String userId);
+
+    List<ZPermission> getListById(String permissionId);
 }
