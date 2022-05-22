@@ -1,8 +1,11 @@
 package com.kg.core.zrole.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -21,6 +24,7 @@ public class ZRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("角色ID")
+    @TableId(value = "role_id")
     private String roleId;
 
     @ApiModelProperty("角色名称")
@@ -45,6 +49,7 @@ public class ZRole implements Serializable {
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
+
     public String getRoleName() {
         return roleName;
     }
@@ -52,6 +57,7 @@ public class ZRole implements Serializable {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
+
     public String getRoleDescription() {
         return roleDescription;
     }
@@ -59,6 +65,7 @@ public class ZRole implements Serializable {
     public void setRoleDescription(String roleDescription) {
         this.roleDescription = roleDescription;
     }
+
     public Integer getRoleOrder() {
         return roleOrder;
     }
@@ -66,6 +73,7 @@ public class ZRole implements Serializable {
     public void setRoleOrder(Integer roleOrder) {
         this.roleOrder = roleOrder;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -73,6 +81,7 @@ public class ZRole implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -84,12 +93,12 @@ public class ZRole implements Serializable {
     @Override
     public String toString() {
         return "ZRole{" +
-            "roleId=" + roleId +
-            ", roleName=" + roleName +
-            ", roleDescription=" + roleDescription +
-            ", roleOrder=" + roleOrder +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "roleId=" + roleId +
+                ", roleName=" + roleName +
+                ", roleDescription=" + roleDescription +
+                ", roleOrder=" + roleOrder +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }
