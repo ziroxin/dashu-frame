@@ -44,11 +44,18 @@ public class ZApiController implements BaseController {
         return apiService.getZApiList();
     }
 
-    @ApiOperation(value = "api/saveScanApi", notes = "保存扫描到的API（已存在的不再保存）", httpMethod = "GET")
+    @ApiOperation(value = "api/saveScanApi", notes = "保存扫描到的API（已存在的更新）", httpMethod = "GET")
     @GetMapping("saveScanApi")
     @PreAuthorize("hasAuthority('api:saveScanApi')")
     public void saveScanApi() {
         apiService.saveScanApi();
+    }
+
+    @ApiOperation(value = "api/clearApi", notes = "清除无效的API", httpMethod = "GET")
+    @GetMapping("clearApi")
+    @PreAuthorize("hasAuthority('api:clearApi')")
+    public void clearApi() {
+        apiService.clearApi();
     }
 
 }

@@ -6,10 +6,11 @@
           <el-input v-model="permissionName" placeholder="请输入名称查询" style="width: 200px;margin-right: 10px;"
                     clearable maxlength="20"
           />
-          <el-button type="primary" icon="el-icon-search" circle @click="getPermissionTreeList()" />
+          <el-button type="primary" icon="el-icon-search" circle @click="getPermissionTreeList()"/>
         </div>
         <div class="grid-content bg-purple">
-          <el-table ref="permissionTable" v-loading="listLoading" default-expand-all style="width: 95%;margin-bottom: 20px;"
+          <el-table ref="permissionTable" v-loading="listLoading" default-expand-all
+                    style="width: 95%;margin-bottom: 20px;"
                     border :data="tableData" row-key="permissionId"
                     highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
                     @current-change="handleCurrentChange"
@@ -23,7 +24,7 @@
                 <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="danger">其他</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="permissionRouter" label="路由" sortable width="120" />
+            <el-table-column prop="permissionRouter" label="路由" sortable width="120"/>
             <el-table-column fixed="right" label="操作" width="100">
               <template v-slot="scope">
                 <el-button type="text" size="small" @click.native.prevent="setMyApi(scope.row.permissionId)">
@@ -38,7 +39,8 @@
         <div class="grid-content bg-purple-light">
           <div style="margin-bottom: 20px;">
             <el-button type="primary" :disabled="isSaveBtn" round @click="savePermissionApi()">保存关联API</el-button>
-            <el-button type="danger" round style="float:right;" @click="scanApi()">扫描API-自动保存到数据库中</el-button>
+            <el-button type="danger" round @click="scanApi()">扫描API-自动保存到数据库中</el-button>
+            <el-button type="info" round @click="clearApi()">清除无效的API</el-button>
           </div>
           <div>
             <el-collapse v-model="activeNames">
@@ -73,7 +75,7 @@
   </div>
 </template>
 <script>
-import {getApiList, getApiListByPermissionId, permissionTreeList, scanApi, savePermissionApi} from '@/api/api'
+import {clearApi, getApiList, getApiListByPermissionId, permissionTreeList, savePermissionApi, scanApi} from '@/api/api'
 
 export default {
   data() {
@@ -125,6 +127,22 @@ export default {
       }
       // 刷新api列表
       this.getApiList()
+    },
+    // 清除无效的API
+    clearApi() {
+      this.$confirm('确定要清除无效的Api吗?', '提醒', {
+        confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
+      }).then(() => {
+        clearApi().then(response => {
+          const {code} = response
+          if (code === "200") {
+            this.$message({type: 'success', message: '清除无效的API成功！'})
+            this.getApiList()
+          } else {
+            this.$message({type: 'error', message: '操作失败！'})
+          }
+        })
+      })
     },
     // 设置api
     setMyApi(permissionId) {

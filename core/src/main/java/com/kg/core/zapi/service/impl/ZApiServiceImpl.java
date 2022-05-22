@@ -84,8 +84,9 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
     public void saveScanApi() {
         // 查询数据库中已有接口
         List<ZApi> list = list();
+        List<ZApi> scanList = scanApiList();
         // 在扫描到的apiList中，排除已存在的
-        List<ZApi> noList = scanApiList().stream()
+        List<ZApi> noList = scanList.stream()
                 .filter(zApi -> {
                     Optional<ZApi> result = list.stream().filter(api -> api.getApiPermission().equals(zApi.getApiPermission())).findAny();
                     return result.isPresent() ? false : true;
@@ -102,8 +103,37 @@ public class ZApiServiceImpl extends ServiceImpl<ZApiMapper, ZApi> implements IZ
             zApi.setCreateTime(LocalDateTime.now());
             return zApi;
         }).collect(Collectors.toList());
-        // 保存
+        // 保存不存在的
         saveBatch(saveList);
+        // 更新已存在的数据
+        List<ZApi> updateList = scanList.stream()
+                .filter(zApi -> {
+                    Optional<ZApi> result = list.stream().filter(api -> api.getApiPermission().equals(zApi.getApiPermission())).findAny();
+                    return result.isPresent() ? true : false;
+                })
+                .map(zApi -> {
+                    Optional<ZApi> result = list.stream().filter(api -> api.getApiPermission().equals(zApi.getApiPermission())).findFirst();
+                    zApi.setApiId(result.get().getApiId());
+                    zApi.setUpdateTime(LocalDateTime.now());
+                    return zApi;
+                })
+                .collect(Collectors.toList());
+        updateBatchById(updateList);
+    }
+
+    @Override
+    public void clearApi() {
+        // 查询数据库中已有接口
+        List<ZApi> list = list();
+        List<ZApi> scanList = scanApiList();
+        // 数据库中有，扫描列表中没有的
+        List<ZApi> noList = list.stream()
+                .filter(zApi -> {
+                    Optional<ZApi> result = scanList.stream().filter(api -> api.getApiPermission().equals(zApi.getApiPermission())).findAny();
+                    return result.isPresent() ? false : true;
+                })
+                .collect(Collectors.toList());
+        removeBatchByIds(noList);
     }
 
     /**

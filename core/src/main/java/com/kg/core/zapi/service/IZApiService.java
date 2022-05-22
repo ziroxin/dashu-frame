@@ -30,12 +30,18 @@ public interface IZApiService extends IService<ZApi> {
     void saveScanApi();
 
     /**
+     * 清除无效的API
+     */
+    void clearApi();
+
+    /**
      * 获得扫描到的API列表
      */
     List<ZApi> getZApiList();
 
     /**
      * 分组查询Api列表
+     *
      * @return
      */
     List<ZApiDTO> listGroupApi();

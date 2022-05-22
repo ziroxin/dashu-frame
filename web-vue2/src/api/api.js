@@ -25,6 +25,14 @@ export function scanApi() {
   })
 }
 
+// 清除无效的API
+export function clearApi() {
+  return request({
+    url: 'api/clearApi',
+    method: 'get'
+  })
+}
+
 // 获取资源对应的api
 export function getApiListByPermissionId(params) {
   return request({
