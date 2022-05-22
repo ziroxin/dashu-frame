@@ -99,7 +99,7 @@ export default {
     },
     // 查询数据
     getList() {
-      getListById(this.ButtonTableData.permissionId).then(response => {
+      getListById(this.buttonTableData.permissionId).then(response => {
         this.listLoading = true
         this.tableData = response.data
         this.listLoading = false
@@ -129,7 +129,7 @@ export default {
   //  点击添加按钮后
     permissionButtonAdd() {
       this.resetTemp()
-      this.temp.parentId = this.ButtonTableData.permissionId
+      this.temp.parentId = this.buttonTableData.permissionId
       this.dialogFormVisible = true
       this.dialogStatus = 'create'
       this.$nextTick(() => {
