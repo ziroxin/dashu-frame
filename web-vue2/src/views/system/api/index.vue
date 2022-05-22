@@ -2,30 +2,27 @@
   <div class="app-container">
     <el-row>
       <el-col :span="9">
+        <!--        资源表格-->
         <div style="margin-bottom: 20px;">
-          <el-input v-model="permissionName" placeholder="请输入名称查询" style="width: 200px;margin-right: 10px;"
-                    clearable maxlength="20"
-          />
-          <el-button type="primary" icon="el-icon-search" circle @click="getPermissionTreeList()"/>
+          <el-button @click="toggleTableOprate">{{ tableOprate }}</el-button>
         </div>
         <div class="grid-content bg-purple">
-          <el-table ref="permissionTable" v-loading="listLoading" default-expand-all
+          <el-table ref="permissionTable" v-loading="listLoading" :default-expand-all="isExpand"
                     style="width: 95%;margin-bottom: 20px;"
                     border :data="tableData" row-key="permissionId"
                     highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-                    @current-change="handleCurrentChange"
-          >
-            <el-table-column label="名称" sortable width="170">
+                    @current-change="handleCurrentChange">
+            <el-table-column label="名称" sortable width="180px">
               <template v-slot="scope">
                 {{ scope.row.permissionTitle }}
-                <el-tag v-if="scope.row.permissionType === '0'" disable-transitions type="info">路由</el-tag>
-                <el-tag v-if="scope.row.permissionType === '1'" disable-transitions type="warning">按钮</el-tag>
+                <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
+                <el-tag v-if="scope.row.permissionType === '1'" disable-transitions type="info">按钮</el-tag>
                 <el-tag v-if="scope.row.permissionType === '2'" disable-transitions type="success">外链</el-tag>
                 <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="danger">其他</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="permissionRouter" label="路由" sortable width="120"/>
-            <el-table-column fixed="right" label="操作" width="100">
+            <el-table-column prop="permissionRouter" label="路由" sortable/>
+            <el-table-column label="操作" width="80px" align="center">
               <template v-slot="scope">
                 <el-button type="text" size="small" @click.native.prevent="setMyApi(scope.row.permissionId)">
                   设置API
@@ -36,17 +33,17 @@
         </div>
       </el-col>
       <el-col :span="15" style="padding-left: 20px;border-left: 1px solid #dedede;">
+        <!--        API列表-->
         <div class="grid-content bg-purple-light">
           <div style="margin-bottom: 20px;">
-            <el-button type="primary" :disabled="isSaveBtn" round @click="savePermissionApi()">保存关联API</el-button>
-            <el-button type="danger" round @click="scanApi()">扫描API-自动保存到数据库中</el-button>
-            <el-button type="info" round @click="clearApi()">清除无效的API</el-button>
+            <el-button type="primary" :disabled="isSaveBtn" @click="savePermissionApi()">保存关联API</el-button>
+            <el-button type="danger" @click="scanApi()">扫描API-自动保存到数据库中</el-button>
+            <el-button type="info" @click="clearApi()">清除无效的API</el-button>
           </div>
           <div>
             <el-collapse v-model="activeNames">
               <el-collapse-item v-for="group2 in tableData2" :key="group2.apiGroupId"
-                                :title="group2.groupName" :name="group2.apiGroupId"
-              >
+                                :title="group2.groupName" :name="group2.apiGroupId">
                 <el-checkbox-group v-model="selectPermissionApiList" style="line-height: 50px;">
                   <template v-for="cls in group2.apiClass">
                     <el-divider :key="cls.className">{{ cls.className }}</el-divider>
@@ -57,9 +54,7 @@
                           <br>请求方式：{{ api2.apiRequestMethod }}
                           <br>描述：{{ api2.apiDescription }}
                         </div>
-                        <el-checkbox :key="api2.apiId" border
-                                     style="margin-left: 0px!important;" :label="api2.apiId"
-                        >
+                        <el-checkbox :key="api2.apiId" :label="api2.apiId" border style="margin-left: 0px!important;">
                           {{ api2.apiName }}
                         </el-checkbox>
                       </el-tooltip>
@@ -80,7 +75,8 @@ import {clearApi, getApiList, getApiListByPermissionId, permissionTreeList, save
 export default {
   data() {
     return {
-      permissionName: '',
+      isExpand: true,
+      tableOprate: '全部收起',
       currentPermissionId: '',
       selectPermissionApiList: [],
       activeNames: ['1', '2', '3', '4'],
@@ -96,11 +92,28 @@ export default {
     this.getApiList();
   },
   methods: {
+    toggleTableOprate() {
+      if (this.isExpand) {
+        this.isExpand = false
+        this.tableOprate = '全部展开'
+      } else {
+        this.isExpand = true
+        this.tableOprate = '全部收起'
+      }
+      this.toggleRowExpansionAll(this.tableData, this.isExpand)
+    },
+    toggleRowExpansionAll(data, isExpansion) {
+      data.forEach((item) => {
+        this.$refs.permissionTable.toggleRowExpansion(item, isExpansion);
+        if (item.children !== undefined && item.children !== null) {
+          this.toggleRowExpansionAll(item.children, isExpansion);
+        }
+      });
+    },
     // 左侧菜单列表
     async getPermissionTreeList() {
       this.listLoading = true
-      console.dir(this.permissionName)
-      const {data} = await permissionTreeList({'permissionName': this.permissionName})
+      const {data} = await permissionTreeList()
       this.tableData = data
       this.listLoading = false
     },
@@ -135,7 +148,7 @@ export default {
       }).then(() => {
         clearApi().then(response => {
           const {code} = response
-          if (code === "200") {
+          if (code === '200') {
             this.$message({type: 'success', message: '清除无效的API成功！'})
             this.getApiList()
           } else {
@@ -167,10 +180,6 @@ export default {
             });
           }
         })
-    },
-    // 当前行高亮
-    handleCurrentChange(idx) {
-      this.currentRow = idx;
     }
   }
 }

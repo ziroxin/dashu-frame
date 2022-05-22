@@ -9,11 +9,10 @@ export function getApiList() {
 }
 
 // 获取资源列表
-export function permissionTreeList(params) {
+export function permissionTreeList() {
   return request({
     url: '/permission/tree/list',
-    method: 'get',
-    params
+    method: 'get'
   })
 }
 

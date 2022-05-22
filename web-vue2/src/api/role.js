@@ -32,9 +32,9 @@ export function deleteRoles(data) {
   })
 }
 
-export function getRoutes() {
+export function getPermissionList() {
   return request({
-    url: '/vue-element-admin/routes',
+    url: '/permission/listForRole',
     method: 'get'
   })
 }

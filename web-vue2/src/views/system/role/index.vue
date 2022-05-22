@@ -9,13 +9,13 @@
           <el-button type="danger" icon="el-icon-delete" @click="roleDelete">删除</el-button>
         </div>
         <!--        角色管理表格-->
-        <el-table :data="tableData" stripe style="width: 100%" border
+        <el-table :data="tableData" stripe style="width: 95%" border
                   @selection-change="handleTableSelectChange">
-          <el-table-column type="selection" width="55"/>
+          <el-table-column type="selection" width="40"/>
           <el-table-column label="角色" align="center">
             <template slot-scope="scope">
-              <el-popover trigger="hover" placement="right"
-                          :title="scope.row.roleName" :content="scope.row.roleDescription">
+              <el-popover trigger="hover" placement="right" :title="scope.row.roleName+'（'+scope.row.roleOrder+'）'"
+                          :content="'描述：'+scope.row.roleDescription">
                 <span slot="reference" style="cursor: pointer;">{{ scope.row.roleName }}</span>
               </el-popover>
             </template>
@@ -55,14 +55,36 @@
         </el-dialog>
       </el-col>
       <el-col :span="15" style="padding-left: 20px;border-left: 1px solid #dedede;">
-
+        <!--        资源权限表格-->
+        <el-table ref="permissionTable" style="width: 100%;"
+                  border :data="tableData2" row-key="permissionId"
+                  highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+          <el-table-column type="selection" width="40"/>
+          <el-table-column label="路由/外链" sortable width="180px">
+            <template v-slot="scope">
+              {{ scope.row.permissionTitle }}
+              <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
+              <el-tag v-if="scope.row.permissionType === '2'" disable-transitions type="success">外链</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column label="按钮/其他" sortable>
+            <template v-slot="scope">
+              <el-checkbox-group v-model="selectPermissionApiList" style="line-height: 50px;">
+                <el-checkbox v-for="perm in scope.row.buttonList" :key="perm.permissionId"
+                             :label="perm.permissionId" border style="margin-left: 0px!important;">
+                  {{ perm.permissionTitle }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import {addRole, deleteRoles, getRoleList, updateRole} from '@/api/role'
+import {addRole, deleteRoles, getPermissionList, getRoleList, updateRole} from '@/api/role'
 
 export default {
   data() {
@@ -76,30 +98,37 @@ export default {
       titleMap: {add: '添加角色', update: '修改角色'},
       dialogType: '',
       dialogFormVisible: false,
-      temp: {}
+      temp: {},
+      //右侧资源列表数据
+      tableData2: [],
+      currentRow: 0,
+      selectPermissionApiList: []
     }
   },
   created() {
     this.loadRoleList()
+    this.loadPermissionTreeList()
     this.resetTemp()
   },
   methods: {
+    //加载角色列表
     loadRoleList() {
       getRoleList(this.pager)
         .then((response) => {
           const {data} = response
           this.totalCount = data.total
           this.tableData = data.records
-          console.dir(data)
-          // this.tableData = data
         })
     },
+    //选中行
     handleTableSelectChange(rows) {
       this.tableSelectRows = rows
     },
+    //页面切换
     handleCurrentChange(page) {
       this.pager.page = page
     },
+    //清空temp数据
     resetTemp() {
       this.temp = {
         roleId: '',
@@ -108,6 +137,7 @@ export default {
         roleOrder: 1
       }
     },
+    //角色管理
     roleAdd() {
       this.resetTemp()
       this.dialogFormVisible = true
@@ -179,6 +209,13 @@ export default {
             })
           }
         }
+      })
+    },
+    //加载资源列表树
+    loadPermissionTreeList() {
+      getPermissionList().then(response => {
+        console.dir(response.data)
+        this.tableData2 = response.data
       })
     }
   }

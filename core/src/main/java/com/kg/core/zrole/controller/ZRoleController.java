@@ -1,6 +1,7 @@
 package com.kg.core.zrole.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kg.core.exception.BaseException;
 import com.kg.core.zrole.entity.ZRole;
@@ -40,7 +41,9 @@ public class ZRoleController {
     public Page<ZRole> list(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                             @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit) {
         Page<ZRole> pager = new Page<>(page, limit);
-        return roleService.page(pager);
+        QueryWrapper<ZRole> orderWrapper = new QueryWrapper<>();
+        orderWrapper.lambda().orderByAsc(ZRole::getRoleOrder);
+        return roleService.page(pager, orderWrapper);
     }
 
     @ApiOperation(value = "role/add", notes = "添加角色", httpMethod = "POST")

@@ -3,7 +3,9 @@ package com.kg.core.zpermission.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.core.zpermission.dto.ZPermissionDTO;
+import com.kg.core.zpermission.dto.ZRolePermissionDTO;
 import com.kg.core.zpermission.dto.convert.ZPermissionConvert;
+import com.kg.core.zpermission.dto.convert.ZRolePermissionConvert;
 import com.kg.core.zpermission.entity.ZPermission;
 import com.kg.core.zpermission.enums.PermissionTypeEnum;
 import com.kg.core.zpermission.mapper.ZPermissionMapper;
@@ -33,6 +35,8 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
     private ZPermissionMapper permissionMapper;
     @Autowired
     private ZPermissionConvert permissionConvert;
+    @Autowired
+    private ZRolePermissionConvert rolePermissionConvert;
 
     @Value("${com.kg.developer.user.ids}")
     private String DeveloperUserIds;
@@ -102,9 +106,47 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
                 .map(perm -> {
                     ZPermissionDTO zPermissionDTO = permissionConvert.entityToDto(perm);
                     // 迭代查询子菜单
-                    List<ZPermissionDTO> childernList = treeListChildren(zPermissions, zPermissionDTO.getPermissionId());
-                    if (childernList != null && childernList.size() > 0) {
-                        zPermissionDTO.setChildren(childernList);
+                    List<ZPermissionDTO> childrenList = treeListChildren(zPermissions, zPermissionDTO.getPermissionId());
+                    if (childrenList != null && childrenList.size() > 0) {
+                        zPermissionDTO.setChildren(childrenList);
+                    }
+                    return zPermissionDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ZRolePermissionDTO> listForRole() {
+        // 全部列表
+        QueryWrapper<ZPermission> wrapper = new QueryWrapper<>();
+        wrapper.lambda().orderByAsc(ZPermission::getPermissionOrder)
+                .eq(ZPermission::getPermissionType, PermissionTypeEnum.ROUTER.getCode())
+                .or().eq(ZPermission::getPermissionType, PermissionTypeEnum.LINK.getCode());
+        List<ZPermission> list = list(wrapper);
+        // 路由列表
+        QueryWrapper<ZPermission> wrapper2 = new QueryWrapper<>();
+        wrapper2.lambda().orderByAsc(ZPermission::getPermissionOrder)
+                .eq(ZPermission::getPermissionType, PermissionTypeEnum.BUTTON.getCode())
+                .or().eq(ZPermission::getPermissionType, PermissionTypeEnum.OTHER.getCode());
+        List<ZPermission> list2 = list(wrapper2);
+        return rolePermissionChildren(list, list2, "-1");
+    }
+
+    private List<ZRolePermissionDTO> rolePermissionChildren(List<ZPermission> zPermissions,
+                                                            List<ZPermission> buttonList, String parentId) {
+        return zPermissions.stream()
+                .filter(zPermission -> zPermission.getParentId().equals(parentId))
+                .map(perm -> {
+                    ZRolePermissionDTO zPermissionDTO = rolePermissionConvert.entityToDto(perm);
+                    // 查询按钮等列表
+                    zPermissionDTO.setButtonList(buttonList.stream()
+                            .filter(btn -> btn.getParentId().equals(zPermissionDTO.getPermissionId()))
+                            .collect(Collectors.toList()));
+                    // 迭代查询子菜单
+                    List<ZRolePermissionDTO> childrenList = rolePermissionChildren(zPermissions,
+                            buttonList, zPermissionDTO.getPermissionId());
+                    if (childrenList != null && childrenList.size() > 0) {
+                        zPermissionDTO.setChildren(childrenList);
                     }
                     return zPermissionDTO;
                 })

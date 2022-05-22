@@ -4,6 +4,7 @@ package com.kg.core.zpermission.controller;
 import com.kg.component.utils.GuidUtils;
 import com.kg.core.security.util.CurrentUserUtils;
 import com.kg.core.zpermission.dto.ZPermissionDTO;
+import com.kg.core.zpermission.dto.ZRolePermissionDTO;
 import com.kg.core.zpermission.entity.ZPermission;
 import com.kg.core.zpermission.service.IZPermissionService;
 import com.kg.core.zuser.entity.ZUser;
@@ -82,6 +83,15 @@ public class ZPermissionController {
     @PreAuthorize("hasAuthority('permission:tree:list')")
     public List<ZPermissionDTO> treeList() {
         return permissionService.treeList();
+    }
+
+    @ApiOperation(value = "permission/listForRole", notes = "角色分配权限列表", httpMethod = "GET")
+    @ApiImplicitParams({
+    })
+    @GetMapping("/listForRole")
+    @PreAuthorize("hasAuthority('permission:listForRole')")
+    public List<ZRolePermissionDTO> listForRole() {
+        return permissionService.listForRole();
     }
 
     @ApiOperation(value = "permission/list", notes = "查询资源列表", httpMethod = "GET")
