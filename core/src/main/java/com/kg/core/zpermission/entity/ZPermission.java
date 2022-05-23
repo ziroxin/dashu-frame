@@ -24,7 +24,7 @@ public class ZPermission implements BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("资源ID")
-    @TableId(value = "permission_id")
+    @TableId(value = "permission_id", type = IdType.ASSIGN_UUID)
     private String permissionId;
 
     @ApiModelProperty("父级ID")

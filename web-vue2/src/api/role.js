@@ -32,9 +32,10 @@ export function deleteRoles(data) {
   })
 }
 
-export function getPermissionList() {
+export function getPermissionList(params) {
   return request({
     url: '/permission/listForRole',
-    method: 'get'
+    method: 'get',
+    params
   })
 }

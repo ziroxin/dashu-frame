@@ -4,14 +4,13 @@
       <el-col :span="9">
         <!--        资源表格-->
         <div style="margin-bottom: 20px;">
-          <el-button @click="toggleTableOprate">{{ tableOprate }}</el-button>
+          <el-button @click="toggleTableOprate">全部{{isExpand?'收起':'展开'}}</el-button>
         </div>
         <div class="grid-content bg-purple">
           <el-table ref="permissionTable" v-loading="listLoading" :default-expand-all="isExpand"
                     style="width: 95%;margin-bottom: 20px;"
                     border :data="tableData" row-key="permissionId"
-                    highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-                    @current-change="handleCurrentChange">
+                    highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
             <el-table-column label="名称" sortable width="180px">
               <template v-slot="scope">
                 {{ scope.row.permissionTitle }}
@@ -76,7 +75,6 @@ export default {
   data() {
     return {
       isExpand: true,
-      tableOprate: '全部收起',
       currentPermissionId: '',
       selectPermissionApiList: [],
       activeNames: ['1', '2', '3', '4'],
@@ -95,10 +93,8 @@ export default {
     toggleTableOprate() {
       if (this.isExpand) {
         this.isExpand = false
-        this.tableOprate = '全部展开'
       } else {
         this.isExpand = true
-        this.tableOprate = '全部收起'
       }
       this.toggleRowExpansionAll(this.tableData, this.isExpand)
     },

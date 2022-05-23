@@ -27,5 +27,5 @@ public interface IZPermissionService extends IService<ZPermission> {
     List<ZPermission> getListById(String permissionId);
 
 
-    List<ZRolePermissionDTO> listForRole();
+    List<ZRolePermissionDTO> listForRole(String roleId);
 }

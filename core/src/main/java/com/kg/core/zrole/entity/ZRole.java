@@ -1,5 +1,6 @@
 package com.kg.core.zrole.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -24,7 +25,7 @@ public class ZRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("角色ID")
-    @TableId(value = "role_id")
+    @TableId(value = "role_id", type = IdType.ASSIGN_UUID)
     private String roleId;
 
     @ApiModelProperty("角色名称")

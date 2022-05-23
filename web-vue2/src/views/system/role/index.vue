@@ -22,7 +22,9 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
             <template v-slot="scope">
-              <el-button type="text" size="small" @click.native.prevent="setMyApi(scope.row.roleId)"> 设置权限</el-button>
+              <el-button type="text" size="small" @click="setMyApi(scope.row.roleId)">
+                设置权限
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -56,9 +58,12 @@
       </el-col>
       <el-col :span="15" style="padding-left: 20px;border-left: 1px solid #dedede;">
         <!--        资源权限表格-->
-        <el-table ref="permissionTable" style="width: 100%;"
-                  border :data="tableData2" row-key="permissionId"
-                  highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        <div style="margin-bottom: 20px;">
+          <el-button @click="toggleTableOprate">全部{{ isExpand ? '收起' : '展开' }}</el-button>
+        </div>
+        <el-table ref="permissionTable" style="width: 100%;" borderhighlight-current-row
+                  :default-expand-all="isExpand" :data="tableData2" row-key="permissionId"
+                  :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
           <el-table-column type="selection" width="40"/>
           <el-table-column label="路由/外链" sortable width="180px">
             <template v-slot="scope">
@@ -94,6 +99,7 @@ export default {
       totalCount: 0,
       tableData: [],
       tableSelectRows: [],
+      roleId: '',
       //添加修改弹窗
       titleMap: {add: '添加角色', update: '修改角色'},
       dialogType: '',
@@ -102,6 +108,7 @@ export default {
       //右侧资源列表数据
       tableData2: [],
       currentRow: 0,
+      isExpand: true,
       selectPermissionApiList: []
     }
   },
@@ -213,9 +220,42 @@ export default {
     },
     //加载资源列表树
     loadPermissionTreeList() {
-      getPermissionList().then(response => {
-        console.dir(response.data)
-        this.tableData2 = response.data
+      let params = this.roleId === '' ? {} : {'roleId': this.roleId}
+      getPermissionList(params).then(response => {
+        const {data} = response
+        this.tableData2 = data
+        this.toggleRowSelectionAll(this.tableData2)
+      })
+    },
+    //展开和收起
+    toggleTableOprate() {
+      if (this.isExpand) {
+        this.isExpand = false
+      } else {
+        this.isExpand = true
+      }
+      this.toggleRowExpansionAll(this.tableData2, this.isExpand)
+    },
+    toggleRowExpansionAll(data, isExpansion) {
+      data.forEach((item) => {
+        this.$refs.permissionTable.toggleRowExpansion(item, isExpansion);
+        if (item.children !== undefined && item.children !== null) {
+          this.toggleRowExpansionAll(item.children, isExpansion);
+        }
+      });
+    },
+    //设置权限按钮
+    setMyApi(roleId) {
+      this.roleId = roleId
+      this.loadPermissionTreeList()
+    },
+    toggleRowSelectionAll(data) {
+      data.forEach(item => {
+        console.log(item.hasPermission, item.permissionTitle)
+        this.$refs.permissionTable.toggleRowSelection(item, item.hasPermission);
+        if (item.children !== undefined && item.children !== null) {
+          this.toggleRowSelectionAll(item.children);
+        }
       })
     }
   }

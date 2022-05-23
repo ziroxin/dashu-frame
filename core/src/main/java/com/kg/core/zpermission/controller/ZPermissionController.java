@@ -90,10 +90,9 @@ public class ZPermissionController {
     })
     @GetMapping("/listForRole")
     @PreAuthorize("hasAuthority('permission:listForRole')")
-    public List<ZRolePermissionDTO> listForRole() {
-        return permissionService.listForRole();
+    public List<ZRolePermissionDTO> listForRole(String roleId) {
+        return permissionService.listForRole(roleId);
     }
-
 
     @ApiOperation(value = "permission/treeList", notes = "查询资源树表格", httpMethod = "GET")
     @ApiImplicitParams({})

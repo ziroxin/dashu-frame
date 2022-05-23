@@ -1,5 +1,6 @@
 package com.kg.core.zapi.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -26,7 +27,7 @@ public class ZApi implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("API ID")
-    @TableId
+    @TableId(value = "api_id", type = IdType.ASSIGN_UUID)
     private String apiId;
 
     @ApiModelProperty("API分组ID")
