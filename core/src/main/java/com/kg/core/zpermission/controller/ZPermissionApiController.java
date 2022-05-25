@@ -53,7 +53,7 @@ public class ZPermissionApiController {
         return null;
     }
 
-    @ApiOperation(value = "permission/api/savePermissionApi", notes = "保存资源和API关联关系", httpMethod = "GET")
+    @ApiOperation(value = "permission/api/savePermissionApi", notes = "保存资源和API关联关系", httpMethod = "POST")
     @PostMapping("savePermissionApi")
     @PreAuthorize("hasAuthority('permission:api:savePermissionApi')")
     public void savePermissionApi(@RequestBody ZPermissionApiDTO permissionApiDTO) {

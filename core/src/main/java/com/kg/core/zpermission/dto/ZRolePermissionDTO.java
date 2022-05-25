@@ -67,7 +67,7 @@ public class ZRolePermissionDTO implements BaseDTO {
     // 子资源
     private List<ZRolePermissionDTO> children;
     // 按钮等其他资源
-    private List<ZPermission> buttonList;
+    private List<ZRolePermissionDTO> buttonList;
     // 角色是否有此权限
     private boolean hasPermission;
 

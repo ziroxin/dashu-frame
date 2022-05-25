@@ -39,3 +39,11 @@ export function getPermissionList(params) {
     params
   })
 }
+
+export function saveRolePermission(data) {
+  return request({
+    url: '/role/permission/saveRolePermission',
+    method: 'post',
+    data
+  })
+}

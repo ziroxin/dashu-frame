@@ -56,7 +56,7 @@ module.exports = {
     'indent': [0, 2, {
       'SwitchCase': 1
     }],
-    'jsx-quotes': [2, 'prefer-single'],
+    'jsx-quotes': [0, 'prefer-single'],
     'key-spacing': [0, {
       'beforeColon': false,
       'afterColon': true
@@ -179,7 +179,7 @@ module.exports = {
       'words': true,
       'nonwords': false
     }],
-    'spaced-comment': [2, 'always', {
+    'spaced-comment': [0, 'always', {
       'markers': ['global', 'globals', 'eslint', 'eslint-disable', '*package', '!', ',']
     }],
     'template-curly-spacing': [0, 'never'],
@@ -188,7 +188,7 @@ module.exports = {
     'wrap-iife': [2, 'any'],
     'yield-star-spacing': [0, 'both'],
     'yoda': [2, 'never'],
-    'prefer-const': 2,
+    'prefer-const': 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'object-curly-spacing': [0, 'never', {
       objectsInObjects: false

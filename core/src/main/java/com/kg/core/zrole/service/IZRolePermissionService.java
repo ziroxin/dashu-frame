@@ -1,5 +1,6 @@
 package com.kg.core.zrole.service;
 
+import com.kg.core.zrole.dto.ZRolePermissionSaveDTO;
 import com.kg.core.zrole.entity.ZRolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZRolePermissionService extends IService<ZRolePermission> {
 
+    /**
+     * 保存角色权限关系
+     */
+    void saveRolePermission(ZRolePermissionSaveDTO rolePermissionSaveDTO);
 }

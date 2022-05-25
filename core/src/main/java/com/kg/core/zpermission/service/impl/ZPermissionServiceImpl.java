@@ -146,6 +146,9 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 角色权限列表树
+     */
     @Override
     public List<ZRolePermissionDTO> listForRole(String roleId) {
         // 角色拥有的权限列表
@@ -181,7 +184,20 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
                     // 查询按钮等列表
                     zPermissionDTO.setButtonList(buttonList.stream()
                             .filter(btn -> btn.getParentId().equals(zPermissionDTO.getPermissionId()))
+                            .map(btnPerm -> {
+                                ZRolePermissionDTO btnPermDTO = rolePermissionConvert.entityToDto(btnPerm);
+                                // 按钮权限
+                                if (rolePermissionList != null && rolePermissionList.contains(btnPerm.getPermissionId())) {
+                                    // 有权限
+                                    btnPermDTO.setHasPermission(true);
+                                } else {
+                                    // 无权限
+                                    btnPermDTO.setHasPermission(false);
+                                }
+                                return btnPermDTO;
+                            })
                             .collect(Collectors.toList()));
+                    // 子菜单权限
                     if (rolePermissionList != null && rolePermissionList.contains(zPermissionDTO.getPermissionId())) {
                         // 有权限
                         zPermissionDTO.setHasPermission(true);
