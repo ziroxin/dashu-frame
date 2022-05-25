@@ -4,7 +4,7 @@
       <el-col :span="9">
         <!--        资源表格-->
         <div style="margin-bottom: 20px;">
-          <el-button @click="toggleTableOprate">全部{{isExpand?'收起':'展开'}}</el-button>
+          <el-button @click="toggleTableOprate" v-permission="'abcdefg'">全部{{isExpand?'收起':'展开'}}</el-button>
         </div>
         <div class="grid-content bg-purple">
           <el-table ref="permissionTable" v-loading="listLoading" :default-expand-all="isExpand"
@@ -15,7 +15,7 @@
               <template v-slot="scope">
                 {{ scope.row.permissionTitle }}
                 <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
-                <el-tag v-if="scope.row.permissionType === '1'" disable-transitions type="info">按钮</el-tag>
+                <el-tag v-if="scope.row.permissionType === '1'" disable-transitions type="warning">按钮</el-tag>
                 <el-tag v-if="scope.row.permissionType === '2'" disable-transitions type="success">外链</el-tag>
                 <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="danger">其他</el-tag>
               </template>

@@ -28,7 +28,7 @@ const mutations = {
     state.perrouters = perrouters
   },
   SET_PERMISSIONS: (state, permissions) => {
-    state.permissios = permissions
+    state.permissions = permissions
   }
 }
 

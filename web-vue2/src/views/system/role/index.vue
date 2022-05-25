@@ -10,14 +10,12 @@
         </div>
         <!--        角色管理表格-->
         <el-table ref="roleTable" :data="tableData" stripe style="width: 95%" border
-                  @selection-change="handleTableSelectChange"
-        >
-          <el-table-column type="selection" width="50" align="center" title-align="center" />
+                  @selection-change="handleTableSelectChange">
+          <el-table-column type="selection" width="50" align="center" header-align="center"/>
           <el-table-column label="角色" align="center">
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="right" :title="scope.row.roleName+'（'+scope.row.roleOrder+'）'"
-                          :content="'描述：'+scope.row.roleDescription"
-              >
+                          :content="'描述：'+scope.row.roleDescription">
                 <span slot="reference" style="cursor: pointer;">{{ scope.row.roleName }}</span>
               </el-popover>
             </template>
@@ -33,31 +31,26 @@
         <!--        分页-->
         <el-pagination style="text-align: center;" background layout="total, pager"
                        :page-size="pager.limit" :current-page="pager.page"
-                       :total="totalCount" @current-change="handleCurrentChange"
-        />
+                       :total="totalCount" @current-change="handleCurrentChange"/>
         <!--        添加修改弹窗-->
         <el-dialog :title="titleMap[dialogType]" :visible.sync="dialogFormVisible">
           <el-form ref="roleDateForm" :model="temp" label-position="left" label-width="100px"
-                   style="width: 500px; margin-left: 50px;"
-          >
+                   style="width: 500px; margin-left: 50px;">
             <el-form-item label="角色名称" prop="roleName" :rules="{required: true, message: '角色名称不能为空'}">
-              <el-input v-model="temp.roleName" />
+              <el-input v-model="temp.roleName"/>
             </el-form-item>
             <el-form-item label="角色描述" prop="roleDescription">
-              <el-input v-model="temp.roleDescription" type="textarea" />
+              <el-input type="textarea" v-model="temp.roleDescription"/>
             </el-form-item>
             <el-form-item label="角色顺序" prop="roleOrder"
-                          :rules="[{required: true, message: '角色顺序不能为空'},{type: 'number', message: '必须为数字'}]"
-            >
-              <el-input v-model.number="temp.roleOrder" />
+                          :rules="[{required: true, message: '角色顺序不能为空'},{type: 'number', message: '必须为数字'}]">
+              <el-input v-model.number="temp.roleOrder"/>
             </el-form-item>
           </el-form>
-
           <div slot="footer" class="dialog-footer">
             <el-button type="primary" @click="saveRoles">保存</el-button>
             <el-button @click="dialogFormVisible=false">取消</el-button>
           </div>
-
         </el-dialog>
       </el-col>
       <el-col :span="15" style="padding-left: 20px;border-left: 1px solid #dedede;">
@@ -69,9 +62,8 @@
         <el-table ref="permissionTable" style="width: 100%;" borderhighlight-current-row
                   :default-expand-all="isExpand" :data="tableData2" row-key="permissionId"
                   :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-                  @selection-change="handleTable2SelectChange"
-        >
-          <el-table-column type="selection" width="50" align="center" title-align="center" />
+                  @selection-change="handleTable2SelectChange">
+          <el-table-column type="selection" width="50" align="center" header-align="center" />
           <el-table-column label="路由/外链" sortable width="180px">
             <template v-slot="scope">
               {{ scope.row.permissionTitle }}
@@ -83,8 +75,7 @@
             <template v-slot="scope">
               <el-checkbox-group v-model="selectPermissionApiList" style="line-height: 50px;">
                 <el-checkbox v-for="perm in scope.row.buttonList" :key="perm.permissionId"
-                             :label="perm.permissionId" border style="margin-left: 0px!important;"
-                >
+                             :label="perm.permissionId" border style="margin-left: 0px!important;">
                   {{ perm.permissionTitle }}
                 </el-checkbox>
               </el-checkbox-group>

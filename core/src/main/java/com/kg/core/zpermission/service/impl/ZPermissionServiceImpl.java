@@ -71,7 +71,7 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
     // 迭代查询子菜单
     private List<ZPermissionDTO> getChildrenPermission(List<ZPermission> zPermissions, String parentId) {
         return zPermissions.stream()
-                .filter(zPermission -> zPermission.getParentId().equals(parentId))
+                .filter(zPermission -> StringUtils.hasText(zPermission.getParentId()) && zPermission.getParentId().equals(parentId))
                 .map(perm -> {
                     ZPermissionDTO zPermissionDTO = permissionConvert.entityToDto(perm);
                     String type = zPermissionDTO.getPermissionType();
@@ -115,18 +115,18 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
         List<String> list2 = new ArrayList<>();
         list2.add("0");
         list2.add("2");
-        return permissionTreeListChildren(list, list2,"-1");
+        return permissionTreeListChildren(list, list2, "-1");
     }
 
     // 迭代查询子菜单二号
-    private List<ZPermissionDTO> permissionTreeListChildren(List<ZPermission> zPermissions, List<String> list2,String parentId) {
+    private List<ZPermissionDTO> permissionTreeListChildren(List<ZPermission> zPermissions, List<String> list2, String parentId) {
         return zPermissions.stream()
-                .filter(zPermission -> zPermission.getParentId().equals(parentId))
+                .filter(zPermission -> StringUtils.hasText(zPermission.getParentId()) && zPermission.getParentId().equals(parentId))
                 .filter(zPermission -> list2.contains(zPermission.getPermissionType()))
                 .map(perm -> {
                     ZPermissionDTO zPermissionDTO = permissionConvert.entityToDto(perm);
                     // 迭代查询子菜单
-                    List<ZPermissionDTO> childernList = permissionTreeListChildren(zPermissions,list2,zPermissionDTO.getPermissionId());
+                    List<ZPermissionDTO> childernList = permissionTreeListChildren(zPermissions, list2, zPermissionDTO.getPermissionId());
                     if (childernList != null && childernList.size() > 0) {
                         zPermissionDTO.setChildren(childernList);
                     }

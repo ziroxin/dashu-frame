@@ -22,6 +22,8 @@ import './utils/error-log'
 
 // 导入全局filters
 import * as filters from './filters'
+// 导入权限指令
+import permission from "@/directive/permission";
 
 // todo: 使用mock模拟数据，框架梳理好后，删除引入
 if (process.env.NODE_ENV === 'production') {
@@ -40,6 +42,8 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+// 注册权限指令
+Vue.directive('permission', permission)
 
 // 开发时不提示生产环境
 Vue.config.productionTip = false
