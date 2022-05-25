@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询
-export function permissionList() {
+export function permissionTreeList() {
   return request({
     url: '/permission/treeList',
     method: 'get'

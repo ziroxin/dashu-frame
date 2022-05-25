@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,17 +112,21 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
         QueryWrapper<ZPermission> wrapper = new QueryWrapper<>();
         wrapper.lambda().orderByAsc(ZPermission::getPermissionOrder);
         List<ZPermission> list = list(wrapper);
-        return permissionTreeListChildren(list, "-1");
+        List<String> list2 = new ArrayList<>();
+        list2.add("0");
+        list2.add("2");
+        return permissionTreeListChildren(list, list2,"-1");
     }
 
     // 迭代查询子菜单二号
-    private List<ZPermissionDTO> permissionTreeListChildren(List<ZPermission> zPermissions, String parentId) {
+    private List<ZPermissionDTO> permissionTreeListChildren(List<ZPermission> zPermissions, List<String> list2,String parentId) {
         return zPermissions.stream()
                 .filter(zPermission -> zPermission.getParentId().equals(parentId))
+                .filter(zPermission -> list2.contains(zPermission.getPermissionType()))
                 .map(perm -> {
                     ZPermissionDTO zPermissionDTO = permissionConvert.entityToDto(perm);
                     // 迭代查询子菜单
-                    List<ZPermissionDTO> childernList = permissionTreeListChildren(zPermissions, zPermissionDTO.getPermissionId());
+                    List<ZPermissionDTO> childernList = permissionTreeListChildren(zPermissions,list2,zPermissionDTO.getPermissionId());
                     if (childernList != null && childernList.size() > 0) {
                         zPermissionDTO.setChildren(childernList);
                     }
@@ -177,7 +182,9 @@ public class ZPermissionServiceImpl extends ServiceImpl<ZPermissionMapper, ZPerm
     private List<ZRolePermissionDTO> rolePermissionChildren(
             List<ZPermission> zPermissions, List<ZPermission> buttonList,
             List<String> rolePermissionList, String parentId) {
+        //.stream,将数据转化为流
         return zPermissions.stream()
+                //.filter,过滤出元素
                 .filter(zPermission -> zPermission.getParentId().equals(parentId))
                 .map(perm -> {
                     ZRolePermissionDTO zPermissionDTO = rolePermissionConvert.entityToDto(perm);

@@ -1,21 +1,23 @@
 <template>
-  <div>
+  <div class="app-container">
     <!--    操作按钮  -->
     <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionButtonAdd">新增</el-button>
     <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionButtonUpdate">修改</el-button>
-    <el-button type="danger" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionButtonDelete">删除</el-button>
+    <el-button type="danger" icon="el-icon-delete" style="margin-bottom: 20px;" @click="permissionButtonDelete">删除</el-button>
 
     <!--   表格部分 -->
     <el-table :data="tableData" style="margin-bottom: 20px;" border @selection-change="selectionChangeHandlerOrder">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="permissionTitle" label="按键名称" sortable />
       <el-table-column label="操作">
-        <el-button type="text">接口</el-button>
+        <template>
+          <el-button type="text">接口</el-button>
+        </template>
       </el-table-column>
     </el-table>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="100px" style="width: 500px;margin-left: 50px;">
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px;margin-left: 50px;">
 
         <el-form-item label="资源名称：" prop="permissionName">
           <el-input v-model="temp.permissionName" />
@@ -68,7 +70,7 @@ import IconPicker from '@/views/menu/component/IconPicker/index';
 export default {
   name: 'PermissionButton',
   components: {IconPicker},
-  props: ['buttonTableData'],
+  props:['buttonTableData'],
   data() {
     return {
       tableData: [],
@@ -82,10 +84,25 @@ export default {
       permissionIds: [],
       // 对话框属性
       dialogStatus: '',
-      textMap: {update: '修改', create: '新增', subordinates: '添加下级'},
+      textMap: {update: '修改', create: '新增'},
       // 对话框弹出控制
       dialogFormVisible: false,
-      temp:[]
+      // 接口表格显示控制
+      apiTableVisible: false,
+      temp:[],
+      rules:{
+        permissionName: [{ required: true, message: '请填写资源名称', trigger: 'blur' }],
+        permissionTitle: [{ required: true, message: '请填写资源标题', trigger: 'blur' }],
+        permissionRouter: [{ required: true, message: '请填写资源标记', trigger: 'blur' }],
+        permissionComponent: [{ required: true, message: '请填写组件地址', trigger: 'blur' }],
+        permissionOrder: [{ required: true, message: '请填写资源顺序', trigger: 'blur' }, { type: 'number', message: '请填写数字'}]
+      }
+    }
+  },
+  watch: {
+    //监听数据改变更新表格
+    buttonTableData(v) {
+      this.getList()
     }
   },
   created() {
@@ -99,7 +116,7 @@ export default {
     },
     // 查询数据
     getList() {
-      getListById(this.buttonTableData.permissionId).then(response => {
+      getListById(this.buttonTableData).then(response => {
         this.listLoading = true
         this.tableData = response.data
         this.listLoading = false
@@ -203,6 +220,7 @@ export default {
         }
       })
     },
+    //删除按钮数据
     permissionButtonDelete() {
       if (this.changeData.length <= 0) {
         this.$message({

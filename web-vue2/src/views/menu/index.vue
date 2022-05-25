@@ -6,7 +6,7 @@
         <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionAdd">新增</el-button>
         <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionUpdate">修改
         </el-button>
-        <el-button type="danger" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionDelete">删除
+        <el-button type="danger" icon="el-icon-delete" style="margin-bottom: 20px;" @click="permissionDelete">删除
         </el-button>
 
         <!-- 表格部分 -->
@@ -19,9 +19,7 @@
             <template v-slot="scope">
               {{ scope.row.permissionTitle }}
               <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
-              <el-tag v-if="scope.row.permissionType === '1'" disable-transitions type="warning">按钮</el-tag>
               <el-tag v-if="scope.row.permissionType === '2'" disable-transitions type="success">外链</el-tag>
-              <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="info">其他</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="permissionRouter" label="资源标记" sortable width="220" />
@@ -37,13 +35,13 @@
         </el-table>
       </el-col>
 
-      <el-col v-if="buttontableVisible" :span="10">
-        <PermissionButton :button-table-data="buttonTableData" />
+      <el-col v-if="buttonTableVisible" :span="12">
+        <PermissionButton v-model="buttonTableData" :button-table-data="buttonTableData" />
       </el-col>
     </el-row>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="100px"
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="100px"
                style="width: 500px; margin-left: 50px;"
       >
         <el-form-item label="资源名称：" prop="permissionName">
@@ -63,7 +61,7 @@
           <el-input v-model="temp.permissionTitle" />
         </el-form-item>
 
-        <el-form-item label="资源图标：" prop="permissionComponent">
+        <el-form-item label="资源图标：" prop="permissionIcon">
           <IconPicker v-model="temp.permissionIcon" :icon="temp.permissionIcon" @iconName="getIconName" />
         </el-form-item>
 
@@ -76,7 +74,7 @@
         </el-form-item>
 
         <el-form-item label="资源顺序：" prop="permissionOrder">
-          <el-input v-model="temp.permissionOrder" />
+          <el-input v-model.number="temp.permissionOrder" :permission-order="temp.permissionOrder" />
         </el-form-item>
       </el-form>
 
@@ -91,13 +89,11 @@
   </div>
 </template>
 <script>
-import {permissionAdd, permissionDelete, permissionList, permissionUpdate} from '@/api/permission.js'
+import {permissionAdd, permissionDelete, permissionList, permissionUpdate,permissionTreeList} from '@/api/permission.js'
 // 引入图标选择器
 import IconPicker from './component/IconPicker/index';
 // 引入按钮组件
 import PermissionButton from './component/permissionButton/index'
-
-import {permissionTreeList} from '@/api/api';
 
 export default {
   components: {IconPicker, PermissionButton},
@@ -114,16 +110,24 @@ export default {
       // 勾选的ID
       permissionIds: [],
       // 传给按钮组件的数据
-      buttonTableData: {},
+      buttonTableData: '',
       // 对话框属性
       dialogStatus: '',
       textMap: {update: '修改', create: '新增', subordinates: '添加下级'},
       // 对话框弹出控制
       dialogFormVisible: false,
       // 按钮表格显示控制
-      buttontableVisible: false,
+      buttonTableVisible: false,
+      //<el-col>的span值
       elColSpanValue: 17,
-      temp: {}
+      temp: {},
+      rules:{
+        permissionName: [{ required: true, message: '请填写资源名称', trigger: 'blur' }],
+        permissionTitle: [{ required: true, message: '请填写资源标题', trigger: 'blur' }],
+        permissionRouter: [{ required: true, message: '请填写资源标记', trigger: 'blur' }],
+        permissionComponent: [{ required: true, message: '请填写组件地址', trigger: 'blur' }],
+        permissionOrder: [{ required: true, message: '请填写资源顺序', trigger: 'blur' }, { type: 'number', message: '请填写数字'}]
+      }
     }
   },
   created() {
@@ -131,6 +135,7 @@ export default {
     this.resetTemp();
   },
   methods: {
+    //查询下拉树
     async getPermissionTreeList() {
       this.listLoading = true
       const {data} = await permissionTreeList()
@@ -316,17 +321,11 @@ export default {
         this.createData()
       }
     },
+    //点击按钮后
     openButtonTable(row) {
-      if (row.permissionType === '1') {
-        this.$message({
-          message:'按钮上无法添加按钮！',
-          type:'warning'
-        })
-      }else{
-        this.buttontableVisible = true
-        this.elColSpanValue = 14
-        this.buttonTableData = row
-      }
+        this.buttonTableVisible = true
+        this.elColSpanValue = 12
+        this.buttonTableData = row.permissionId
     }
   }
 }
