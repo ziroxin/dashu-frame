@@ -65,7 +65,7 @@
 <script>
 import {getListById, permissionAdd, permissionDelete, permissionUpdate} from '@/api/permission'
 // 引入图标选择器
-import IconPicker from '@/views/menu/component/IconPicker/index';
+import IconPicker from '@/views/system/menu/IconPicker/index';
 
 export default {
   name: 'PermissionButton',
