@@ -21,3 +21,36 @@ export function logout() {
     method: 'get'
   })
 }
+
+export function getUserList(params) {
+  return request({
+    url: '/user/list',
+    method: 'get',
+    params
+  })
+}
+
+export function userAdd(data) {
+  console.log(data)
+  return request({
+    url: '/user/add',
+    method: 'post',
+    data
+  })
+}
+
+export function userUpdate(data) {
+  return request({
+    url: '/user/update',
+    method: 'post',
+    data
+  })
+}
+
+export function userDelete(data) {
+  return request({
+    url: '/user/delete',
+    method: 'delete',
+    data
+  })
+}
