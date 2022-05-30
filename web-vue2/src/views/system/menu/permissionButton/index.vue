@@ -1,63 +1,60 @@
 <template>
-  <div class="app-container">
+  <div class="">
     <!--    操作按钮  -->
-    <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionButtonAdd">新增</el-button>
-    <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;" @click="permissionButtonUpdate">修改</el-button>
-    <el-button type="danger" icon="el-icon-delete" style="margin-bottom: 20px;" @click="permissionButtonDelete">删除</el-button>
-
+    <div style="margin: 10px 0px;text-align: center;">
+      <el-button type="primary" icon="el-icon-plus" circle @click="permissionButtonAdd" />
+      <el-button type="info" icon="el-icon-edit" circle @click="permissionButtonUpdate" />
+      <el-button type="danger" icon="el-icon-delete" circle @click="permissionButtonDelete" />
+      <el-button type="warning" icon="el-icon-close" circle @click="permissionButtonClose" />
+    </div>
     <!--   表格部分 -->
     <el-table :data="tableData" style="margin-bottom: 20px;" border @selection-change="selectionChangeHandlerOrder">
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="permissionTitle" label="按键名称" sortable />
-      <el-table-column label="操作">
-        <template>
-          <el-button type="text">接口</el-button>
+      <el-table-column type="selection" width="55" header-align="center" align="center" />
+      <el-table-column label="元素名称" header-align="center" align="center">
+        <template slot-scope="{row}">
+          <el-tooltip :key="'tip'+row.permissionId" placement="bottom">
+            <div slot="content" :key="'tipcontent'+row.permissionId" style="line-height: 30px;">
+              名称：{{ row.permissionTitle }}
+              标签：{{ row.permissionName }}
+              <br>描述：{{ row.permissionDescription }}
+            </div>
+            <div style="cursor: pointer;">
+              {{ row.permissionTitle }}
+            </div>
+          </el-tooltip>
         </template>
       </el-table-column>
+      <el-table-column prop="permissionOrder" label="顺序" width="80" sortable align="center" />
     </el-table>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="100px" style="width: 500px;margin-left: 50px;">
-
-        <el-form-item label="资源名称：" prop="permissionName">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="right" label-width="100px"
+               style="width: 500px;margin-left: 50px;"
+      >
+        <el-form-item label="名称：" prop="permissionTitle">
+          <el-input v-model="temp.permissionTitle" />
+        </el-form-item>
+        <el-form-item label="标记：" prop="permissionName">
           <el-input v-model="temp.permissionName" />
         </el-form-item>
-
-        <el-form-item label="资源描述：" prop="permissionName">
-          <el-input v-model="temp.permissionDescription" />
+        <el-form-item label="描述：" prop="permissionDescription">
+          <el-input v-model="temp.permissionDescription" type="textarea" />
         </el-form-item>
-
-        <el-form-item label="资源类型：" prop="permissionType">
+        <el-form-item label="类型：" prop="permissionType">
           <el-radio v-model="temp.permissionType" label="1">按钮</el-radio>
           <el-radio v-model="temp.permissionType" label="3">其他</el-radio>
         </el-form-item>
-
-        <el-form-item label="资源标题：" prop="permissionTitle">
-          <el-input v-model="temp.permissionTitle" />
-        </el-form-item>
-
-        <el-form-item label="资源图标：" prop="permissionComponent">
+        <el-form-item label="图标：" prop="permissionIcon">
           <IconPicker v-model="temp.permissionIcon" :icon="temp.permissionIcon" @iconName="getIconName" />
         </el-form-item>
-
-        <el-form-item label="资源标记：" prop="permissionRouter">
-          <el-input v-model="temp.permissionRouter" />
-        </el-form-item>
-
-        <el-form-item label="组件地址：" prop="permissionComponent">
-          <el-input v-model="temp.permissionComponent" />
-        </el-form-item>
-
-        <el-form-item label="资源顺序：" prop="permissionOrder">
-          <el-input v-model="temp.permissionOrder" />
+        <el-form-item label="顺序：" prop="permissionOrder">
+          <el-input v-model.number="temp.permissionOrder" />
         </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">保存</el-button>
         <el-button @click="dialogFormVisible=false">取消</el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">提交</el-button>
       </div>
-
     </el-dialog>
   </div>
 </template>
@@ -70,7 +67,7 @@ import IconPicker from '@/views/system/menu/IconPicker/index';
 export default {
   name: 'PermissionButton',
   components: {IconPicker},
-  props:['buttonTableData'],
+  props: ['currentPermissionId', 'closeButtonTable'],
   data() {
     return {
       tableData: [],
@@ -89,19 +86,17 @@ export default {
       dialogFormVisible: false,
       // 接口表格显示控制
       apiTableVisible: false,
-      temp:[],
-      rules:{
-        permissionName: [{ required: true, message: '请填写资源名称', trigger: 'blur' }],
-        permissionTitle: [{ required: true, message: '请填写资源标题', trigger: 'blur' }],
-        permissionRouter: [{ required: true, message: '请填写资源标记', trigger: 'blur' }],
-        permissionComponent: [{ required: true, message: '请填写组件地址', trigger: 'blur' }],
-        permissionOrder: [{ required: true, message: '请填写资源顺序', trigger: 'blur' }, { type: 'number', message: '请填写数字'}]
+      temp: [],
+      rules: {
+        permissionName: [{required: true, message: '请填写标记', trigger: 'blur'}],
+        permissionTitle: [{required: true, message: '请填写名称', trigger: 'blur'}],
+        permissionOrder: [{required: true, message: '请填写顺序', trigger: 'blur'}, {type: 'number', message: '请填写数字'}]
       }
     }
   },
   watch: {
     //监听数据改变更新表格
-    buttonTableData(v) {
+    currentPermissionId() {
       this.getList()
     }
   },
@@ -116,7 +111,7 @@ export default {
     },
     // 查询数据
     getList() {
-      getListById(this.buttonTableData).then(response => {
+      getListById(this.currentPermissionId).then(response => {
         this.listLoading = true
         this.tableData = response.data
         this.listLoading = false
@@ -126,14 +121,12 @@ export default {
     resetTemp() {
       this.temp = {
         permissionId: '',
-        parentId: '-1',
+        parentId: this.currentPermissionId,
         permissionName: '',
         permissionDescription: '',
         permissionType: '1',
         permissionTitle: '',
         permissionIcon: '',
-        permissionRouter: '',
-        permissionComponent: '',
         permissionIsShow: '1',
         permissionIsEnabled: '1',
         permissionOrder: 0
@@ -143,10 +136,9 @@ export default {
     getIconName(value) {
       this.temp.permissionIcon = value;
     },
-  //  点击添加按钮后
+    //  点击添加按钮后
     permissionButtonAdd() {
       this.resetTemp()
-      this.temp.parentId = this.buttonTableData.permissionId
       this.dialogFormVisible = true
       this.dialogStatus = 'create'
       this.$nextTick(() => {
@@ -155,7 +147,7 @@ export default {
     },
     // 提交添加数据
     createData() {
-      this.$refs['dataForm'].validate((valid) =>{
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           permissionAdd(this.temp).then(response => {
             this.dialogFormVisible = false
@@ -179,17 +171,17 @@ export default {
     permissionButtonUpdate() {
       if (this.changeData.length <= 0) {
         this.$message({
-          message:'请选择一条数据进行修改',
-          type:'warning'
+          message: '请选择一条数据进行修改',
+          type: 'warning'
         })
-      }else if (this.changeData.length > 1) {
+      } else if (this.changeData.length > 1) {
         this.$message({
-          message:'修改时只允许选择一条数据',
-          type:'warning'
+          message: '修改时只允许选择一条数据',
+          type: 'warning'
         })
-      }else{
+      } else {
         const changeData = this.changeData
-        this.temp = Object.assign({},changeData[0])
+        this.temp = Object.assign({}, changeData[0])
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
         this.$nextTick(() => {
@@ -200,7 +192,7 @@ export default {
     },
     // 提交修改数据
     updateData() {
-      this.$refs['dataForm'].validate((valid) =>{
+      this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           permissionUpdate(this.temp).then(response => {
             this.dialogFormVisible = false
@@ -224,20 +216,20 @@ export default {
     permissionButtonDelete() {
       if (this.changeData.length <= 0) {
         this.$message({
-          message:'请选择一条数据进行删除!',
-          type:'warning'
+          message: '请选择一条数据进行删除!',
+          type: 'warning'
         })
-      }else{
+      } else {
         const changeData = this.changeData
-        this.$confirm('此操作将永久删除该文件, 是否继续?','提示',{
-          confirmButtonText:'确定',
-          cancelButtonText:'取消',
-          type:'warning'
-        }).then(() =>{
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
           for (var i = 0; i < changeData.length; i++) {
             this.permissionIds.push(changeData[i].permissionId)
           }
-          permissionDelete(this.permissionIds).then(response =>{
+          permissionDelete(this.permissionIds).then(response => {
             if (response.data) {
               this.$message({
                 type: 'success',
@@ -251,13 +243,17 @@ export default {
               });
             }
           })
-        }).catch(() =>{
+        }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
           });
         })
       }
+    },
+    // 关闭
+    permissionButtonClose() {
+      this.closeButtonTable()
     }
   }
 }

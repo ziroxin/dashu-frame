@@ -3,92 +3,79 @@
     <el-row :gutter="24">
       <el-col :span="elColSpanValue">
         <!--  操作按钮  -->
-        <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;"
-                   @click="permissionAdd">新增
-        </el-button>
-        <el-button type="primary" icon="el-icon-edit" style="margin-bottom: 20px;"
-                   @click="permissionUpdate">修改
-        </el-button>
-        <el-button type="danger" icon="el-icon-delete" style="margin-bottom: 20px;"
-                   @click="permissionDelete">删除
-        </el-button>
+        <div style="margin-bottom: 20px;">
+          <el-button type="primary" icon="el-icon-plus" @click="permissionAdd">新增
+          </el-button>
+          <el-button type="info" icon="el-icon-edit" @click="permissionUpdate">修改
+          </el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="permissionDelete">删除
+          </el-button>
+        </div>
         <!-- 表格部分 -->
         <el-table :data="tableData" row-key="permissionId" style="margin-bottom: 20px;" border
                   :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
-                  @selection-change="selectionChangeHandlerOrder">
-          <el-table-column type="selection" width="50" header-align="center" align="center"/>
-          <el-table-column prop="permissionTitle" label="资源标题" sortable width="220">
+                  @selection-change="selectionChangeHandlerOrder"
+        >
+          <el-table-column type="selection" width="50" header-align="center" align="center" />
+          <el-table-column prop="permissionTitle" label="资源标题" sortable>
             <template v-slot="scope">
               <li class="menu-item">
-                <item :icon="scope.row.permissionIcon" :title="scope.row.permissionTitle"/>
+                <item :icon="scope.row.permissionIcon" :title="scope.row.permissionTitle" />
                 <el-tag v-if="scope.row.permissionType === '0'" disable-transitions>路由</el-tag>
                 <el-tag v-if="scope.row.permissionType === '2'" disable-transitions type="success">外链</el-tag>
               </li>
             </template>
           </el-table-column>
-          <el-table-column prop="permissionRouter" label="资源标记" sortable width="160"/>
-          <el-table-column prop="permissionComponent" label="组件" sortable width="220"/>
-          <el-table-column fixed="right" label="操作" width="160">
+          <el-table-column prop="permissionRouter" label="资源标记" sortable />
+          <el-table-column prop="permissionComponent" label="组件" sortable />
+          <el-table-column fixed="right" label="操作" width="160" header-align="center" align="center">
             <template slot-scope="{row}">
-              <el-button type="text" @click="openButtonTable(row)">按钮</el-button>
-              <el-button type="text">接口</el-button>
               <el-button type="text" @click="subordinatesAdd(row)">添加下级</el-button>
+              <el-button type="text" @click="openButtonTable(row)">按钮</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
-
-      <el-col v-if="buttonTableVisible" :span="12">
-        <PermissionButton v-model="buttonTableData" :button-table-data="buttonTableData"/>
+      <el-col v-if="buttonTableVisible" :span="8" :style="rightStyle">
+        <PermissionButton :current-permission-id="currentPermissionId" :close-button-table="closeButtonTable" />
       </el-col>
     </el-row>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="left" label-width="100px"
+      <el-form ref="dataForm" :model="temp" :rules="rules" label-position="right" label-width="100px"
                style="width: 500px; margin-left: 50px;"
       >
-        <el-form-item label="资源名称：" prop="permissionName">
-          <el-input v-model="temp.permissionName"/>
+        <el-form-item label="菜单类型：" prop="permissionType">
+          <el-radio v-model="temp.permissionType" label="0" @change="toggleRouterShow">路由</el-radio>
+          <el-radio v-model="temp.permissionType" label="2" @change="toggleRouterShow">外链</el-radio>
         </el-form-item>
-
-        <el-form-item label="资源描述：" prop="permissionDescription">
-          <el-input v-model="temp.permissionDescription"/>
+        <el-form-item label=" 菜单名称：" prop="permissionTitle">
+          <el-input v-model="temp.permissionTitle" />
         </el-form-item>
-
-        <el-form-item label="资源类型：" prop="permissionType">
-          <el-radio v-model="temp.permissionType" label="0">路由</el-radio>
-          <el-radio v-model="temp.permissionType" label="2">外链</el-radio>
+        <el-form-item v-if="routerShow" label="菜单标记：" prop="permissionName">
+          <el-input v-model="temp.permissionName" />
         </el-form-item>
-
-        <el-form-item label="资源标题：" prop="permissionTitle">
-          <el-input v-model="temp.permissionTitle"/>
+        <el-form-item label="菜单描述：" prop="permissionDescription">
+          <el-input v-model="temp.permissionDescription" type="textarea" />
         </el-form-item>
-
-        <el-form-item label="资源图标：" prop="permissionIcon">
-          <IconPicker v-model="temp.permissionIcon" :icon="temp.permissionIcon" @iconName="getIconName"/>
+        <el-form-item label="菜单图标：" prop="permissionIcon">
+          <IconPicker v-model="temp.permissionIcon" :icon="temp.permissionIcon" @iconName="getIconName" />
         </el-form-item>
-
-        <el-form-item label="资源标记：" prop="permissionRouter">
-          <el-input v-model="temp.permissionRouter"/>
+        <el-form-item label="菜单地址：" prop="permissionRouter">
+          <el-input v-model="temp.permissionRouter" />
         </el-form-item>
-
-        <el-form-item label="组件地址：" prop="permissionComponent">
-          <el-input v-model="temp.permissionComponent"/>
+        <el-form-item v-if="routerShow" label="组件地址：" prop="permissionComponent">
+          <el-input v-model="temp.permissionComponent" />
         </el-form-item>
-
-        <el-form-item label="资源顺序：" prop="permissionOrder">
-          <el-input v-model.number="temp.permissionOrder" :permission-order="temp.permissionOrder"/>
+        <el-form-item label="菜单顺序：" prop="permissionOrder">
+          <el-input v-model.number="temp.permissionOrder" :permission-order="temp.permissionOrder" />
         </el-form-item>
       </el-form>
-
       <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitJudgment(dialogStatus)">保存</el-button>
         <el-button @click="dialogFormVisible=false">取消</el-button>
-        <el-button type="primary" @click="submitJudgment(dialogStatus)">提交
-        </el-button>
       </div>
-
     </el-dialog>
-
   </div>
 </template>
 <script>
@@ -104,7 +91,7 @@ import IconPicker from '@/views/system/menu/IconPicker/index';
 // 引入按钮组件
 import PermissionButton from '@/views/system/menu/permissionButton/index'
 // 菜单项目
-import Item from "@/layout/components/Sidebar/Item";
+import Item from '@/layout/components/Sidebar/Item';
 
 export default {
   components: {IconPicker, PermissionButton, Item},
@@ -121,7 +108,7 @@ export default {
       // 勾选的ID
       permissionIds: [],
       // 传给按钮组件的数据
-      buttonTableData: '',
+      currentPermissionId: '',
       // 对话框属性
       dialogStatus: '',
       textMap: {update: '修改', create: '新增', subordinates: '添加下级'},
@@ -130,15 +117,21 @@ export default {
       // 按钮表格显示控制
       buttonTableVisible: false,
       //<el-col>的span值
-      elColSpanValue: 17,
+      elColSpanValue: 24,
       temp: {},
       rules: {
-        permissionName: [{required: true, message: '请填写资源名称', trigger: 'blur'}],
-        permissionTitle: [{required: true, message: '请填写资源标题', trigger: 'blur'}],
-        permissionRouter: [{required: true, message: '请填写资源标记', trigger: 'blur'}],
+        permissionTitle: [{required: true, message: '请填写菜单名称', trigger: 'blur'}],
+        permissionName: [{required: true, message: '请填写菜单标记', trigger: 'blur'}],
+        permissionRouter: [{required: true, message: '请填写路由地址', trigger: 'blur'}],
         permissionComponent: [{required: true, message: '请填写组件地址', trigger: 'blur'}],
-        permissionOrder: [{required: true, message: '请填写资源顺序', trigger: 'blur'}, {type: 'number', message: '请填写数字'}]
-      }
+        permissionOrder: [{required: true, message: '请填写菜单顺序', trigger: 'blur'}, {type: 'number', message: '请填写数字'}]
+      },
+      routerShow: true
+    }
+  },
+  computed: {
+    rightStyle() {
+      return 'background-color:#f6f6f6;border-radius:5px;height:' + (window.innerHeight - 125) + 'px;'
     }
   },
   created() {
@@ -146,6 +139,9 @@ export default {
     this.resetTemp();
   },
   methods: {
+    toggleRouterShow(val) {
+      this.routerShow = val === '0'
+    },
     //查询下拉树
     async getPermissionTreeList() {
       this.listLoading = true
@@ -332,16 +328,27 @@ export default {
         this.createData()
       }
     },
-    //点击按钮后
+    //点击[按钮]，打开右侧按钮面板
     openButtonTable(row) {
       this.buttonTableVisible = true
-      this.elColSpanValue = 12
-      this.buttonTableData = row.permissionId
+      this.elColSpanValue = 16
+      this.currentPermissionId = row.permissionId
+    },
+    //关闭右侧按钮面板
+    closeButtonTable() {
+      this.buttonTableVisible = false
+      this.elColSpanValue = 24
     }
   }
 }
 </script>
 <style>
-.menu-item { list-style: none; display: inline;}
-.menu-item > span { padding: 0px 5px !important;}
+.menu-item {
+  list-style: none;
+  display: inline;
+}
+
+.menu-item > span {
+  padding: 0px 5px !important;
+}
 </style>
