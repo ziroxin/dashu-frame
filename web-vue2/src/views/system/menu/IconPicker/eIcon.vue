@@ -1,7 +1,7 @@
 <template>
   <div>
     <i v-if="iconName.startsWith('el-icon')" :class="iconName" style="font-size:20px" />
-    <svg-icon v-else :name="iconName" width="20px" height="20" />
+    <svg-icon v-else :name="iconName" :icon-class="iconName" width="20px" height="20" />
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 package com.kg.core.zpermission.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.exception.BaseException;
 import com.kg.core.security.util.CurrentUserUtils;
 import com.kg.core.zpermission.dto.ZPermissionDTO;
 import com.kg.core.zpermission.dto.ZRolePermissionDTO;
@@ -42,7 +44,15 @@ public class ZPermissionController {
     })
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('permission:add')")
-    public boolean add(@RequestBody ZPermission zPermission) {
+    public boolean add(@RequestBody ZPermission zPermission) throws BaseException {
+        // 查询重复标记
+        QueryWrapper<ZPermission> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(ZPermission::getPermissionName, zPermission.getPermissionName());
+        long count = permissionService.count(wrapper);
+        if (count > 0) {
+            throw new BaseException("资源标记已存在，请修改！");
+        }
+        // 保存
         zPermission.setPermissionId(GuidUtils.getUuid());
         zPermission.setCreateTime(LocalDateTime.now());
         if (permissionService.save(zPermission)) {
@@ -56,7 +66,16 @@ public class ZPermissionController {
     })
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('permission:update')")
-    public boolean update(@RequestBody ZPermission zPermission) {
+    public boolean update(@RequestBody ZPermission zPermission) throws BaseException {
+        // 查询重复标记
+        QueryWrapper<ZPermission> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(ZPermission::getPermissionName, zPermission.getPermissionName())
+                .ne(ZPermission::getPermissionId, zPermission.getPermissionId());
+        long count = permissionService.count(wrapper);
+        if (count > 0) {
+            throw new BaseException("资源标记已存在，请修改！");
+        }
+        // 保存
         zPermission.setUpdateTime(LocalDateTime.now());
         if (permissionService.updateById(zPermission)) {
             return true;
