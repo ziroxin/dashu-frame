@@ -4,13 +4,14 @@
       <el-col :span="9">
         <!--        资源表格-->
         <div style="margin-bottom: 20px;">
-          <el-button @click="toggleTableOprate" v-permission="'abcdefg'">全部{{isExpand?'收起':'展开'}}</el-button>
+          <el-button v-permission="'abcdefg'" @click="toggleTableOprate">全部{{ isExpand?'收起':'展开' }}</el-button>
         </div>
         <div class="grid-content bg-purple">
           <el-table ref="permissionTable" v-loading="listLoading" :default-expand-all="isExpand"
                     style="width: 95%;margin-bottom: 20px;"
                     border :data="tableData" row-key="permissionId"
-                    highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+                    highlight-current-row :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+          >
             <el-table-column label="名称" sortable width="180px">
               <template v-slot="scope">
                 {{ scope.row.permissionTitle }}
@@ -20,7 +21,7 @@
                 <el-tag v-if="scope.row.permissionType === '3'" disable-transitions type="danger">其他</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="permissionRouter" label="路由" sortable/>
+            <el-table-column prop="permissionRouter" label="路由" sortable />
             <el-table-column label="操作" width="80px" align="center">
               <template v-slot="scope">
                 <el-button type="text" size="small" @click.native.prevent="setMyApi(scope.row.permissionId)">
@@ -42,7 +43,8 @@
           <div>
             <el-collapse v-model="activeNames">
               <el-collapse-item v-for="group2 in tableData2" :key="group2.apiGroupId"
-                                :title="group2.groupName" :name="group2.apiGroupId">
+                                :title="group2.groupName" :name="group2.apiGroupId"
+              >
                 <el-checkbox-group v-model="selectPermissionApiList" style="line-height: 50px;">
                   <template v-for="cls in group2.apiClass">
                     <el-divider :key="cls.className">{{ cls.className }}</el-divider>
@@ -77,7 +79,7 @@ export default {
       isExpand: true,
       currentPermissionId: '',
       selectPermissionApiList: [],
-      activeNames: ['1', '2', '3', '4'],
+      activeNames: [],
       tableData: [],
       tableData2: [],
       listLoading: true,

@@ -10,6 +10,7 @@
           </el-button>
           <el-button type="danger" icon="el-icon-delete" @click="permissionDelete">删除
           </el-button>
+          <span>修改上下级</span>
         </div>
         <!-- 表格部分 -->
         <el-table :data="tableData" row-key="permissionId" style="margin-bottom: 20px;" border
@@ -17,7 +18,7 @@
                   @selection-change="selectionChangeHandlerOrder"
         >
           <el-table-column type="selection" width="50" header-align="center" align="center" />
-          <el-table-column prop="permissionTitle" label="资源标题" sortable>
+          <el-table-column prop="permissionTitle" label="菜单名称" sortable>
             <template v-slot="scope">
               <li class="menu-item">
                 <item :icon="scope.row.permissionIcon" :title="scope.row.permissionTitle" />
@@ -26,7 +27,8 @@
               </li>
             </template>
           </el-table-column>
-          <el-table-column prop="permissionRouter" label="资源标记" sortable />
+          <el-table-column prop="permissionName" label="菜单标记" sortable />
+          <el-table-column prop="permissionRouter" label="菜单地址" sortable />
           <el-table-column prop="permissionComponent" label="组件" sortable />
           <el-table-column fixed="right" label="操作" width="160" header-align="center" align="center">
             <template slot-scope="{row}">
