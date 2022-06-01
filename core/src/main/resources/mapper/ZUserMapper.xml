@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kg.core.zuser.mapper.ZUserMapper">
 
+    <select id="getUserRoleList" resultType="com.kg.core.zuser.dto.ZUserRoleSaveDTO">
+        SELECT
+            a.*,
+            b.*,
+            c.role_id,c.role_name
+        FROM
+            z_user a
+                LEFT JOIN z_user_role b ON a.user_id = b.user_id
+                LEFT JOIN z_role c ON b.role_id=c.role_id
+    </select>
+
 </mapper>

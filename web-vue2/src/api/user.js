@@ -22,16 +22,14 @@ export function logout() {
   })
 }
 
-export function getUserList(params) {
+export function getUserList() {
   return request({
     url: '/user/list',
-    method: 'get',
-    params
+    method: 'get'
   })
 }
 
 export function userAdd(data) {
-  console.log(data)
   return request({
     url: '/user/add',
     method: 'post',

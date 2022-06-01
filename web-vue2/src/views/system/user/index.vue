@@ -94,8 +94,15 @@ export default {
       dialogFormVisible:false,
       //选中的数据
       changeData:[],
+      //删除的IDS
+      userIds:[],
       temp: {},
-      rules: {}
+      rules: {
+        userName: [{required: true, message: '请填写用户名', trigger: 'blur'}],
+        password: [{required: true, message: '请填写密码', trigger: 'blur'}],
+        roleId: [{required: true, message: '请给用户选择角色', trigger: 'blur'}],
+        phone: [{ required: false, trigger: 'blur', validator: (r, v, b) => { (v && !(/^(?:(?:\+|00)86)?1\d{10}$/.test(v))) ? b('手机号格式不正确') : b() } }]
+      }
 
     }
   },
@@ -122,10 +129,10 @@ export default {
     },
     //查询用户列表
     getUserList() {
-      getUserList(this.pager).then(response => {
-        const {data} = response
-        this.totalCount = data.total
-        this.userTable = data.records
+      getUserList().then(response => {
+        this.userTable = response.data
+        this.totalCount = response.data.length
+        // this.userTable = data.records
       })
     },
     //分页
@@ -134,7 +141,7 @@ export default {
     },
     // 查询角色
     getRoleList() {
-      getRoleList().then(response =>{
+      getRoleList(this.pager).then(response =>{
         const {data} = response
         this.roleNameOptions = data.records
       })
@@ -200,8 +207,8 @@ export default {
           confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
         }).then(() => {
           // 执行删除
-          const userIds = this.changeData.map(r => r.userId)
-          userDelete(userIds).then(response => {
+          this.userIds.push(...this.changeData.map(r => r.userId))
+          userDelete(this.userIds).then(response => {
             const {code} = response
             if (code === '200') {
               this.$message({type: 'success', message: '删除成功！'})

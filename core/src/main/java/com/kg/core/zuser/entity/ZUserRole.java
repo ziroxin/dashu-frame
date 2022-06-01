@@ -1,9 +1,11 @@
 package com.kg.core.zuser.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -20,6 +22,7 @@ public class ZUserRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("user_id")
+    @TableId(value = "user_id")
     private String userId;
 
     @ApiModelProperty("role_id")
@@ -32,6 +35,7 @@ public class ZUserRole implements Serializable {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     public String getRoleId() {
         return roleId;
     }
@@ -43,8 +47,8 @@ public class ZUserRole implements Serializable {
     @Override
     public String toString() {
         return "ZUserRole{" +
-            "userId=" + userId +
-            ", roleId=" + roleId +
-        "}";
+                "userId=" + userId +
+                ", roleId=" + roleId +
+                "}";
     }
 }

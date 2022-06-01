@@ -1,8 +1,11 @@
 package com.kg.core.zuser.mapper;
 
-import com.kg.core.zuser.entity.ZUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kg.core.zuser.dto.ZUserRoleSaveDTO;
+import com.kg.core.zuser.entity.ZUser;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,4 +18,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ZUserMapper extends BaseMapper<ZUser> {
 
+    List<ZUserRoleSaveDTO> getUserRoleList();
 }

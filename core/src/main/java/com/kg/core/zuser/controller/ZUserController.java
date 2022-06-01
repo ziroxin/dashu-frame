@@ -1,21 +1,18 @@
 package com.kg.core.zuser.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kg.component.utils.GuidUtils;
 import com.kg.core.exception.BaseException;
-import com.kg.core.zuser.entity.ZUser;
+import com.kg.core.zuser.dto.ZUserRoleSaveDTO;
+import com.kg.core.zuser.service.IZUserRoleService;
 import com.kg.core.zuser.service.IZUserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -32,27 +29,23 @@ public class ZUserController {
 
     @Autowired
     private IZUserService userService;
+    @Autowired
+    private IZUserRoleService userRoleService;
 
     @ApiOperation(value = "user/list", notes = "查询用户列表", httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "当前页码", paramType = "query", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "limit", value = "每页条数", paramType = "query", required = true, dataType = "Integer")
-    })
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('user:list')")
-    public Page<ZUser> list(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                            @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit) {
-        Page<ZUser> pager = new Page<>(page, limit);
-        return userService.page(pager);
+    public List<ZUserRoleSaveDTO> list() {
+        return userService.getUserRoleList();
     }
+
 
     @ApiOperation(value = "user/add", notes = "添加用户", httpMethod = "POST")
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('user:add')")
-    public void add(@RequestBody ZUser zUser) throws BaseException {
-        zUser.setUserId(GuidUtils.getUuid());
-        zUser.setCreateTime(LocalDateTime.now());
-        if (!userService.save(zUser)) {
+    public void add(@RequestBody ZUserRoleSaveDTO zUserRoleSaveDTO) throws BaseException {
+        boolean s1 = userService.add(zUserRoleSaveDTO);
+        if (s1) {
             throw new BaseException("添加用户失败!");
         }
     }
@@ -60,9 +53,9 @@ public class ZUserController {
     @ApiOperation(value = "user/update", notes = "修改用户信息", httpMethod = "POST")
     @PostMapping("update")
     @PreAuthorize("hasAuthority('user:update')")
-    public void update(@RequestBody ZUser zUser) throws BaseException {
-        zUser.setUpdateTime(LocalDateTime.now());
-        if (!userService.updateById(zUser)) {
+    public void update(@RequestBody ZUserRoleSaveDTO zUserRoleSaveDTO) throws BaseException {
+        boolean s1 = userService.update(zUserRoleSaveDTO);
+        if (s1) {
             throw new BaseException("修改用户信息失败");
         }
     }
@@ -71,7 +64,9 @@ public class ZUserController {
     @DeleteMapping("delete")
     @PreAuthorize("hasAuthority('user:delete')")
     public void delete(@RequestBody String[] userIds) throws BaseException {
-        if (!userService.removeByIds(Arrays.asList(userIds))) {
+        boolean s1 = userService.removeByIds(Arrays.asList(userIds));
+        boolean s2 = userRoleService.removeByIds(Arrays.asList(userIds));
+        if (!s1 && !s2) {
             throw new BaseException("删除用户失败！");
         }
     }

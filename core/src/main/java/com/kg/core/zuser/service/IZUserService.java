@@ -1,7 +1,10 @@
 package com.kg.core.zuser.service;
 
-import com.kg.core.zuser.entity.ZUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.core.zuser.dto.ZUserRoleSaveDTO;
+import com.kg.core.zuser.entity.ZUser;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IZUserService extends IService<ZUser> {
 
+    List<ZUserRoleSaveDTO> getUserRoleList();
+
+    boolean add(ZUserRoleSaveDTO zUserRoleSaveDTO);
+
+    boolean update(ZUserRoleSaveDTO zUserRoleSaveDTO);
 }
