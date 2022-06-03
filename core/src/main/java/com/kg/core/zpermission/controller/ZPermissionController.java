@@ -2,6 +2,7 @@ package com.kg.core.zpermission.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.kg.component.utils.GuidUtils;
 import com.kg.core.exception.BaseException;
 import com.kg.core.security.util.CurrentUserUtils;
@@ -78,6 +79,19 @@ public class ZPermissionController {
         // 保存
         zPermission.setUpdateTime(LocalDateTime.now());
         if (permissionService.updateById(zPermission)) {
+            return true;
+        }
+        return false;
+    }
+
+    @ApiOperation(value = "permission/updateParentId", notes = "修改上下级关系", httpMethod = "POST")
+    @PostMapping("/updateParentId")
+    @PreAuthorize("hasAuthority('permission:updateParentId')")
+    public boolean updateParentId(@RequestBody ZPermission zPermission) {
+        UpdateWrapper<ZPermission> wrapper = new UpdateWrapper<>();
+        wrapper.lambda().set(ZPermission::getParentId, zPermission.getParentId())
+                .eq(ZPermission::getPermissionId, zPermission.getPermissionId());
+        if (permissionService.update(wrapper)) {
             return true;
         }
         return false;

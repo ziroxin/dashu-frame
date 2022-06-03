@@ -40,3 +40,12 @@ export function getListById(permissionId) {
   })
 }
 
+// 修改上下级关系
+export function updateParentId(data) {
+  return request({
+    url: '/permission/updateParentId',
+    method: 'post',
+    data
+  })
+}
+
