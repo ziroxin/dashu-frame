@@ -26,17 +26,17 @@ function convertComponent(component) {
  * @param routes asyncRoutes
  * @param permissions
  */
-export function filterAsyncRoutes(routers) {
+export function filterAsyncRoutes(routers, isTop) {
   const res = []
   // 遍历路由
   routers.forEach(route => {
       // 是否显示，是否禁用
       if (route.permissionIsShow && route.permissionIsEnabled) {
         if (route.children) {
-          // 组装路由
+          // 包含子路由
           const temp = {
             path: route.permissionRouter,
-            component: convertComponent(route.permissionComponent),
+            component: isTop ? Layout : convertComponent(route.permissionComponent),
             name: route.permissionName || '',
             meta: {
               title: route.permissionTitle,
@@ -44,24 +44,37 @@ export function filterAsyncRoutes(routers) {
             },
             alwaysShow: true,
             // 迭代子路由
-            children: filterAsyncRoutes(route.children)
+            children: filterAsyncRoutes(route.children, false)
           }
           res.push(temp)
         } else {
-          const temp = {
-            path: route.permissionRouter,
-            component: Layout,
-            children: [{
-              path: 'index',
+          if (isTop) {
+            const temp = {
+              path: route.permissionRouter,
+              component: Layout,
+              children: [{
+                path: 'index',
+                component: convertComponent(route.permissionComponent),
+                name: route.permissionName || '',
+                meta: {
+                  title: route.permissionTitle,
+                  icon: route.permissionIcon || ''
+                }
+              }]
+            }
+            res.push(temp)
+          } else {
+            const temp = {
+              path: route.permissionRouter,
               component: convertComponent(route.permissionComponent),
               name: route.permissionName || '',
               meta: {
                 title: route.permissionTitle,
                 icon: route.permissionIcon || ''
               }
-            }]
+            }
+            res.push(temp)
           }
-          res.push(temp)
         }
       }
     }
@@ -83,7 +96,8 @@ const actions = {
   generateRoutes({commit}, routers) {
     return new Promise(resolve => {
       // 动态生成菜单
-      const accessedRoutes = filterAsyncRoutes(routers)
+      const accessedRoutes = filterAsyncRoutes(routers, true)
+      console.log(accessedRoutes)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
