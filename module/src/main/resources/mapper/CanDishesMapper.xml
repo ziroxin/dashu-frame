@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.module.candishes.mapper.CanDishesMapper">
+    <select id="getDishesGroupList" resultType="com.kg.module.candishes.dto.CanDishesGroupDTO">
+        SELECT
+            a.*,
+            b.*,
+            c.group_id,
+            c.group_name,
+            c.group_order,
+            c.group_icon
+        FROM
+            can_dishes a
+                LEFT JOIN can_dishes_group b ON a.dishes_id = b.dishes_id
+                LEFT JOIN can_group c ON b.group_id = c.group_id
+    </select>
+</mapper>
