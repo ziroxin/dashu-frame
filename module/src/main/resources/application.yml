@@ -33,7 +33,7 @@ com:
     file:
       allow-extend: jpg|jpeg|png|gif|bpm|
       image-extend: jpg|jpeg|png|gif|bpm|
-      default-path-pre: /upload
+      default-path-pre: /upfiles
     #swagger相关配置
     swagger:
       title: "大树快速开发平台API"
