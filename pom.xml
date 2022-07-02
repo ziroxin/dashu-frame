@@ -43,6 +43,8 @@
         <springfox.version>2.6.1</springfox.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <reflection.version>0.10.2</reflection.version>
+        <commons.io.version>2.11.0</commons.io.version>
+        <commons.fileupload.version>1.4</commons.fileupload.version>
     </properties>
 
     <!-- 依赖Jar包控制 -->
@@ -120,6 +122,20 @@
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflection.version}</version>
+            </dependency>
+
+            <!-- io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+
+            <!-- 文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
