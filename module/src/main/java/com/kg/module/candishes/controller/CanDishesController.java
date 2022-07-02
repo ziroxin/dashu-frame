@@ -34,11 +34,13 @@ public class CanDishesController {
     @Autowired
     private ICanDishesGroupService canDishesGroupService;
 
-    @ApiOperation(value="dishes/list",notes = "查询菜品信息",httpMethod = "GET")
+    @ApiOperation(value = "dishes/list", notes = "查询菜品信息", httpMethod = "GET")
     @ApiImplicitParams({})
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('dishes:list')")
-    public List<CanDishesGroupDTO> List(){return canDishesService.getDishesGroupList();}
+    public List<CanDishesGroupDTO> List(String shopId) {
+        return canDishesService.getDishesGroupList(shopId);
+    }
 
 
     @ApiOperation(value = "dishes/add", notes = "添加菜品", httpMethod = "POST")

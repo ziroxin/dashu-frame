@@ -1,9 +1,16 @@
 package com.kg.module.test.controller;
 
+import com.kg.component.file.FileUploadDTO;
+import com.kg.component.file.FileUploadUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @author ziro
@@ -24,5 +31,10 @@ public class TestController {
     @PreAuthorize("hasAuthority('test:hello2')")
     public String hello2() {
         return "hello2";
+    }
+
+    @PostMapping("test/file")
+    public List<FileUploadDTO> testFile(HttpServletRequest request) throws IOException {
+        return FileUploadUtils.uploadFile(request, "test/file");
     }
 }

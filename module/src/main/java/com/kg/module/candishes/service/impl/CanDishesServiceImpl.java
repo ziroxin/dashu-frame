@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,8 +42,13 @@ public class CanDishesServiceImpl extends ServiceImpl<CanDishesMapper, CanDishes
     private ICanDishesGroupService canDishesGroupService;
 
     @Override
-    public List<CanDishesGroupDTO> getDishesGroupList() {
-        return canDishesMapper.getDishesGroupList();
+    public List<CanDishesGroupDTO> getDishesGroupList(String shopId) {
+        if (!StringUtils.hasText(shopId)) {
+            ZUser user = CurrentUserUtils.getCurrentUser();
+            CanUserShop usershop = canGroupService.getUserShop(user.getUserId());
+            shopId = usershop.getShopId();
+        }
+        return canDishesMapper.getDishesGroupList(shopId);
     }
 
 

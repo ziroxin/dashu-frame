@@ -13,5 +13,9 @@
             can_dishes a
                 LEFT JOIN can_dishes_group b ON a.dishes_id = b.dishes_id
                 LEFT JOIN can_group c ON b.group_id = c.group_id
+        WHERE 1=1
+        <if test="shopId != null and shopId != ''">
+            AND shop_id = #{shopId}
+        </if>
     </select>
 </mapper>

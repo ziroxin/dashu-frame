@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface ICanDishesService extends IService<CanDishes> {
 
-    List<CanDishesGroupDTO> getDishesGroupList();
+    List<CanDishesGroupDTO> getDishesGroupList(String shopId);
 
     boolean dishesAdd(CanDishesGroupDTO canDishesGroupDTO);
 

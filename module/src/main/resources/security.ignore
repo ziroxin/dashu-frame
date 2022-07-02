@@ -6,3 +6,7 @@
 
 #swagger api 地址（注意：生产环境请删除）
 /v2/api-docs
+
+#小程序公开接口
+/can/api/open/**
+/test/file

@@ -3,6 +3,7 @@ package com.kg.module.candishes.mapper;
 import com.kg.module.candishes.dto.CanDishesGroupDTO;
 import com.kg.module.candishes.entity.CanDishes;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface CanDishesMapper extends BaseMapper<CanDishes> {
 
-    List<CanDishesGroupDTO> getDishesGroupList();
+    List<CanDishesGroupDTO> getDishesGroupList(@Param("shopId") String shopId);
 
 }
