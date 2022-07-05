@@ -44,7 +44,9 @@ public class CanDishesServiceImpl extends ServiceImpl<CanDishesMapper, CanDishes
     @Override
     public List<CanDishesGroupDTO> getDishesGroupList(String shopId) {
         if (!StringUtils.hasText(shopId)) {
+//            获取当前用户信息
             ZUser user = CurrentUserUtils.getCurrentUser();
+//            通过用户ID查询店铺
             CanUserShop usershop = canGroupService.getUserShop(user.getUserId());
             shopId = usershop.getShopId();
         }

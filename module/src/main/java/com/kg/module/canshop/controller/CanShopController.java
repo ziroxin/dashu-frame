@@ -1,14 +1,16 @@
 package com.kg.module.canshop.controller;
 
 
+import com.kg.component.file.FileUploadDTO;
+import com.kg.component.file.ImageUploadUtils;
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.exception.BaseException;
+import com.kg.core.security.util.CurrentUserUtils;
+import com.kg.core.zuser.entity.ZUser;
 import com.kg.module.canshop.entity.CanShop;
 import com.kg.module.canshop.entity.CanUserShop;
 import com.kg.module.canshop.service.ICanShopService;
 import com.kg.module.canshop.service.ICanUserShopService;
-import com.kg.core.exception.BaseException;
-import com.kg.core.security.util.CurrentUserUtils;
-import com.kg.core.zuser.entity.ZUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +43,11 @@ public class CanShopController {
     @Autowired
     private ICanUserShopService canUserShopService;
 
-    @ApiOperation(value = "shop/add",notes = "添加店铺",httpMethod = "POST")
+    @ApiOperation(value = "shop/add", notes = "添加店铺", httpMethod = "POST")
     @ApiImplicitParams({})
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('shop:add')")
-    public void add(@RequestBody CanShop canShop) throws BaseException{
+    public void add(@RequestBody CanShop canShop) throws BaseException {
 
         canShop.setShopId(GuidUtils.getUuid());
         canShop.setCreateTime(LocalDateTime.now());
@@ -91,5 +95,11 @@ public class CanShopController {
     @PreAuthorize("hasAuthority('shop:list')")
     public List<CanShop> List() {
         return canShopService.list();
+    }
+
+
+    @PostMapping("/file")
+    public List<FileUploadDTO> shopFile(HttpServletRequest request) throws IOException {
+        return ImageUploadUtils.upload(request, "shop/file");
     }
 }

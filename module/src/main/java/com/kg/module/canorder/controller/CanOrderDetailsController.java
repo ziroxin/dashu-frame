@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -31,9 +32,9 @@ public class CanOrderDetailsController {
 
     @ApiOperation(value = "orderDetails/getById", notes = "查询订单详情信息", httpMethod = "GET")
     @ApiImplicitParams({})
-    @GetMapping("/getById")
+    @GetMapping("/getOrderDetailsById")
     @PreAuthorize("hasAuthority('orderDetails:getById')")
-    public CanOrderDetails List(String orderId) {
-        return canOrderDetailsService.getById(orderId);
+    public List<CanOrderDetails> getOrderDetailsById(String orderId) {
+        return canOrderDetailsService.getOrderDetailsById(orderId);
     }
 }

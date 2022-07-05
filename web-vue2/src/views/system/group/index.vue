@@ -13,8 +13,13 @@
     >
       <el-table-column type="selection" width="50" header-align="center" align="center" />
       <!--  sortable 排序 -->
-      <el-table-column prop="groupName" label="分组名称" sortable />
-      <el-table-column prop="groupIcon" label="图标" sortable />
+      <el-table-column prop="groupName" label="分组名称" sortable>
+        <template v-slot="scope">
+          <li class="menu-item">
+            <item :icon="scope.row.groupIcon" :title="scope.row.groupName" />
+          </li>
+        </template>
+      </el-table-column>
       <el-table-column prop="groupOrder" label="分组显示顺序" sortable />
       <el-table-column prop="createTime" label="添加时间" sortable />
       <el-table-column prop="updateTime" label="最后更新时间" sortable />
@@ -36,7 +41,7 @@
         </el-form-item>
 
         <el-form-item label="图标" prop="groupIcon">
-          <el-input v-model="temp.groupIcon" />
+          <IconPicker v-model="temp.groupIcon" :icon="temp.groupIcon" @iconName="getIconName" />
         </el-form-item>
 
         <el-form-item label="分组显示顺序" prop="groupOrder">
@@ -54,9 +59,14 @@
 <script>
 
 import {groupAdd, groupDelete, groupList, groupUpdate} from '@/api/group';
+// 引入图标选择器
+import IconPicker from '@/views/system/menu/IconPicker/index';
+// 菜单项目
+import Item from '@/layout/components/Sidebar/Item';
 
 export default {
   name: 'Index',
+  components: {IconPicker,Item},
   data() {
     return {
       groupData: [],
@@ -74,7 +84,7 @@ export default {
       dialogStatus: '',
       dialogFormVisible: false,
       //表单规则
-      rules: {}
+      rules: {groupName: [{required: true, message: '请填写分组名称', trigger: 'blur'}]}
     }
   },
   created() {
@@ -177,6 +187,10 @@ export default {
           })
         })
       }
+    },
+    // 查询图标名称
+    getIconName(value) {
+      this.temp.groupIcon = value;
     }
   }
 }

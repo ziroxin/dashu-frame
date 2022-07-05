@@ -1,10 +1,13 @@
 package com.kg.module.canorder.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,6 +24,7 @@ public class CanOrderBill implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("订单发票ID")
+    @TableId(value = "order_bill_id")
     private String orderBillId;
 
     @ApiModelProperty("订单ID")
@@ -48,9 +52,11 @@ public class CanOrderBill implements Serializable {
     private String invoiceAmount;
 
     @ApiModelProperty("添加时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @ApiModelProperty("最后更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
     public String getOrderBillId() {
@@ -60,6 +66,7 @@ public class CanOrderBill implements Serializable {
     public void setOrderBillId(String orderBillId) {
         this.orderBillId = orderBillId;
     }
+
     public String getOrderId() {
         return orderId;
     }
@@ -67,6 +74,7 @@ public class CanOrderBill implements Serializable {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -74,6 +82,7 @@ public class CanOrderBill implements Serializable {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
     public String getTaxId() {
         return taxId;
     }
@@ -81,6 +90,7 @@ public class CanOrderBill implements Serializable {
     public void setTaxId(String taxId) {
         this.taxId = taxId;
     }
+
     public String getCompanyAdress() {
         return companyAdress;
     }
@@ -88,6 +98,7 @@ public class CanOrderBill implements Serializable {
     public void setCompanyAdress(String companyAdress) {
         this.companyAdress = companyAdress;
     }
+
     public String getCompanyPhone() {
         return companyPhone;
     }
@@ -95,6 +106,7 @@ public class CanOrderBill implements Serializable {
     public void setCompanyPhone(String companyPhone) {
         this.companyPhone = companyPhone;
     }
+
     public String getBank() {
         return bank;
     }
@@ -102,6 +114,7 @@ public class CanOrderBill implements Serializable {
     public void setBank(String bank) {
         this.bank = bank;
     }
+
     public String getBankAccount() {
         return bankAccount;
     }
@@ -109,6 +122,7 @@ public class CanOrderBill implements Serializable {
     public void setBankAccount(String bankAccount) {
         this.bankAccount = bankAccount;
     }
+
     public String getInvoiceAmount() {
         return invoiceAmount;
     }
@@ -116,6 +130,7 @@ public class CanOrderBill implements Serializable {
     public void setInvoiceAmount(String invoiceAmount) {
         this.invoiceAmount = invoiceAmount;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -123,6 +138,7 @@ public class CanOrderBill implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -134,17 +150,17 @@ public class CanOrderBill implements Serializable {
     @Override
     public String toString() {
         return "CanOrderBill{" +
-            "orderBillId=" + orderBillId +
-            ", orderId=" + orderId +
-            ", companyName=" + companyName +
-            ", taxId=" + taxId +
-            ", companyAdress=" + companyAdress +
-            ", companyPhone=" + companyPhone +
-            ", bank=" + bank +
-            ", bankAccount=" + bankAccount +
-            ", invoiceAmount=" + invoiceAmount +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "orderBillId=" + orderBillId +
+                ", orderId=" + orderId +
+                ", companyName=" + companyName +
+                ", taxId=" + taxId +
+                ", companyAdress=" + companyAdress +
+                ", companyPhone=" + companyPhone +
+                ", bank=" + bank +
+                ", bankAccount=" + bankAccount +
+                ", invoiceAmount=" + invoiceAmount +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

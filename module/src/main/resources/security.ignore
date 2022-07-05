@@ -13,3 +13,5 @@
 #小程序公开接口
 /can/api/open/**
 /test/file
+/shop/file
+/dishes/file

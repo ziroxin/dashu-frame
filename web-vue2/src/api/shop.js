@@ -32,3 +32,10 @@ export function shopDelete(data) {
   })
 }
 
+export function uploadFile(file) {
+  return request({
+    url: '/shop/file',
+    method: 'post',
+    data:{file}
+  })
+}

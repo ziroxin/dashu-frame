@@ -1,7 +1,9 @@
 package com.kg.module.canorder.service;
 
-import com.kg.module.canorder.entity.CanOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.module.canorder.entity.CanOrder;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ICanOrderService extends IService<CanOrder> {
 
+    List<CanOrder> shopListByTime(String startTime, String endTime);
 }

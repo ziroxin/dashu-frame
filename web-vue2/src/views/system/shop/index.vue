@@ -16,7 +16,11 @@
     >
       <el-table-column type="selection" width="50" header-align="center" align="center" />
       <el-table-column prop="shopName" label="店铺名称" sortable />
-      <el-table-column prop="sharingPhoto" label="展示图片" sortable />
+      <el-table-column prop="sharingPhoto" label="展示图片" sortable>
+        <template slot-scope="scope">
+          <el-image class="tableImg" :src="'http://localhost:8123' + scope.row.sharingPhoto" />
+        </template>
+      </el-table-column>
       <el-table-column prop="shopPhone" label="联系电话" sortable />
       <el-table-column prop="shopAddress" label="店铺地址" sortable />
       <el-table-column prop="showRecommend" label="是否显示推荐" sortable>
@@ -44,13 +48,25 @@
 
     <!--  弹窗  -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="shopDataForm" :model="temp" :rules="rules" label-position="right" label-width="150px" style="width: 500px; margin-left: 50px;">
+      <el-form ref="shopDataForm" :model="temp" :rules="rules" label-position="right" label-width="150px"
+               style="width: 500px; margin-left: 50px;"
+      >
         <el-form-item label="店铺名称：" prop="shopName">
           <el-input v-model="temp.shopName" />
         </el-form-item>
 
         <el-form-item label="展示图片：" prop="sharingPhoto">
-          <el-input v-model="temp.sharingPhoto" />
+          <el-upload
+            class="upload-demo"
+            action="api/shop/file"
+            :on-success="shopFileSuccess"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            list-type="picture"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
         </el-form-item>
 
         <el-form-item label="联系电话：" prop="shopPhone">
@@ -84,38 +100,43 @@
 </template>
 
 <script>
-import {shopList,shopAdd,shopUpdate,shopDelete} from '@/api/shop';
+import {shopAdd, shopDelete, shopList, shopUpdate} from '@/api/shop';
 
 export default {
   name: 'Index',
   data() {
-    return{
-    //  表格数据
-      shopData:[],
+    return {
+      fileList: [],
+      //  表格数据
+      shopData: [],
       //分页
       pager: {page: 1, limit: 10},
       totalCount: 0,
       //每一条数据
       temp: {},
       //选中的数据
-      changeData:[],
+      changeData: [],
       //删除的IDS
-      shopIds:[],
+      shopIds: [],
       textMap: {update: '修改', create: '新增'},
       // 对话框属性
       dialogStatus: '',
-      dialogFormVisible:false,
+      dialogFormVisible: false,
       rules: {
         shopName: [{required: true, message: '请填写店铺名称', trigger: 'blur'}],
         shopAddress: [{required: true, message: '请填写店铺地址', trigger: 'blur'}],
-        shopPhone: [{ required: false, trigger: 'blur', validator: (r, v, b) => { (v && !(/^(?:(?:\+|00)86)?1\d{10}$/.test(v))) ? b('手机号格式不正确') : b() } }]
+        shopPhone: [{
+          required: false, trigger: 'blur', validator: (r, v, b) => {
+            (v && !(/^(?:(?:\+|00)86)?1\d{10}$/.test(v))) ? b('手机号格式不正确') : b()
+          }
+        }]
       }
     }
   },
   created() {
     this.getShopList()
   },
-  methods:{
+  methods: {
     // 表格勾选
     selectionChangeHandlerOrder(val) {
       this.changeData = val
@@ -133,13 +154,13 @@ export default {
     },
     resetTemp() {
       this.temp = {
-        shopName:'',
-        sharingPhoto:'',
-        shopPhone:'',
-        shopAddress:'',
-        showRecommend:'0',
-        recommendName:'推荐菜单',
-        shopState:'0'
+        shopName: '',
+        sharingPhoto: '',
+        shopPhone: '',
+        shopAddress: '',
+        showRecommend: '0',
+        recommendName: '推荐菜单',
+        shopState: '0'
       }
     },
     shopAdd() {
@@ -151,15 +172,15 @@ export default {
       })
     },
     shopUpdate() {
-      if(this.changeData.length <= 0) {
-        this.$message({type:'warning',message:'请选择一条数据进行修改！'})
-      }else if(this.changeData.length > 1) {
-        this.$message({type:'warning',message:'修改时，只允许选择一条数据！'})
-      }else {
-        this.temp = Object.assign({},this.changeData[0])
+      if (this.changeData.length <= 0) {
+        this.$message({type: 'warning', message: '请选择一条数据进行修改！'})
+      } else if (this.changeData.length > 1) {
+        this.$message({type: 'warning', message: '修改时，只允许选择一条数据！'})
+      } else {
+        this.temp = Object.assign({}, this.changeData[0])
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
           this.$refs['shopDataForm'].clearValidate()
         })
       }
@@ -170,25 +191,25 @@ export default {
       this.$refs['shopDataForm'].validate((valid) => {
         if (valid) {
           if (this.dialogStatus === 'update') {
-            shopUpdate(this.temp).then(reponse =>{
+            shopUpdate(this.temp).then(reponse => {
               const {code} = reponse
               if (code === '200') {
-                this.$message({type:'success',message:'修改成功！'})
+                this.$message({type: 'success', message: '修改成功！'})
                 this.dialogFormVisible = false
                 this.getShopList()
-              }else{
-                this.$message({type:'error',message:'修改失败！'})
+              } else {
+                this.$message({type: 'error', message: '修改失败！'})
               }
             })
-          }else {
+          } else {
             shopAdd(this.temp).then(reponse => {
               const {code} = reponse
               if (code === '200') {
-                this.$message({type:'success',message:'添加成功！'})
+                this.$message({type: 'success', message: '添加成功！'})
                 this.dialogFormVisible = false
                 this.getShopList()
-              }else{
-                this.$message({type:'error',message:'添加失败！'})
+              } else {
+                this.$message({type: 'error', message: '添加失败！'})
               }
             })
           }
@@ -215,6 +236,18 @@ export default {
           })
         })
       }
+    },
+    //删除上传图片后
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    //点击上传图片后
+    handlePreview(file) {
+      console.log(file);
+    },
+    //图片上传成功后
+    shopFileSuccess(response) {
+      this.temp.sharingPhoto = response.data[0].filePath
     }
   }
 }

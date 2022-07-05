@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.module.canorder.mapper.CanOrderMapper">
+
+    <select id="shopListByTime" resultType="com.kg.module.canorder.entity.CanOrder">
+        SELECT
+            *
+        FROM
+            can_order
+        WHERE
+            1 = 1
+        <if test="startTime != null and endTime != null and startTime != '' and endTime != ''">
+            AND Date(create_time) BETWEEN #{startTime} AND #{endTime}
+        </if>
+
+    </select>
+
+</mapper>

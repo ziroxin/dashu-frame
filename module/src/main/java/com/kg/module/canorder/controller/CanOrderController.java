@@ -2,10 +2,10 @@ package com.kg.module.canorder.controller;
 
 
 import com.kg.component.utils.GuidUtils;
+import com.kg.core.exception.BaseException;
 import com.kg.module.cangroup.service.ICanGroupService;
 import com.kg.module.canorder.entity.CanOrder;
 import com.kg.module.canorder.service.ICanOrderService;
-import com.kg.core.exception.BaseException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,6 +45,15 @@ public class CanOrderController {
     }
 
 
+    @ApiOperation(value = "order/shopListByTime", notes = "根据时间查询订单信息", httpMethod = "GET")
+    @ApiImplicitParams({})
+    @GetMapping("/shopListByTime")
+    @PreAuthorize("hasAuthority('order:shopListByTime')")
+    public List<CanOrder> shopListByTime(@RequestParam(value = "startTime") String startTime, @RequestParam(value = "endTime") String endTime) {
+        return canOrderService.shopListByTime(startTime, endTime);
+    }
+
+
     @ApiOperation(value = "order/add", notes = "添加订单", httpMethod = "POST")
     @ApiImplicitParams({})
     @PostMapping("/add")
@@ -51,10 +61,34 @@ public class CanOrderController {
     public boolean add(@RequestBody CanOrder canOrder) throws BaseException {
         canOrder.setOrderId(GuidUtils.getUuid());
         canOrder.setCreateTime(LocalDateTime.now());
+        canOrder.setDiningTime(canOrder.getCreateTime());
         if (canOrderService.save(canOrder)) {
             return true;
         }
         return false;
     }
 
+
+    @ApiOperation(value = "order/update", notes = "修改订单信息", httpMethod = "POST")
+    @ApiImplicitParams({})
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('order:update')")
+    public boolean update(@RequestBody CanOrder canOrder) throws BaseException {
+        canOrder.setUpdateTime(LocalDateTime.now());
+        if (canOrderService.updateById(canOrder)) {
+            return true;
+        }
+        return false;
+    }
+
+    @ApiOperation(value = "order/delete", notes = "删除订单信息", httpMethod = "DELETE")
+    @ApiImplicitParams({})
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('order:delete')")
+    public boolean delete(@RequestBody String[] orderIds) {
+        if (canOrderService.removeBatchByIds(Arrays.asList(orderIds))) {
+            return true;
+        }
+        return false;
+    }
 }
