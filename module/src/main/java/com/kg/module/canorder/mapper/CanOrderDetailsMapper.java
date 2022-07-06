@@ -17,4 +17,5 @@ public interface CanOrderDetailsMapper extends BaseMapper<CanOrderDetails> {
 
     List<CanOrderDetails> getOrderDetailsById(String orderId);
 
+    boolean deleteDetails(List<String> orderIds);
 }

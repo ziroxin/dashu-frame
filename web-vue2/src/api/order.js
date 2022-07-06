@@ -1,18 +1,9 @@
 import request from '@/utils/request'
 
 // 查询订单
-export function orderList() {
+export function orderList(time) {
   return request({
     url: '/order/list',
-    method: 'get'
-  })
-}
-
-// 查询订单
-export function shopListByTime(time) {
-  console.log(time)
-  return request({
-    url: '/order/shopListByTime',
     method: 'get',
     params:{startTime:time.startTime,
     endTime:time.endTime}

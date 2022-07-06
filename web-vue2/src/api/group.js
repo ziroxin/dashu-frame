@@ -8,6 +8,14 @@ export function groupList() {
   })
 }
 
+// 查询
+export function groupListById() {
+  return request({
+    url: '/group/getGroupById',
+    method: 'get'
+  })
+}
+
 //添加菜单分组
 export function groupAdd(data) {
   return request({

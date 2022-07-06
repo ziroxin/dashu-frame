@@ -17,4 +17,6 @@ public interface ICanOrderDetailsService extends IService<CanOrderDetails> {
 
     List<CanOrderDetails> getOrderDetailsById(String orderId);
 
+    boolean deleteDetails(List<String> orderIds);
+
 }

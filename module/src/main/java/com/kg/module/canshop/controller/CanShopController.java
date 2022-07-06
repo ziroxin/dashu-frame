@@ -49,18 +49,24 @@ public class CanShopController {
     @PreAuthorize("hasAuthority('shop:add')")
     public void add(@RequestBody CanShop canShop) throws BaseException {
 
-        canShop.setShopId(GuidUtils.getUuid());
-        canShop.setCreateTime(LocalDateTime.now());
-        boolean s1 = canShopService.save(canShop);
-
-//        获取当前登录用户信息
+        //        获取当前登录用户信息
         ZUser user = CurrentUserUtils.getCurrentUser();
-        CanUserShop canUserShop = new CanUserShop();
-        canUserShop.setUserId(user.getUserId());
-        canUserShop.setShopId(canShop.getShopId());
-        boolean s2 = canUserShopService.save(canUserShop);
-        if (!s1 && !s2) {
-            throw new BaseException("添加店铺失败！");
+        Integer count = canUserShopService.getUserById(user.getUserId());
+        if (count > 0) {
+            throw new BaseException("您名下已有店铺，无法再继续添加！");
+        } else {
+            canShop.setShopId(GuidUtils.getUuid());
+            canShop.setCreateTime(LocalDateTime.now());
+            boolean s1 = canShopService.save(canShop);
+
+
+            CanUserShop canUserShop = new CanUserShop();
+            canUserShop.setUserId(user.getUserId());
+            canUserShop.setShopId(canShop.getShopId());
+            boolean s2 = canUserShopService.save(canUserShop);
+            if (!s1 && !s2) {
+                throw new BaseException("添加店铺失败！");
+            }
         }
     }
 

@@ -11,4 +11,11 @@
             order_id =#{orderId}
     </select>
 
+    <delete id="deleteBill">
+        delete from can_order_bill where order_id IN
+        <foreach collection="orderIds" item="orderIds" index="index" open="(" close=")" separator=",">
+            #{orderIds}
+        </foreach>
+    </delete>
+
 </mapper>

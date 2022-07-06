@@ -5,6 +5,8 @@ import com.kg.component.utils.GuidUtils;
 import com.kg.core.exception.BaseException;
 import com.kg.module.cangroup.service.ICanGroupService;
 import com.kg.module.canorder.entity.CanOrder;
+import com.kg.module.canorder.service.ICanOrderBillService;
+import com.kg.module.canorder.service.ICanOrderDetailsService;
 import com.kg.module.canorder.service.ICanOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,22 +36,20 @@ public class CanOrderController {
     private ICanOrderService canOrderService;
 
     @Autowired
+    private ICanOrderBillService canOrderBillService;
+
+    @Autowired
+    private ICanOrderDetailsService canOrderDetailsService;
+
+    @Autowired
     private ICanGroupService canGroupService;
+
 
     @ApiOperation(value = "order/list", notes = "查询订单信息", httpMethod = "GET")
     @ApiImplicitParams({})
     @GetMapping("/list")
     @PreAuthorize("hasAuthority('order:list')")
-    public List<CanOrder> List() {
-        return canOrderService.list();
-    }
-
-
-    @ApiOperation(value = "order/shopListByTime", notes = "根据时间查询订单信息", httpMethod = "GET")
-    @ApiImplicitParams({})
-    @GetMapping("/shopListByTime")
-    @PreAuthorize("hasAuthority('order:shopListByTime')")
-    public List<CanOrder> shopListByTime(@RequestParam(value = "startTime") String startTime, @RequestParam(value = "endTime") String endTime) {
+    public List<CanOrder> list(@RequestParam(value = "startTime") String startTime, @RequestParam(value = "endTime") String endTime) {
         return canOrderService.shopListByTime(startTime, endTime);
     }
 
@@ -85,10 +85,13 @@ public class CanOrderController {
     @ApiImplicitParams({})
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('order:delete')")
-    public boolean delete(@RequestBody String[] orderIds) {
-        if (canOrderService.removeBatchByIds(Arrays.asList(orderIds))) {
-            return true;
+    public void delete(@RequestBody String[] orderIds) throws BaseException {
+
+        boolean s1 = canOrderService.removeBatchByIds(Arrays.asList(orderIds));
+        boolean s2 = canOrderBillService.deleteBill(Arrays.asList(orderIds));
+        boolean s3 = canOrderDetailsService.deleteDetails(Arrays.asList(orderIds));
+        if (!s1 & !s2 & !s3) {
+            throw new BaseException("删除订单失败！");
         }
-        return false;
     }
 }

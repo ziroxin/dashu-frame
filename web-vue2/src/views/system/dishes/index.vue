@@ -138,13 +138,13 @@
 
 <script>
 import {dishesAdd, dishesDelete, dishesList, dishesUpdate} from '@/api/dishes';
-import {groupList} from '@/api/group';
+import {groupListById} from '@/api/group';
 
 export default {
   name: 'Index',
   data() {
     return {
-      fileList:[],
+      fileList: [],
       dishesData: [],
       //勾选的数据
       changeData: [],
@@ -163,9 +163,14 @@ export default {
       //删除的IDS
       dishesIds: [],
       //表单规则
-      rules: {dishesName: [{required: true, message: '请填写菜品名称', trigger: 'blur'}],
-        originalPrice:[{pattern: /^[+-]?(0|([1-9]\d*))(\.\d{1,2})?$/, message: '请输入正确金额,最多两位小数', trigger: 'blur'}],
-        currentPrice: [{required: true, message: '请填写菜品价格', trigger: 'blur'},{pattern: /^[+-]?(0|([1-9]\d*))(\.\d{1,2})?$/, message: '请输入正确金额,最多两位小数'}]
+      rules: {
+        dishesName: [{required: true, message: '请填写菜品名称', trigger: 'blur'}],
+        originalPrice: [{pattern: /^[+-]?(0|([1-9]\d*))(\.\d{1,2})?$/, message: '请输入正确金额,最多两位小数', trigger: 'blur'}],
+        currentPrice: [{
+          required: true,
+          message: '请填写菜品价格',
+          trigger: 'blur'
+        }, {pattern: /^[+-]?(0|([1-9]\d*))(\.\d{1,2})?$/, message: '请输入正确金额,最多两位小数'}]
       }
     }
   },
@@ -191,7 +196,7 @@ export default {
     },
     //查询菜品分组信息
     getGroupList() {
-      groupList().then(response => {
+      groupListById().then(response => {
         this.groupNameOptions = response.data
       })
     },
@@ -368,7 +373,7 @@ export default {
     orderUpdate(row) {
       this.temp = Object.assign({}, row)
       this.dialogFormDishes = true
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$refs['dishesDataForm'].clearValidate()
       })
     },

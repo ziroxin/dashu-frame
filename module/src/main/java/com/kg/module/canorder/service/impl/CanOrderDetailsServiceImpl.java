@@ -28,4 +28,9 @@ public class CanOrderDetailsServiceImpl extends ServiceImpl<CanOrderDetailsMappe
         return canOrderDetailsMapper.getOrderDetailsById(orderId);
     }
 
+
+    @Override
+    public boolean deleteDetails(List<String> orderIds) {
+        return canOrderDetailsMapper.deleteDetails(orderIds);
+    }
 }

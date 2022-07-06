@@ -3,7 +3,7 @@
     <!--    操作按钮-->
     <div style="margin-bottom: 10px">
       <el-button type="primary" icon="el-icon-plus" @click="orderAdd">添加</el-button>
-      <el-button type="info" icon="el-icon-edit">修改</el-button>
+      <el-button type="info" icon="el-icon-edit" @click="orderUpdate">修改</el-button>
       <el-button type="danger" icon="el-icon-delete" @click="orderDelete">删除</el-button>
       <el-date-picker v-model="value" style="margin: 10px" type="daterange" align="right"
                       unlink-panels range-separator="至" start-placeholder="开始日期"
@@ -99,26 +99,41 @@
 
         <el-form-item label="纳税人识别号：" prop="taxId">
           <el-input v-model="orderBillData.taxId" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.taxId" @click="copy">复制
+          </el-button>
         </el-form-item>
 
         <el-form-item label="单位地址：" prop="companyAdress">
           <el-input v-model="orderBillData.companyAdress" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.companyAdress" @click="copy">
+            复制
+          </el-button>
         </el-form-item>
 
         <el-form-item label="单位联系电话：" prop="companyPhone">
           <el-input v-model="orderBillData.companyPhone" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.companyPhone" @click="copy">
+            复制
+          </el-button>
         </el-form-item>
 
         <el-form-item label="开户行：" prop="bank">
           <el-input v-model="orderBillData.bank" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.bank" @click="copy">复制
+          </el-button>
         </el-form-item>
 
         <el-form-item label="银行账号：" prop="bankAccount">
           <el-input v-model="orderBillData.bankAccount" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.bankAccount" @click="copy">复制
+          </el-button>
         </el-form-item>
 
-        <el-form-item label="银行账号：" prop="invoiceAmount">
+        <el-form-item label="开票金额：" prop="invoiceAmount">
           <el-input v-model="orderBillData.invoiceAmount" />
+          <el-button class="tag-read" type="primary" :data-clipboard-text="orderBillData.invoiceAmount" @click="copy">
+            复制
+          </el-button>
         </el-form-item>
 
       </el-form>
@@ -129,7 +144,7 @@
 
 <script>
 
-import {orderAdd, orderDelete, orderList, orderUpdate, shopListByTime} from '@/api/order';
+import {orderAdd, orderDelete, orderList, orderUpdate} from '@/api/order';
 import {tableList} from '@/api/table';
 import {orderDeletailsList} from '@/api/order-deletail';
 import {orderBillById} from '@/api/order-bill';
@@ -223,8 +238,9 @@ export default {
     handleCurrentChange(page) {
       this.pager.page = page
     },
+    //查询订单信息
     getOrderList() {
-      orderList().then(response => {
+      orderList(this.time).then(response => {
         this.orderData = response.data
         this.totalCount = response.data.length
       })
@@ -261,6 +277,21 @@ export default {
       this.$nextTick(() => {
         this.$refs['orderDataForm'].clearValidate()
       })
+    },
+    //点击修改按钮后
+    orderUpdate() {
+      if (this.changeData.length <= 0) {
+        this.$message({type: 'warning', message: '请选择一条数据进行修改！'})
+      } else if (this.changeData.length > 1) {
+        this.$message({type: 'warning', message: '修改时仅允许选择一条数据！'})
+      } else {
+        this.temp = Object.assign({}, this.changeData[0])
+        this.dialogStatus = 'update'
+        this.dialogFormVisible = true
+        this.$nextTick(() => {
+          this.$refs['orderDataForm'].clearValidate()
+        })
+      }
     },
     //  提交数据
     submitJudgment() {
@@ -369,6 +400,7 @@ export default {
         clipboard.destroy()
       })
     },
+    //根据时间查询订单信息
     getshopListByTime() {
       let yy = this.value[0].getFullYear();
       let mm = this.value[0].getMonth() + 1;
@@ -380,7 +412,7 @@ export default {
       let dd1 = this.value[1].getDate();
       this.time.endTime = yy1 + '-' + mm1 + '-' + dd1
 
-      shopListByTime(this.time).then(response => {
+      orderList(this.time).then(response => {
         this.orderData = response.data
         this.totalCount = response.data.length
       })

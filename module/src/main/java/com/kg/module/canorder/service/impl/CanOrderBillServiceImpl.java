@@ -7,6 +7,8 @@ import com.kg.module.canorder.service.ICanOrderBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 发票表 服务实现类
@@ -24,5 +26,10 @@ public class CanOrderBillServiceImpl extends ServiceImpl<CanOrderBillMapper, Can
     @Override
     public CanOrderBill getOrderBillById(String orderId) {
         return canOrderBillMapper.getOrderBillById(orderId);
+    }
+
+    @Override
+    public boolean deleteBill(List<String> orderIds) {
+        return canOrderBillMapper.deleteBill(orderIds);
     }
 }

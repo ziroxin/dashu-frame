@@ -4,6 +4,8 @@ import com.kg.module.cangroup.entity.CanGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.kg.module.canshop.entity.CanUserShop;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜品分组表 Mapper 接口
@@ -15,4 +17,6 @@ import com.kg.module.canshop.entity.CanUserShop;
 public interface CanGroupMapper extends BaseMapper<CanGroup> {
 
     CanUserShop getUserShop(String userId);
+
+    List<CanGroup> getGroupById(String shopId);
 }

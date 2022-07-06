@@ -3,12 +3,16 @@
 <mapper namespace="com.kg.module.canorder.mapper.CanOrderDetailsMapper">
 
     <select id="getOrderDetailsById" resultType="com.kg.module.canorder.entity.CanOrderDetails">
-        SELECT
-            *
-        FROM
-            can_order_details
-        WHERE
-            order_id =#{orderId}
+        SELECT *
+        FROM can_order_details
+        WHERE order_id = #{orderId}
     </select>
+
+    <delete id="deleteDetails">
+        delete from can_order_details where order_id IN
+        <foreach collection="orderIds" item="orderIds" index="index" open="(" close=")" separator=",">
+            #{orderIds}
+        </foreach>
+    </delete>
 
 </mapper>
