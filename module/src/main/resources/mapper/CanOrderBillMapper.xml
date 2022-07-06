@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kg.module.canorder.mapper.CanOrderBillMapper">
+
+    <select id="getOrderBillById" resultType="com.kg.module.canorder.entity.CanOrderBill">
+        SELECT
+            *
+        FROM
+            can_order_bill
+        WHERE
+            order_id =#{orderId}
+    </select>
+
+    <delete id="deleteBill">
+        delete from can_order_bill where order_id IN
+        <foreach collection="orderIds" item="orderIds" index="index" open="(" close=")" separator=",">
+            #{orderIds}
+        </foreach>
+    </delete>
+
+</mapper>

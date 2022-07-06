@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CanUserShopMapper extends BaseMapper<CanUserShop> {
 
+    Integer getUserById(String userId);
+
 }

@@ -1,7 +1,9 @@
 package com.kg.module.canorder.mapper;
 
-import com.kg.module.canorder.entity.CanOrderBill;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kg.module.canorder.entity.CanOrderBill;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +14,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-06-28
  */
 public interface CanOrderBillMapper extends BaseMapper<CanOrderBill> {
+
+    CanOrderBill getOrderBillById(String orderId);
+
+    boolean deleteBill(List<String> orderIds);
 
 }

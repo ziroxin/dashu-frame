@@ -1,6 +1,8 @@
 package com.kg.module.candishes.controller;
 
 
+import com.kg.component.file.FileUploadDTO;
+import com.kg.component.file.ImageUploadUtils;
 import com.kg.module.candishes.dto.CanDishesGroupDTO;
 import com.kg.module.candishes.service.ICanDishesGroupService;
 import com.kg.module.candishes.service.ICanDishesService;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,5 +79,10 @@ public class CanDishesController {
         if (!s1 && !s2) {
             throw new BaseException("删除用户失败！");
         }
+    }
+
+    @PostMapping("/file")
+    public List<FileUploadDTO> dishesFile(HttpServletRequest request) throws IOException {
+        return ImageUploadUtils.upload(request, "dishes/file");
     }
 }

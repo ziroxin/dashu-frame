@@ -1,7 +1,9 @@
 package com.kg.module.canorder.service;
 
-import com.kg.module.canorder.entity.CanOrderDetails;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.module.canorder.entity.CanOrderDetails;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-06-28
  */
 public interface ICanOrderDetailsService extends IService<CanOrderDetails> {
+
+    List<CanOrderDetails> getOrderDetailsById(String orderId);
+
+    boolean deleteDetails(List<String> orderIds);
 
 }

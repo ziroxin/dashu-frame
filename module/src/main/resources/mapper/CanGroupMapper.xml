@@ -10,4 +10,15 @@
         WHERE
             user_id = #{userId}
     </select>
+
+    <select id="getGroupById" resultType="com.kg.module.cangroup.entity.CanGroup">
+        SELECT
+            *
+        FROM
+            can_group
+        WHERE 1=1
+        <if test="shopId != null and shopId != ''">
+            AND shop_id = #{shopId}
+        </if>
+    </select>
 </mapper>

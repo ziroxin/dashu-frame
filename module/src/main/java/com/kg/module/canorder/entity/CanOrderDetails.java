@@ -22,10 +22,10 @@ public class CanOrderDetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("订单详情ID")
+    @TableId(value = "order_details_id")
     private String orderDetailsId;
 
     @ApiModelProperty("订单ID")
-    @TableId(value = "order_id")
     private String orderId;
 
     @ApiModelProperty("菜品名称")

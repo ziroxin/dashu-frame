@@ -90,8 +90,8 @@ public class ImageUploadUtils {
                 } else {
                     // 不压缩直接复制
                     FileCopyUtils.copy(multipartFile.getBytes(), saveFile);
-                    resultList.add(file);
                 }
+                resultList.add(file);
             }
         }
         return resultList;

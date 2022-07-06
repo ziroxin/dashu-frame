@@ -44,6 +44,15 @@ public class CanGroupController {
         return canGroupService.list();
     }
 
+    @ApiOperation(value = "group/getGroupById", notes = "查询本店铺菜品分组信息", httpMethod = "GET")
+    @ApiImplicitParams({})
+    @GetMapping("/getGroupById")
+    @PreAuthorize("hasAuthority('group:list')")
+    public List<CanGroup> getGroupById() {
+        ZUser user = CurrentUserUtils.getCurrentUser();
+        CanUserShop usershop = canGroupService.getUserShop(user.getUserId());
+        return canGroupService.getGroupById(usershop.getShopId());
+    }
 
     @ApiOperation(value = "group/add", notes = "添加店铺", httpMethod = "POST")
     @ApiImplicitParams({})

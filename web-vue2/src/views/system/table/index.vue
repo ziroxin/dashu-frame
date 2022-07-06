@@ -60,7 +60,7 @@ export default {
       //每一条数据
       temp: {},
       //表单验证规则
-      rules: {},
+      rules: {tableName: [{required: true, message: '请填写餐桌名称', trigger: 'blur'}]},
       //删除的IDS
       tableIds:[]
     }
@@ -117,8 +117,8 @@ export default {
       this.$refs['tableDataForm'].validate((valid) => {
         if (valid) {
           if (this.dialogStatus === 'update') {
-            tableUpdate(this.temp).then(reponse => {
-              const {code} = reponse
+            tableUpdate(this.temp).then(response => {
+              const {code} = response
               if (code === '200') {
                 this.$message({type: 'success', message: '修改成功！'})
                 this.dialogFormVisible = false
@@ -128,8 +128,8 @@ export default {
               }
             })
           } else {
-            tableAdd(this.temp).then(reponse => {
-              const {code} = reponse
+            tableAdd(this.temp).then(response => {
+              const {code} = response
               if (code === '200') {
                 this.$message({type: 'success', message: '添加成功！'})
                 this.dialogFormVisible = false
@@ -150,8 +150,8 @@ export default {
           confirmButtonText:'确定',cancelButtonText:'取消',type:'warning'
         }).then(()=>{
           this.tableIds.push(...this.changeData.map(r=>r.tableId))
-          tableDelete(this.tableIds).then(reponse =>{
-            const {code} = reponse
+          tableDelete(this.tableIds).then(response =>{
+            const {code} = response
             if (code === '200') {
               this.$message({type:'success',message:'删除成功！'})
               this.getTableList()

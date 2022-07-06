@@ -8,6 +8,8 @@ import com.kg.module.canshop.entity.CanUserShop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜品分组表 服务实现类
@@ -25,5 +27,10 @@ public class CanGroupServiceImpl extends ServiceImpl<CanGroupMapper, CanGroup> i
     @Override
     public CanUserShop getUserShop(String userId) {
         return canGroupMapper.getUserShop(userId);
+    }
+
+    @Override
+    public List<CanGroup> getGroupById(String shopId) {
+        return canGroupMapper.getGroupById(shopId);
     }
 }

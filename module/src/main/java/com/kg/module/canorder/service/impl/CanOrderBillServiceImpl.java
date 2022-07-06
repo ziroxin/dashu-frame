@@ -1,10 +1,13 @@
 package com.kg.module.canorder.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.module.canorder.entity.CanOrderBill;
 import com.kg.module.canorder.mapper.CanOrderBillMapper;
 import com.kg.module.canorder.service.ICanOrderBillService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +20,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CanOrderBillServiceImpl extends ServiceImpl<CanOrderBillMapper, CanOrderBill> implements ICanOrderBillService {
 
+    @Autowired
+    private CanOrderBillMapper canOrderBillMapper;
+
+    @Override
+    public CanOrderBill getOrderBillById(String orderId) {
+        return canOrderBillMapper.getOrderBillById(orderId);
+    }
+
+    @Override
+    public boolean deleteBill(List<String> orderIds) {
+        return canOrderBillMapper.deleteBill(orderIds);
+    }
 }

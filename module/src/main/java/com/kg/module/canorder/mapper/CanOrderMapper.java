@@ -1,7 +1,9 @@
 package com.kg.module.canorder.mapper;
 
-import com.kg.module.canorder.entity.CanOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.kg.module.canorder.entity.CanOrder;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CanOrderMapper extends BaseMapper<CanOrder> {
 
+    List<CanOrder> shopListByTime(String startTime, String endTime);
 }
