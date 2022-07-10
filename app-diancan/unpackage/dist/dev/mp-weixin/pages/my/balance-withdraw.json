@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "提现",
+  "transparentTitle": "auto",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar"
+  }
+}

@@ -1,0 +1,130 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* uni.scss */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.container.data-v-158fb5f1 {
+  padding: 24rpx;
+  min-height: calc(100vh - 0px);
+  box-sizing: border-box;
+  background-color: #F8F8F8;
+}
+.address-list .item.data-v-158fb5f1 {
+  width: 700rpx;
+  margin: 0 auto;
+  border-radius: 12rpx;
+  background-color: white;
+  margin-bottom: 24rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+.address-list .item .header.data-v-158fb5f1 {
+  border-bottom: 1px solid #EEEEEE;
+}
+.address-list .item .header .user-info.data-v-158fb5f1 {
+  display: flex;
+  align-items: center;
+}
+.address-list .item .header .user-info .name.data-v-158fb5f1 {
+  font-size: 30rpx;
+  color: #333333;
+}
+.address-list .item .header .user-info .phone-number.data-v-158fb5f1 {
+  font-size: 24rpx;
+  color: #777777;
+  margin-left: 16rpx;
+}
+.address-list .item .header .address-detail.data-v-158fb5f1 {
+  display: flex;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+.address-list .item .header .address-detail .icon-box.data-v-158fb5f1 {
+  white-space: nowrap;
+  min-width: 72rpx;
+  height: 40rpx;
+  border-radius: 8rpx;
+  background-color: #FFE6DD;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #FF7250;
+}
+.address-list .item .header .address-detail .detailed-address.data-v-158fb5f1 {
+  margin-left: 16rpx;
+  font-size: 28rpx;
+  color: #333333;
+}
+.address-list .item .footer.data-v-158fb5f1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.address-list .item .footer view.data-v-158fb5f1 {
+  display: flex;
+  align-items: center;
+}
+.address-list .item .footer .default-box .choose-icon.data-v-158fb5f1 {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 1px solid #AAAAAA;
+}
+.address-list .item .footer .default-box .choose-icon.default.data-v-158fb5f1 {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAD0ElEQVRYR82ZfWiVZRTAf+fu7orIksg/tARB/0hSIs2RMSJXWKSw7TKHwwaiJqgZtQ1iFtbFUSrhFmhtRDkULWRCmyD0V6Wg+P21gR8lmk4btJAxbd193BPvx7wfbve9z9013vff93z83vM8zznnOa+QxaMRAtwrLSQYKAZeRPVZYBpQ4JrrA/5E5CpwlqHYLzzZfloixEzdiYmCVlc8AwMbQaoQppvoonSB7oPQLmlsvZOpbkaA+m74KSZoPbAamJCp8THkosBuorJZvvrxby9bnoBaXVKJBHYCU7yMGb7vAd0oDe0H0umNCaiRRUH6Ju9EZZ2hYzNx0WYKet+TyK9DoymOCqjVFRMJDLSistTMW5bSooeJhSqksbU/1cIjgG7k2v43uBEiC7Kgtyw1ko8C1pY2PfZlHSvQos2yo3194uskQPdA/JDlQuVITSsTD85DQDeVXHkMp9UUvIeozB5JQXHAmrKvgaTwmlrOoXyTNLRtsOzZgHaFkMHrOUjCuWKMovmzrIrjApZuRaQuV9bHtLO4AhaF4fhPcHhveneq26SxfZPYhb+37A/j2mr6NW8shzcrHa1oP3y0wgOQLia3zRB9v/Ql8uSEqT8j+dfKYWlVXOXIITjU4m1iWBeK1obrUN3qLZ2lxKslULIqrnzqZziwy9r53gZFNonWlB0Eyr2ls5AoegvCa0HcZHHuKHz/JWgGcPYRloMWYAcwNwv36VUWLoZl6+NwF4/Dvh0QM+pZOy3Av9Im52AInp4BXdczN76gGCqtvjbgfETnSdjzBcSGTePQYwH+mzb/baiHWXPht0vw3WcwOJDeybxXYMUHEHDhLp+Flm0wPGo35QUc9QbcsgcmPeEYunoBdn8OQ4OjG37+Zaiqhby8zOS98MAGTL/ELxTB2zXeEZlTCCs/hLyg4/b3Tvi23jvi6SHtJfY+JIXFsDxhT3WchL0Je2r2fFhVB8F8x92Ny/DNFhiwds+4ng4rD7aiuszTTOqpvHAM9jc4+3PNx5AfckzcugbNEadajPex04xJoi5aAuF34qnjynmY+RyE3IueddKbP4X+B+NFc/TtRG1a6lIrwwjK3ZvQ9An8Y93Zc/TYpS6bZuH1cliSUFu7b0PTZrjfmyMyuxI6zYJlUauzaLeKw2C1T923oGU79N3LHZwN5bZbDqDPG1Yb0s8tvw3ozF/8e2lyltqew/jz2jmyw9XPF3c7is7QyL+jD/dU+3d49HCp/Tx+S8y4vh1gJkH6eQScHE2fDtFTi2zSbwjVBYD1G2Jqym+IbuuSgMiZ8fyG+A/enptlVaESDgAAAABJRU5ErkJggg==);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+}
+.address-list .item .footer .default-box .default-text.data-v-158fb5f1 {
+  font-size: 26rpx;
+  color: #777777;
+  margin-left: 16rpx;
+}
+.address-list .item .footer .handle-box view.data-v-158fb5f1:first-child {
+  margin-right: 60rpx;
+}
+.btn.data-v-158fb5f1 {
+  width: 700rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: white;
+  border-radius: 12rpx;
+  background: linear-gradient(90deg, #FA8A43 0%, #FF7250 100%);
+  margin-top: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn image.data-v-158fb5f1 {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}
+

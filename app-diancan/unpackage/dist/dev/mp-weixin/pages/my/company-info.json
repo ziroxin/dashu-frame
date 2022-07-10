@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "商家信息",
+  "usingComponents": {
+    "u-lazy-load": "/uview-ui/components/u-lazy-load/u-lazy-load",
+    "u-skeleton": "/uview-ui/components/u-skeleton/u-skeleton"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "支付",
+  "transparentTitle": "auto",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
+    "cpayment": "/components/c-payment/index"
+  }
+}

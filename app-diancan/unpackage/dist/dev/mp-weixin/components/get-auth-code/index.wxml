@@ -1,0 +1,1 @@
+<view class="getCode" style="{{'color:'+(color)+';'}}"><block wx:if="{{isShow}}"><text data-event-opts="{{[['tap',[['getCode',['$event']]]]]}}" bindtap="__e">{{codeText}}</text></block><block wx:else><text>{{time+"s"}}</text></block></view>

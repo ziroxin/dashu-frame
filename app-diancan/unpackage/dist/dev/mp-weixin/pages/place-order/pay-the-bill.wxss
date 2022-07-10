@@ -1,0 +1,253 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* uni.scss */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.container.data-v-12e4a9f0 {
+  width: 100%;
+  min-height: calc(100vh - 0px);
+  background-image: url(data:image/png;base64,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);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: "#F8F8F8";
+  background-color: #F8F8F8;
+  padding-bottom: 120rpx;
+}
+.take-food-way.data-v-12e4a9f0 {
+  width: 700rpx;
+  min-height: 180rpx;
+  margin: 0 auto;
+  margin-top: 40rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  background-color: white;
+}
+.take-food-way .label.data-v-12e4a9f0 {
+  font-size: 26rpx;
+  color: #777777;
+}
+.take-food-way .take-food-type.data-v-12e4a9f0 {
+  width: 654rpx;
+  height: 56rpx;
+  background-color: #E7E7E7;
+  border-radius: 28rpx;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+}
+.take-food-way .take-food-type .item.data-v-12e4a9f0 {
+  width: 50%;
+  text-align: center;
+  line-height: 56rpx;
+}
+.take-food-way .take-food-type .item.active.data-v-12e4a9f0 {
+  background-color: #FF7250;
+  color: white;
+  border-radius: 28rpx;
+}
+.take-food-way .pay-user-info.data-v-12e4a9f0 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 24rpx;
+  font-size: 26rpx;
+}
+.take-food-way .pay-user-info .table.data-v-12e4a9f0 {
+  width: 100%;
+  height: 96rpx;
+  font-size: 28rpx;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+.take-food-way .pay-user-info .table .label.data-v-12e4a9f0 {
+  font-size: 28rpx;
+  color: #333333;
+  white-space: nowrap;
+}
+.take-food-way .pay-user-info .table .select-box.data-v-12e4a9f0 {
+  font-size: 26rpx;
+  color: #777777;
+}
+.take-food-way .pay-user-info .table .table-number.data-v-12e4a9f0 {
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 40rpx;
+  color: #FF7250;
+  flex: 1;
+}
+.take-food-way .pay-user-info .item.data-v-12e4a9f0 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  justify-content: space-between;
+}
+.take-food-way .pay-user-info .item .input-box.data-v-12e4a9f0 {
+  width: 100%;
+  height: 56rpx;
+}
+.take-food-way .pay-user-info .item .input-box input.data-v-12e4a9f0 {
+  height: 56rpx;
+  background-color: #F8F8F8;
+  border-radius: 28rpx;
+  padding-left: 20rpx;
+}
+.take-food-way .pay-user-info .item .input-box .input-item.data-v-12e4a9f0 {
+  width: 73vw;
+  line-height: 56rpx;
+  font-size: 26rpx;
+}
+.take-food-way .pay-user-info .item .input-box .input-name.data-v-12e4a9f0 {
+  width: 140rpx;
+}
+.take-food-way .pay-user-info .item .input-box .input-phone.data-v-12e4a9f0 {
+  width: 210rpx;
+}
+.take-food-way .pay-user-info .item .input-box .input-place.data-v-12e4a9f0 {
+  line-height: 56rpx;
+  font-size: 26rpx;
+}
+.take-food-way .pay-date.data-v-12e4a9f0 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.take-food-way .pay-date .date.data-v-12e4a9f0 {
+  font-size: 26rpx;
+  color: #333333;
+}
+.food-cart.data-v-12e4a9f0 {
+  width: 700rpx;
+  margin: 0 auto;
+  margin-top: 24rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 12rpx;
+}
+.food-cart .shop-name.data-v-12e4a9f0 {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333333;
+}
+.food-cart .foods .item.data-v-12e4a9f0 {
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.food-cart .foods .item .left.data-v-12e4a9f0 {
+  display: flex;
+}
+.food-cart .foods .item .left .img-box image.data-v-12e4a9f0 {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 4rpx;
+}
+.food-cart .foods .item .left .img-box .img-status-text.data-v-12e4a9f0 {
+  font-size: 24rpx;
+}
+.food-cart .foods .item .left .food-info.data-v-12e4a9f0 {
+  margin-left: 10rpx;
+}
+.food-cart .foods .item .left .food-info .food-name.data-v-12e4a9f0 {
+  color: #333333;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+.food-cart .foods .item .left .food-info .food-number.data-v-12e4a9f0 {
+  margin-top: 24rpx;
+  color: #777777;
+  font-size: 26rpx;
+}
+.food-cart .foods .item .price text.data-v-12e4a9f0 {
+  color: #333333;
+}
+.food-cart .choose-coupon.data-v-12e4a9f0 {
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin: 12rpx auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: bold;
+}
+.food-cart .choose-coupon .value .no-coupon.data-v-12e4a9f0 {
+  font-weight: normal;
+  color: #999999;
+}
+.food-cart .reality-price.data-v-12e4a9f0 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 32rpx;
+}
+.food-cart .reality-price .label.data-v-12e4a9f0 {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: bold;
+}
+.food-cart .reality-price .reality .unit.data-v-12e4a9f0 {
+  font-size: 30rpx;
+}
+.food-cart .reality-price .reality .price.data-v-12e4a9f0 {
+  font-size: 40rpx;
+}
+.summation.data-v-12e4a9f0 {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 120rpx;
+  padding: 12rpx;
+  box-sizing: border-box;
+  background-color: #FFF1EE;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.summation .go-pay.data-v-12e4a9f0 {
+  min-width: 184rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  background: linear-gradient(90deg, #FA8A43 0%, #FF7250 100%);
+  color: white;
+  border-radius: 32rpx;
+}
+.pay-type.data-v-12e4a9f0 {
+  margin-bottom: 120rpx;
+}
+

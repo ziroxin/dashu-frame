@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "订单",
+  "usingComponents": {
+    "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
+    "u-tabs-swiper": "/uview-ui/components/u-tabs-swiper/u-tabs-swiper",
+    "mescroll-body": "/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body",
+    "u-skeleton": "/uview-ui/components/u-skeleton/u-skeleton",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "order-detail": "/components/order-detail/index"
+  }
+}

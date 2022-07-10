@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "transparentTitle": "auto",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-navbar": "/uview-ui/components/u-navbar/u-navbar",
+    "u-count-down": "/uview-ui/components/u-count-down/u-count-down",
+    "u-image": "/uview-ui/components/u-image/u-image",
+    "u-skeleton": "/uview-ui/components/u-skeleton/u-skeleton",
+    "u-modal": "/uview-ui/components/u-modal/u-modal"
+  }
+}

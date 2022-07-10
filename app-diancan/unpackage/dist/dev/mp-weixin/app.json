@@ -1,0 +1,76 @@
+{
+  "pages": [
+    "pages/place-order/index",
+    "pages/place-order/pay-the-bill",
+    "pages/place-order/search",
+    "pages/order-form/index",
+    "pages/order-form/order-details",
+    "pages/my/index",
+    "pages/my/balance-details",
+    "pages/my/msg-list",
+    "pages/my/balance-recharge",
+    "pages/my/balance-withdraw",
+    "pages/my/scan-recharge",
+    "pages/my/address-list",
+    "pages/my/add-addr",
+    "pages/my/suggest",
+    "pages/my/discounts-card",
+    "pages/my/coupon-code-center",
+    "pages/my/online-service",
+    "pages/my/invite",
+    "pages/my/company-info",
+    "pages/my/agreement-page"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTitleText": "小饿",
+    "navigationBarBackgroundColor": "#FF7250",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "iconWidth": "22px",
+    "fontSize": "10px",
+    "color": "#777777",
+    "selectedColor": "#FF7250",
+    "list": [
+      {
+        "iconPath": "static/images/tabbar/place-order.png",
+        "selectedIconPath": "static/images/tabbar/place-order-active.png",
+        "pagePath": "pages/place-order/index",
+        "text": "点餐"
+      },
+      {
+        "iconPath": "static/images/tabbar/order-form.png",
+        "selectedIconPath": "static/images/tabbar/order-form-active.png",
+        "pagePath": "pages/order-form/index",
+        "text": "订单"
+      },
+      {
+        "iconPath": "static/images/tabbar/my.png",
+        "selectedIconPath": "static/images/tabbar/my-active.png",
+        "pagePath": "pages/my/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于确定附近商家距离"
+    }
+  },
+  "plugins": {
+    "sendCoupon": {
+      "version": "latest",
+      "provider": "wxf3f436ba9bd4be7b"
+    }
+  },
+  "uniStatistics": {
+    "enable": true
+  },
+  "usingComponents": {
+    "get-code": "/components/get-auth-code/index",
+    "good-detail": "/components/good-detail/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

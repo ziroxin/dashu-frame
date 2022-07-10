@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "改进建议",
+  "usingComponents": {
+    "u-image": "/uview-ui/components/u-image/u-image"
+  }
+}

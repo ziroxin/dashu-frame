@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "余额明细",
+  "usingComponents": {
+    "u-calendar": "/uview-ui/components/u-calendar/u-calendar",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore"
+  }
+}
