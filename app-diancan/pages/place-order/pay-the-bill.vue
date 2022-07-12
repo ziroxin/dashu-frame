@@ -40,7 +40,7 @@
                             餐桌：<text class="table-number" v-if="tableNumber">{{tableNumber}}</text>
                         </view>
                         <view class="select-box">
-                            请选择 <u-icon name="arrow-right" size="20" color="#777777"></u-icon>
+                            修改 <u-icon name="arrow-right" size="20" color="#777777"></u-icon>
                         </view>
                     </view>
 
@@ -66,7 +66,8 @@
                 <view class="item u-skeleton-fillet" v-for="(item,index) in selectedShop" :key="index">
                     <view class="left">
                         <view class="img-box ">
-                            <u-image class="foods-image-box u-skeleton-fillet" width="100" height="100" :src="item.picture">
+                            <u-image class="foods-image-box u-skeleton-fillet" width="100" height="100"
+                                :src="imgUrl+item.picture">
                                 <view class="img-status-text" slot="loading">
                                     加载中
                                 </view>
@@ -85,7 +86,7 @@
                         </view>
                     </view>
                     <view class="price ">
-                        <text class="unit">¥</text><text class="price">{{item.price_selling}}</text>
+                        <text class="unit">¥</text><text class="price">{{item.currentPrice}}</text>
                     </view>
                 </view>
             </view>
@@ -198,7 +199,8 @@
                 tableNumberShow: false,
                 isTopShow: true,
                 discountInfo: '',
-                couponsNumber: 0
+                couponsNumber: 0,
+                imgUrl: this.$imgURL,
             }
         },
         onLoad(options) {

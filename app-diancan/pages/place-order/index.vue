@@ -69,8 +69,9 @@
                                             <view class="item-menu-name u-skeleton-rect">{{items.dishesName}}</view>
                                             <view class="item-menu-dosing u-skeleton-rect">{{items.introduction || ''}}
                                             </view>
-                                            <view class="item-menu-sales u-skeleton-rect">月售{{items.number_sales}}
-                                            </view>
+                                            <!-- <view class="item-menu-sales u-skeleton-rect">
+                                                月售{{items.number_sales}}
+                                            </view> -->
                                             <view class="item-menu-price-box">
                                                 <view class="item-menu-price u-skeleton-rect">
                                                     <view class="">
@@ -243,15 +244,15 @@
                 this.$store.commit('SET_SHOP_ID', this.shopId)
             }
             // 加载餐厅信息
-            
+
             if (options.merchantId) {
                 console.log("options.merchantId", options.merchantId);
                 this.merchantId = options.merchantId
                 this.$store.commit('SET_MERCHANT_ID', this.merchantId || 1)
             }
             // 餐桌
-            if (options.number) {
-                this.tableNumber = options.number;
+            if (options.tableNumber) {
+                this.tableNumber = options.tableNumber;
             }
         },
         onShow() {
