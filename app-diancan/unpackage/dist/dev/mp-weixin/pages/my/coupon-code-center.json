@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "领券中心",
-  "usingComponents": {
-    "mescroll-body": "/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body",
-    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
-    "send-coupon": "plugin://sendCoupon/send-coupon"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "站内消息",
-  "usingComponents": {
-    "mescroll-body": "/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body",
-    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore"
-  }
-}

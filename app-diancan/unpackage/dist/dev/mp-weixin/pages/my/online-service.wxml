@@ -1,1 +1,0 @@
-<view class="container data-v-100cb9d5"><view class="common-problem data-v-100cb9d5"><rich-text nodes="{{content}}" class="data-v-100cb9d5"></rich-text></view><button class="service-btn data-v-100cb9d5 vue-ref" open-type="contact" data-ref="serviceBtn" data-event-opts="{{[['contact',[['handleContact',['$event']]]]]}}" bindcontact="__e">联系客服</button></view>

@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "我的邀请",
-  "transparentTitle": "auto",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "u-icon": "/uview-ui/components/u-icon/u-icon"
-  }
-}

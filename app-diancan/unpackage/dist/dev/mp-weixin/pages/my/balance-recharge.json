@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "余额充值",
-  "usingComponents": {
-    "cpayment": "/components/c-payment/index"
-  }
-}
