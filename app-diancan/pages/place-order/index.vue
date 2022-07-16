@@ -3,7 +3,7 @@
     <view class="container u-wrap u-skeleton">
         <view class="table">
             <picker ref="personPicker" @change="bindPickerChange" :value="index" :range="personNumberArray">
-                <text class="table-number u-skeleton-fillet" v-if="tableNumber">{{tableNumber}}，</text>
+                <text class="table-number u-skeleton-fillet" v-if="tableName">{{tableName}}，</text>
                 <text>就餐人数：</text>
                 <text class="table-number u-skeleton-fillet">{{personNumber}}</text>
                 <text>[点击选择]</text>
@@ -20,16 +20,16 @@
         <view class="u-menu-wrap" v-if="loading">
             <scroll-view scroll-y scroll-with-animation class="u-tab-view menu-scroll-view" :scroll-top="scrollTop">
                 <view v-for="(item,index) in 3" :key="index" class="u-tab-item ">
-                    <text class="u-line-1 u-skeleton-fillet">商品分类</text>
+                    <text class="u-line-1 u-skeleton-fillet">分类</text>
                 </view>
             </scroll-view>
             <view class="right-box camouflage-skeleton">
                 <view class="items" v-for="item in 3" :key="item">
-                    <view class="image-box u-skeleton-fillet">商品图片</view>
+                    <view class="image-box u-skeleton-fillet">图片</view>
                     <view class="value">
-                        <view class="item u-skeleton-fillet">商品名称</view>
-                        <view class="item u-skeleton-fillet">商品描述</view>
-                        <view class="item u-skeleton-fillet">商品价格</view>
+                        <view class="item u-skeleton-fillet">名称</view>
+                        <view class="item u-skeleton-fillet">描述</view>
+                        <view class="item u-skeleton-fillet">价格</view>
                     </view>
                 </view>
             </view>
@@ -53,7 +53,6 @@
                             <view class="item-container">
                                 <block v-if="items">
                                     <view class="thumb-box">
-
                                         <!-- <image class="item-menu-image u-skeleton-rect" :src="items.img" mode="widthFix">
 										</image> -->
                                         <u-image class="foods-image-box u-skeleton-rect" width="186" height="186"
@@ -119,7 +118,7 @@
         <view class="ikhalamu-ebaliwe">
             <view class="have-data data" v-if="selectedShopQuantity>0">
                 <view class="shopping-cart">
-                    <view class="shop-number">
+                    <view class="shop-number" @click="trigger">
                         <u-badge class="u-badge" :offset="[0,624]" type="error" :count="selectedShopQuantity"></u-badge>
                         <image src="@/static/images/yes-shop.png" mode="widthFix"></image>
                     </view>
@@ -217,7 +216,7 @@
                 isShowText: true,
                 specItem: '',
                 specActive: '',
-                tableNumber: '', //餐桌号
+                tableName: '', //餐桌
                 personNumber: '0', //就餐人数
                 personNumberArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                 wxLoginCode: '',
@@ -240,26 +239,22 @@
                 console.log("// 没有店铺信息，跳转首页扫码");
                 return
             } else if (options.shopId != undefined) {
-                this.shopId = options.shopId
-                this.$store.commit('SET_SHOP_ID', this.shopId)
+                this.$store.commit('SET_SHOP_ID', options.shopId);
             }
-            // 加载餐厅信息
 
-            if (options.merchantId) {
-                console.log("options.merchantId", options.merchantId);
-                this.merchantId = options.merchantId
-                this.$store.commit('SET_MERCHANT_ID', this.merchantId || 1)
-            }
-            // 餐桌
-            if (options.tableNumber) {
-                this.tableNumber = options.tableNumber;
+            // 加载餐桌信息
+            if (options.tableId) {
+                this.$store.commit('SET_TABLE_ID', options.tableId);
             }
         },
         onShow() {
+            this.$store.dispatch('getShop');
+            this.$store.dispatch('getTable');
             this.$store.dispatch('getGoodsList');
         },
         onReady() {
             // 选择就餐人数
+            this.tableName = this.$store.state.currentShopInfo.tableName;
         },
         computed: {
             ...mapState(['goodsList', 'selectedShop']),
@@ -312,6 +307,7 @@
                         icon: 'none',
                         duration: 2000
                     });
+                    // this.$refs.personPicker.dispatchEvent(new MouseEvent('change'));
                 } else {
                     let _that = this,
                         list = [];
@@ -328,19 +324,9 @@
                         })
                         // 跳到订单页
                         this.JumpPage('/pages/place-order/pay-the-bill', {
-                            price: 111,
-                            tableNumber: _that.tableNumber,
+                            price: this.selectedShopTotalPrice.toFixed(2),
                             personNumber: _that.personNumber
                         })
-                        // this.$http('/can/api/open/saveBill', 'POST', {
-                        //         goods_sku: JSON.stringify(list)
-                        //     })
-                        //     .then(res => {
-                        //         this.JumpPage('/pages/place-order/pay-the-bill', {
-                        //             price: res.data.data.price,
-                        //             tableNumber: _that.tableNumber
-                        //         })
-                        //     })
                     } else {
                         // this.oauthShow = !this.oauthShow
                         this.goOauth();
@@ -700,10 +686,6 @@
     .foods-image-box {
         width: 186rpx;
         height: 186rpx;
-    }
-
-    .img-status-text {
-        font-size: 24upx;
     }
 
     .item-menu-box {

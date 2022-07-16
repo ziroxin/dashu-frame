@@ -17,8 +17,7 @@ let timer;
  * requestedWith:同步/异步(默认) null / XMLHttpRequest
  * */
 request.mainRequest = (url, method, params, headerParams = {}, contentType = "application/x-www-form-urlencoded",
-    requestedWith =
-    "XMLHttpRequest") => {
+    requestedWith = "XMLHttpRequest") => {
     // #ifdef MP-ALIPAY
     headerParams['sign_type'] = 1;
     // #endif
@@ -65,7 +64,11 @@ request.mainRequest = (url, method, params, headerParams = {}, contentType = "ap
     let token = uni.getStorageSync('token') || '';
     if (token) mode = "1";
     headers["X-Requested-With"] = requestedWith;
-    headers['Content-Type'] = contentType;
+    if (method.toUpperCase() == "POST") {
+        headers['Content-Type'] = 'application/json';
+    } else {
+        headers['Content-Type'] = contentType;
+    }
     switch (mode) {
         // 未登录
         case "-1":
@@ -80,6 +83,7 @@ request.mainRequest = (url, method, params, headerParams = {}, contentType = "ap
             break;
     }
     Object.assign(headers, headerParams);
+    console.log("params:", params);
     return new Promise((resolve, reject) => {
         uni.request({
                 url: baseURL + url,

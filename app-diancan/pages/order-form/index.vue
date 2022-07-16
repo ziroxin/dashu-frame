@@ -179,8 +179,6 @@
                         })
                     }, 1000)
                 })
-
-
             },
             isOAuth() {
                 if (!this.$store.state.oauthInfo?.loginCode) {

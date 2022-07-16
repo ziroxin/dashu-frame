@@ -7,44 +7,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        token: uni.getStorageSync('token') || '',
-        //商品数据
-        homeGoodsList: [{
-                "title": "豆角焖面",
-                "dosing": "焖面、青椒、豆角、朝天椒",
-                "img": '',
-                "sales": 2390,
-                "price_selling": 16,
-                "quantity": 0
-            },
-            {
-                "title": "豆角焖面",
-                "dosing": "焖面、青椒、豆角、朝天椒",
-                "img": '',
-                "sales": 2390,
-                "price_selling": 16,
-                "quantity": 0
-            },
-            {
-                "title": "豆角焖面",
-                "dosing": "焖面、青椒、豆角、朝天椒",
-                "img": '',
-                "sales": 2390,
-                "price_selling": 16,
-                "quantity": 0
-            }
-        ],
-        goodsList: [],
+        shopId: uni.getStorageSync('shopId') || '', // 当前店铺
+        tableId: uni.getStorageSync('tableId') || '', // 当前餐桌
+        currentShopInfo: uni.getStorageSync('currentShopInfo') || {}, // 当前点菜信息
+        goodsList: [], // 菜品列表
+        tableList: [], // 餐桌列表
         selectedShop: [], //已选商品
         orderList: [], // 订单列表
         searchList: [], //搜索列表
+        shopTotalPrice: 0, // 点餐总价格
+        shopQuantity: 0, // 点餐总数量
+        token: uni.getStorageSync('token') || '',
         oauthInfo: uni.getStorageSync('oauthInfo') || '',
-        latitudeAndLongitude: uni.getStorageSync('latitudeAndLongitude') || '',
-        merchantId: uni.getStorageSync('merchantId') || '',
-        merchantInfo: uni.getStorageSync('merchantInfo') || '',
-        shopId: uni.getStorageSync('shopId') || '',
-        shopTotalPrice: 0,
-        shopQuantity: 0,
+        latitudeAndLongitude: uni.getStorageSync('latitudeAndLongitude') || '', // 经纬度
         openId: uni.getStorageSync('openId') || '',
     },
     mutations: {
@@ -52,12 +27,20 @@ export default new Vuex.Store({
             state.shopId = shopId;
             uni.setStorageSync('shopId', shopId)
         },
-        SET_MERCHANT_INFO: (state, merchantInfo) => {
-            state.merchantInfo = merchantInfo;
+        SET_TABLE_ID: (state, tableId) => {
+            state.tableId = tableId;
+            uni.setStorageSync('tableId', tableId)
         },
-        SET_MERCHANT_ID: (state, merchantId) => {
-            state.merchantId = merchantId;
-            uni.setStorageSync('merchantId', merchantId)
+        SET_CURRENT_SHOP_INFO: (state, currentShopInfo) => {
+            state.currentShopInfo = currentShopInfo;
+            uni.setStorageSync('currentShopInfo', currentShopInfo)
+        },
+        // 设置商品列表
+        SET_GOODS_LIST: (state, goodsList) => {
+            state.goodsList = goodsList;
+        },
+        SET_TABLES_LIST: (state, tableList) => {
+            state.tableList = tableList;
         },
         SET_LATANDLON: (state, latAndLon) => {
             state.latitudeAndLongitude = latAndLon;
@@ -83,13 +66,6 @@ export default new Vuex.Store({
         EMPTY_SEARCH_LIST: (state, isEmpty) => {
             state.searchList = [];
         },
-        // 设置商品列表
-        SET_GOODS_LIST: (state, goodsList) => {
-            state.goodsList = goodsList;
-        },
-        SET_HOME_GOODS_LIST: (state, goodsList) => {
-            state.homeGoodsList = goodsList;
-        },
         // 设置订单列表
         SET_ORDER_LIST: (state, orderList) => {
             state.orderList = orderList
@@ -109,33 +85,38 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        // 获取首页推荐商品列表
-        async getHomeGoodsList({
+        // 获取店铺信息
+        async getShop({
             commit,
             state
-        }, goodsdata) {
-            goodsdata.forEach((item, index) => {
-                if (state.selectedShop.length > 0) {
-                    state.selectedShop.forEach((acShop, index) => {
-                        if (item.id == acShop.id) {
-                            Object.assign(item, acShop);
-                        } else {
-                            item['quantity'] = 0;
-                            item['onceTotalPrice'] = 0;
-                        }
-                    })
-                } else {
-                    item['quantity'] = 0;
-                    item['onceTotalPrice'] = 0;
-                }
+        }) {
+            let shopInfo = await http('/can/api/open/shop/info', 'GET', {
+                shopId: state.shopId
             })
-            commit('SET_HOME_GOODS_LIST', goodsdata)
+            const shop = state.currentShopInfo;
+            shop.shopId = shopInfo.data.data.shopId;
+            shop.shopName = shopInfo.data.data.shopName;
+            commit('SET_CURRENT_SHOP_INFO', shop)
+        },
+        // 获取餐桌信息
+        async getTable({
+            commit,
+            state
+        }) {
+            let tableInfo = await http('/can/api/open/table/info', 'GET', {
+                shopId: state.shopId,
+                tableId: state.tableId
+            })
+            const table = state.currentShopInfo;
+            table.tableId = tableInfo.data.data.tableId;
+            table.tableName = tableInfo.data.data.tableName;
+            commit('SET_CURRENT_SHOP_INFO', table)
         },
         // 获取商品列表
         async getGoodsList({
             commit,
             state
-        }, goodsdata) {
+        }) {
             let goodsData = await http('/can/api/open/dishes/list', 'GET', {
                 shopId: state.shopId
             })
@@ -153,6 +134,17 @@ export default new Vuex.Store({
                 })
             })
             commit('SET_GOODS_LIST', goodsList)
+        },
+        // 获取餐桌列表
+        async getTablesList({
+            commit,
+            state
+        }) {
+            let tablesData = await http('/can/api/open/table/list', 'GET', {
+                shopId: state.shopId
+            })
+            let tablesList = tablesData.data.data;
+            commit('SET_TABLES_LIST', tablesList)
         },
         // 搜索商品
         async getSearchList({

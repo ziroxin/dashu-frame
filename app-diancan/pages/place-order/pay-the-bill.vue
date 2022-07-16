@@ -2,7 +2,7 @@
 <template>
     <view class="container u-skeleton">
         <!-- #ifndef MP-ALIPAY -->
-        <u-navbar back-icon-color="white" class="navbar" title-color="white" title="确认下单" :background="backGround"
+        <u-navbar back-icon-color="white" class="navbar" title-color="white" title="确认订单" :background="backGround"
             :isFixed="false">
         </u-navbar>
         <!-- #endif -->
@@ -33,15 +33,7 @@
             <block v-else>
                 <view class="pay-user-info">
                     <view class="table u-skeleton-fillet" v-if="!isTopShow">
-                        餐桌：<text class="table-number">{{tableNumber}}</text>
-                    </view>
-                    <view class="table u-skeleton-fillet" v-else @click="openSelectTableNumber">
-                        <view class="label">
-                            餐桌：<text class="table-number" v-if="tableNumber">{{tableNumber}}</text>
-                        </view>
-                        <view class="select-box">
-                            修改 <u-icon name="arrow-right" size="20" color="#777777"></u-icon>
-                        </view>
+                        餐桌：<text class="table-number">{{tableName}}</text>
                     </view>
 
                     <view class="item u-skeleton-fillet">
@@ -60,7 +52,7 @@
 
         <view class="food-cart">
             <view class="shop-name u-skeleton-fillet">
-                {{merchantInfo.name}}
+                {{shopName || '订单详情'}}
             </view>
             <view class="foods">
                 <view class="item u-skeleton-fillet" v-for="(item,index) in selectedShop" :key="index">
@@ -90,21 +82,6 @@
                     </view>
                 </view>
             </view>
-            <!-- #ifdef MP-WEIXIN -->
-            <view class="choose-coupon" @click="chooseCoupon" v-if="payType == 3">
-                <view class="label">
-                    优惠券
-                </view>
-                <view class="value">
-                    <text class="no-coupon" v-if="!discountInfo">可使用 {{couponsNumber}} 张</text>
-                    <block v-else><text class="unit u-margin-right-5">- </text> <text
-                            class="price">{{discountInfo.discount_amount||0}}</text></block>
-                    <u-icon name="arrow-right" size="28" color="#999999"></u-icon>
-                </view>
-
-            </view>
-            <!-- #endif -->
-
             <view class="reality-price ">
                 <view class="label u-skeleton-fillet">
                     实付金额
@@ -123,10 +100,6 @@
             </view>
         </view>
 
-        <view class="pay-type ">
-            <cpayment @choosePay="paymentType"></cpayment>
-        </view>
-
         <view class="summation">
             <view class="sum">
                 <text>合计：</text>
@@ -141,12 +114,10 @@
                 <!-- #endif -->
             </view>
             <view class="go-pay" @click="goPayment">
-                去支付
+                点完了，确认订单
             </view>
         </view>
 
-        <u-select v-model="tableNumberShow" :list="tableNumberValue" safe-area-inset-bottom
-            @confirm="confirmTableNumberValue"></u-select>
         <u-skeleton :loading="loading" :animation="true" bgColor="#FFF"></u-skeleton>
         <u-picker v-model="show" mode="time" :params="params" @confirm="changeDate"></u-picker>
     </view>
@@ -171,8 +142,9 @@
                 tabs: 2,
                 name: '',
                 phone: '',
-                tableNumber: '', //桌号
-                personNumber: '0', //就餐人数
+                shopName: '', // 店铺
+                tableName: '', // 桌号
+                personNumber: '0', // 就餐人数
                 takesTime: new Date().getTime() + 30 * 60 * 1000,
                 show: false,
                 // 时间选择器参数
@@ -187,16 +159,6 @@
                 payType: 1,
                 remark: '',
                 price: '0.00',
-                tableNumberValue: [{
-                        label: '01',
-                        value: '1'
-                    },
-                    {
-                        label: '02',
-                        value: '2'
-                    },
-                ],
-                tableNumberShow: false,
                 isTopShow: true,
                 discountInfo: '',
                 couponsNumber: 0,
@@ -207,9 +169,9 @@
             if (options.price) {
                 this.price = options.price
             }
-            if (options.tableNumber) {
+            if (options.tableName) {
                 this.isTopShow = false;
-                this.tableNumber = options.tableNumber
+                this.tableName = options.tableName
             }
             if (options.personNumber) {
                 this.personNumber = options.personNumber
@@ -222,6 +184,7 @@
                 })
             }, 1500)
             this.discountInfo = uni.getStorageSync('discountInfo')
+            // 优惠券
             this.$http('/api/coupon/user_coupon', 'POST', {
                     price: this.price
                 })
@@ -230,8 +193,13 @@
                     this.couponsNumber = list.length;
                 })
         },
+        onReady() {
+            // 选择就餐人数
+            this.tableName = this.$store.state.currentShopInfo.tableName;
+            this.shopName = this.$store.state.currentShopInfo.shopName;
+        },
         computed: {
-            ...mapState(['selectedShop', 'merchantInfo']),
+            ...mapState(['selectedShop']),
             ...mapGetters(['selectedShopQuantity', 'selectedShopTotalPrice'])
         },
         onUnload() {
@@ -246,25 +214,42 @@
                     page: 'pay'
                 })
             },
-            openSelectTableNumber() {
-                this.tableNumberShow = !this.tableNumberShow;
-            },
-            confirmTableNumberValue(e) {
-                this.tableNumber = e[0].value
-            },
             // 选择订单类型
             changeTabs(index) {
                 this.tabs = index;
             },
             // 去支付
             goPayment() {
-                // let _that = this,
-                uni.showToast({
-                    title: '社区版暂不支持',
-                    content: '需要支付功能，请联系作者购买商业版',
-                    duration: 5000
-                });
+                let dishes = [];
 
+                this.$store.state.selectedShop.forEach(function(item, index) {
+                    dishes.push({
+                        dishesName: item.dishesName,
+                        dishesNumber: item.quantity,
+                        dishesPrice: item.currentPrice,
+                        dishesAmount: item.onceTotalPrice
+                    })
+                })
+
+                let canOrderDTO = {
+                    openId: this.$store.state.openId || '',
+                    shopId: this.$store.state.shopId,
+                    tableId: this.$store.state.tableId,
+                    tableName: this.tableName,
+                    diningNumber: this.personNumber,
+                    diningAmount: this.selectedShopTotalPrice,
+                    canOrderDetails: dishes
+                };
+                console.log(canOrderDTO);
+                this.$http('/can/api/open/order/save', 'POST', canOrderDTO).then(data => {
+                    // 订单保存成功
+                    uni.showToast({
+                        title: '订单保存成功',
+                        icon: 'none',
+                        position: 'center'
+                    })
+                    // todo 跳转到订单页
+                })
             },
             // 支付类型
             paymentType(pay) {
@@ -543,13 +528,13 @@
         height: 120rpx;
         padding: 12rpx;
         box-sizing: border-box;
-        background-color: #FFF1EE;
+        background-color: #FFFFFF;
         display: flex;
         align-items: center;
         justify-content: space-between;
 
         .go-pay {
-            min-width: 184rpx;
+            min-width: 304rpx;
             height: 64rpx;
             line-height: 64rpx;
             text-align: center;
