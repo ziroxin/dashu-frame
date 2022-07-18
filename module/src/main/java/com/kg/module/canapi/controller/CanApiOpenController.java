@@ -2,15 +2,19 @@ package com.kg.module.canapi.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.kg.component.utils.GuidUtils;
 import com.kg.component.utils.WxGetOpenIdUtils;
 import com.kg.core.exception.BaseException;
 import com.kg.module.canapi.dto.CanGroupListDTO;
+import com.kg.module.canapi.dto.CanOrderDetailListDTO;
 import com.kg.module.candishes.dto.CanDishesGroupDTO;
 import com.kg.module.candishes.entity.CanDishes;
 import com.kg.module.candishes.service.ICanDishesService;
 import com.kg.module.cangroup.entity.CanGroup;
 import com.kg.module.cangroup.service.ICanGroupService;
 import com.kg.module.canorder.dto.CanOrderDTO;
+import com.kg.module.canorder.entity.CanOrderBill;
+import com.kg.module.canorder.service.ICanOrderBillService;
 import com.kg.module.canorder.service.ICanOrderService;
 import com.kg.module.canshop.entity.CanShop;
 import com.kg.module.canshop.service.ICanShopService;
@@ -24,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +52,8 @@ public class CanApiOpenController {
     private ICanGroupService groupService;
     @Autowired
     private ICanOrderService orderService;
+    @Autowired
+    private ICanOrderBillService orderBillService;
 
     @ApiOperation(value = "wkrj/interface/wxToken", notes = "微信登录", httpMethod = "GET")
     @ApiImplicitParams({
@@ -143,4 +150,45 @@ public class CanApiOpenController {
         orderService.saveOrder(canOrderDTO);
     }
 
+    /**
+     * 查询订单
+     */
+    @GetMapping("/orderDetail/list")
+    public List<CanOrderDetailListDTO> getOrderDetailList(String orderId) {
+        return orderService.getOrderDetailList(orderId);
+    }
+
+
+    /**
+     * 添加发票
+     */
+    @PostMapping("/orderBill/add")
+    public boolean add(@RequestBody CanOrderBill canOrderBill) throws BaseException {
+        canOrderBill.setOrderBillId(GuidUtils.getUuid());
+        canOrderBill.setCreateTime(LocalDateTime.now());
+        if (orderBillService.save(canOrderBill)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 修改发票
+     */
+    @PostMapping("/orderBill/update")
+    public boolean update(@RequestBody CanOrderBill canOrderBill) throws BaseException {
+        canOrderBill.setUpdateTime(LocalDateTime.now());
+        if (orderBillService.updateById(canOrderBill)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查询发票信息
+     */
+    @GetMapping("/orderBill/ById")
+    public CanOrderBill getOrderBillById(String orderId) {
+        return orderBillService.getOrderBillById(orderId);
+    }
 }

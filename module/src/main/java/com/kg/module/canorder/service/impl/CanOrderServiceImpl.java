@@ -3,6 +3,7 @@ package com.kg.module.canorder.service.impl;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.component.utils.GuidUtils;
+import com.kg.module.canapi.dto.CanOrderDetailListDTO;
 import com.kg.module.canorder.dto.CanOrderDTO;
 import com.kg.module.canorder.entity.CanOrder;
 import com.kg.module.canorder.entity.CanOrderDetails;
@@ -35,6 +36,11 @@ public class CanOrderServiceImpl extends ServiceImpl<CanOrderMapper, CanOrder> i
     @Override
     public List<CanOrder> shopListByTime(String startTime, String endTime) {
         return canOrderMapper.shopListByTime(startTime, endTime);
+    }
+
+    @Override
+    public List<CanOrderDetailListDTO> getOrderDetailList(String orderId) {
+        return canOrderMapper.getOrderDetailList(orderId);
     }
 
     @Override

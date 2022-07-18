@@ -15,4 +15,15 @@
 
     </select>
 
+    <select id="getOrderDetailList" resultType="com.kg.module.canapi.dto.CanOrderDetailListDTO">
+        SELECT a.*,
+               b.*,
+               c.picture
+        FROM can_order a
+                 LEFT JOIN can_order_details b ON a.order_id = b.order_id
+                 LEFT JOIN can_dishes c ON b.dishes_name = c.dishes_name
+        WHERE a.order_id = #{orderId}
+
+    </select>
+
 </mapper>

@@ -26,6 +26,16 @@ import getCode from 'components/get-auth-code/index.vue'
 // 商品详情
 import GoodDetail from 'components/good-detail/index.vue'
 
+import uniForms from './uni_modules/uni-forms/components/uni-forms/uni-forms.vue'
+
+import uniFormsItem from './uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue'
+
+import uniEasyinput from './uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
+
+
+Vue.component('uni-easyinput',uniEasyinput)
+Vue.component('uni-forms-item',uniFormsItem)
+Vue.component('uni-forms',uniForms)
 Vue.component("getCode", getCode)
 Vue.component('good-detail', GoodDetail)
 Vue.use(uView)

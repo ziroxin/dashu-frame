@@ -1,6 +1,7 @@
 package com.kg.module.canorder.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kg.module.canapi.dto.CanOrderDetailListDTO;
 import com.kg.module.canorder.dto.CanOrderDTO;
 import com.kg.module.canorder.entity.CanOrder;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public interface ICanOrderService extends IService<CanOrder> {
 
     List<CanOrder> shopListByTime(String startTime, String endTime);
+
+    List<CanOrderDetailListDTO> getOrderDetailList(String orderId);
 
     /**
      * 保存订单信息
