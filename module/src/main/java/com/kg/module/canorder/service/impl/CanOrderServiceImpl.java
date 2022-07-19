@@ -45,7 +45,7 @@ public class CanOrderServiceImpl extends ServiceImpl<CanOrderMapper, CanOrder> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveOrder(CanOrderDTO canOrderDTO) {
+    public String saveOrder(CanOrderDTO canOrderDTO) {
         canOrderDTO.setOrderId(GuidUtils.getUuid());
         canOrderDTO.setDiningTime(LocalDateTime.now());
         // 订单是否完成（0是，1否）
@@ -62,6 +62,8 @@ public class CanOrderServiceImpl extends ServiceImpl<CanOrderMapper, CanOrder> i
             order.setCreateTime(LocalDateTime.now());
         }
         orderDetailsService.saveBatch(canOrderDetails);
+        String orderId = canOrderDTO.getOrderId();
+        return orderId;
     }
 
 }

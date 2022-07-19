@@ -26,5 +26,5 @@ public interface ICanOrderService extends IService<CanOrder> {
      *
      * @param canOrderDTO 订单数据
      */
-    void saveOrder(CanOrderDTO canOrderDTO);
+    String saveOrder(CanOrderDTO canOrderDTO);
 }

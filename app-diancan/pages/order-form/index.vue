@@ -128,9 +128,8 @@
 			getOrderList() {
 				let _that = this
 				_that.$http('/can/api/open/orderDetail/list', 'GET', {
-					orderId: '6163e00e-2eaa-4996-93c9-6d62109e367c',
+					orderId: this.$store.state.orderId,
 				}).then(data => {
-					console.log(data);
 					this.orderDetailList = data.data.data
 					this.total = data.data.data.total;
 					_that.mescroll.endBySize(10, data.data.data.total);

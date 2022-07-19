@@ -145,9 +145,9 @@ public class CanApiOpenController {
             @ApiImplicitParam(name = "canOrderDTO", value = "订单信息", paramType = "query", required = true, dataType = "String")
     })
     @PostMapping("order/save")
-    public void saveOrder(@RequestBody CanOrderDTO canOrderDTO) {
+    public String saveOrder(@RequestBody CanOrderDTO canOrderDTO) {
         // 保存订单信息
-        orderService.saveOrder(canOrderDTO);
+        return orderService.saveOrder(canOrderDTO);
     }
 
     /**

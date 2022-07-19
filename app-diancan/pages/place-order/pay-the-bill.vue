@@ -242,6 +242,7 @@
                 };
                 console.log(canOrderDTO);
                 this.$http('/can/api/open/order/save', 'POST', canOrderDTO).then(data => {
+					this.$store.commit('SET_ORDER_ID', data.data.data);
                     // 订单保存成功
                     uni.showToast({
                         title: '订单保存成功',
