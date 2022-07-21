@@ -2,10 +2,10 @@
 	<!-- 订单 -->
 	<view class="container u-skeleton">
 
-
 		<!-- 吸顶 -->
 		<u-sticky :enable='enable'>
-			<view class="tabs-box">
+			<view class="tabs-box uni-flex uni-row"
+				style="-webkit-justify-content: center;justify-content: center;">
 				<view class="btn">
 				<navigator url="/pages/place-order/index" open-type="switchTab" hover-class="other-navigator-hover">
 					<button class="mini-btn" type="primary" size="mini">加菜</button>
@@ -245,7 +245,7 @@
 
 	.btn {
 		margin-top: 5%;
-		margin-left: 10%;
+		margin-left: 5%;
 	}
 
 	.tabs-box {
