@@ -6,6 +6,8 @@ import com.kg.component.utils.GuidUtils;
 import com.kg.component.utils.WxGetOpenIdUtils;
 import com.kg.core.exception.BaseException;
 import com.kg.module.canapi.dto.CanGroupListDTO;
+import com.kg.module.canapi.dto.CanOrderBillImageDTO;
+import com.kg.module.canapi.dto.CanOrderBillTextDTO;
 import com.kg.module.canapi.dto.CanOrderDetailListDTO;
 import com.kg.module.candishes.dto.CanDishesGroupDTO;
 import com.kg.module.candishes.entity.CanDishes;
@@ -190,5 +192,13 @@ public class CanApiOpenController {
     @GetMapping("/orderBill/ById")
     public CanOrderBill getOrderBillById(String orderId) {
         return orderBillService.getOrderBillById(orderId);
+    }
+
+    /**
+     * 发票文字拆分
+     */
+    @PostMapping("/orderBill/textSplit")
+    public CanOrderBillTextDTO textSplit(@RequestBody CanOrderBillImageDTO canOrderBillImageDTO) throws BaseException {
+        return orderBillService.textSplit(canOrderBillImageDTO);
     }
 }

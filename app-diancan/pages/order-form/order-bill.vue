@@ -14,38 +14,38 @@
 			</view>
 
 			<view class="vvv">
-				<text v-for="(item,index) in content" :key="index">{{item.words}}</text>
+				<text v-for="(item,index) in content" :key="index">{{item}}</text>
 			</view>
 		</view>
 		<view class="example">
 			<!-- 自定义表单校验 -->
 			<uni-forms ref="orderBillForm" :modelValue="temp" validate-trigger="bind">
 				<uni-forms-item label="单位名称" name="companyName">
-					<uni-easyinput v-model.trim="temp.companyName" placeholder="请输入单位名称" />
+					<uni-easyinput v-model="temp.companyName" placeholder="请输入单位名称" />
 				</uni-forms-item>
 
 				<uni-forms-item label="纳税人识别号" name="taxId">
-					<uni-easyinput v-model.trim="temp.taxId" placeholder="请输入纳税人识别号" />
+					<uni-easyinput v-model="temp.taxId" placeholder="请输入纳税人识别号" />
 				</uni-forms-item>
 
 				<uni-forms-item label="单位地址" name="companyAdress">
-					<uni-easyinput v-model.trim="temp.companyAdress" placeholder="请输入单位地址" />
+					<uni-easyinput v-model="temp.companyAdress" placeholder="请输入单位地址" />
 				</uni-forms-item>
 
 				<uni-forms-item label="单位联系电话" name="companyPhone">
-					<uni-easyinput v-model.trim="temp.companyPhone" placeholder="请输入单位联系电话" />
+					<uni-easyinput v-model="temp.companyPhone" placeholder="请输入单位联系电话" />
 				</uni-forms-item>
 
 				<uni-forms-item label="开户行" name="bank">
-					<uni-easyinput v-model.trim="temp.bank" placeholder="请输入开户行" />
+					<uni-easyinput v-model="temp.bank" placeholder="请输入开户行" />
 				</uni-forms-item>
 
 				<uni-forms-item label="银行账号" name="bankAccount">
-					<uni-easyinput v-model.trim="temp.bankAccount" placeholder="请输入银行账号" />
+					<uni-easyinput v-model="temp.bankAccount" placeholder="请输入银行账号" />
 				</uni-forms-item>
 
 				<uni-forms-item label="开票金额" name="invoiceAmount">
-					<uni-easyinput v-model.trim="temp.invoiceAmount" disabled placeholder="请输入开票金额" />
+					<uni-easyinput :styles="{color:'#333'}" v-model="temp.invoiceAmount" disabled placeholder="请输入开票金额" />
 				</uni-forms-item>
 			</uni-forms>
 			<button type="primary" @click="submitBill('orderBillForm')">提交</button>
@@ -88,6 +88,7 @@
 						text: '复制文本', //文本
 					}
 				],
+				invoiceAmountCopy: ''
 			}
 		},
 		onReady() {
@@ -99,6 +100,7 @@
 		onLoad(option) {
 			const orderDetailList = JSON.parse(decodeURIComponent(option.orderDetailList));
 			this.temp.invoiceAmount = orderDetailList.diningAmount
+			this.invoiceAmountCopy = orderDetailList.diningAmount
 			this.temp.orderId = orderDetailList.orderId
 		},
 		methods: {
@@ -219,7 +221,7 @@
 				callback()
 			},
 			uploadImage(item) { //   选取照片，进行OCR识别
-				if(item.type === 'upload'){
+				if (item.type === 'upload') {
 					uni.chooseImage({
 						count: 1, //默认9
 						sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -233,32 +235,28 @@
 								filePath: res.tempFilePaths[0], //选择图片返回的相对路径
 								encoding: 'base64', //编码格式
 								success: (res) => { //成功回调页面
-									uni.request({
-										url: 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=24.79d6ae73dae89e63d3a23ba29ea61a62.2592000.1660912197.282335-26753799',
-										data: {
-											image: res.data,
-											language_type: 'ENG', //识别语言类型，默认中英文结合
-											detect_direction: true, //检测图像朝向
-										},
-										method: 'POST',
-										header: {
-											'Content-Type': 'application/x-www-form-urlencoded'
-										},
-										success: (res) => {
-											this.content = res.data.words_result
-											uni.hideLoading(); //把正在加载中隐藏
-											console.log(res.data)
-										}
+
+									// 数据拆分
+									this.$http('/can/api/open/orderBill/textSplit', 'POST', {
+										image: res.data
+									}).then(data => {
+										this.content = data.data.data.textData
+										uni.hideLoading(); //把正在加载中隐藏
+										console.log(this.content);
+										this.temp = Object.assign({}, data.data.data);
+										this.temp.invoiceAmount = this.invoiceAmountCopy
+									}).catch((err) => {
+										console.log(err, "errorziro");
 									})
 								}
 							});
 						}
 					})
-				}else if(item.type === 'Photograph'){
+				} else if (item.type === 'Photograph') {
 					uni.chooseImage({
 						count: 1, //默认9
 						sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-						sourceType: ['camera','album'],
+						sourceType: ['camera', 'album'],
 						success: (res) => {
 							uni.showLoading({
 								title: '正在识别中...'
@@ -269,31 +267,26 @@
 								filePath: res.tempFilePaths[0], //选择图片返回的相对路径
 								encoding: 'base64', //编码格式
 								success: (res) => { //成功回调页面
-									uni.request({
-										url: 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=24.79d6ae73dae89e63d3a23ba29ea61a62.2592000.1660912197.282335-26753799',
-										data: {
-											image: res.data,
-											language_type: 'ENG', //识别语言类型，默认中英文结合
-											detect_direction: true, //检测图像朝向
-										},
-										method: 'POST',
-										header: {
-											'Content-Type': 'application/x-www-form-urlencoded'
-										},
-										success: (res) => {
-											this.content = res.data.words_result
-											uni.hideLoading(); //把正在加载中隐藏
-											console.log(res.data)
-										}
+									// 数据拆分
+									this.$http('/can/api/open/orderBill/textSplit', 'POST', {
+										image: res.data
+									}).then(data => {
+										this.content = data.data.data.textData
+										uni.hideLoading(); //把正在加载中隐藏
+										console.log(this.content);
+										this.temp = Object.assign({}, data.data.data);
+										this.temp.invoiceAmount = this.invoiceAmountCopy
+									}).catch((err) => {
+										console.log(err, "errorziro");
 									})
 								}
 							});
 						}
 					})
-				}else {
+				} else {
 					console.log('copy');
 				}
-				
+
 			}
 
 		}
