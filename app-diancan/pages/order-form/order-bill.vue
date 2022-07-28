@@ -11,6 +11,14 @@
 						<text class="u-skeleton-fillet">{{item.text}}</text>
 					</view>
 				</view>
+				<view class="item" @click="copyText(temp)">
+					<view class="item-icon">
+						<image class="u-skeleton-fillet" :src="textCopy.icon" mode="widthFix"></image>
+					</view>
+					<view class="item-text">
+						<text class="u-skeleton-fillet">{{textCopy.text}}</text>
+					</view>
+				</view>
 			</view>
 
 			<view class="vvv">
@@ -45,7 +53,8 @@
 				</uni-forms-item>
 
 				<uni-forms-item label="开票金额" name="invoiceAmount">
-					<uni-easyinput :styles="{color:'#333'}" v-model="temp.invoiceAmount" disabled placeholder="请输入开票金额" />
+					<uni-easyinput :styles="{color:'#333'}" v-model="temp.invoiceAmount" disabled
+						placeholder="请输入开票金额" />
 				</uni-forms-item>
 			</uni-forms>
 			<button type="primary" @click="submitBill('orderBillForm')">提交</button>
@@ -81,13 +90,13 @@
 						type: 'Photograph',
 						icon: require('@/static/images/order-form/icon-paizhao.png'), //icon图
 						text: '拍照上传', //文本
-					},
-					{
-						type: 'copy',
-						icon: require('@/static/images/order-form/icon-fuzhi.png'), //icon图
-						text: '复制文本', //文本
 					}
 				],
+				textCopy: {
+					type: 'copy',
+					icon: require('@/static/images/order-form/icon-fuzhi.png'), //icon图
+					text: '复制文本', //文本
+				},
 				invoiceAmountCopy: ''
 			}
 		},
@@ -176,23 +185,6 @@
 									icon: 'success',
 								})
 							})
-							// uni.request({
-							// 	url: 'http://localhost:8123/can/api/open/orderBill/add',
-							// 	data: this.temp,
-							// 	method: 'POST',
-							// 	header: {
-							// 		'content-type': 'application/json'
-							// 	},
-							// 	success: (res) => {
-							// 		console.log(res.data);
-							// 		uni.showToast({
-							// 			title: '添加成功！',
-							// 			duration: 2000,
-							// 			icon: 'success',
-							// 		})
-							// 		// this.text = 'request success';
-							// 	}
-							// });
 						})
 						.catch((err) => {
 							console.log('表单校验失败：', err)
@@ -252,7 +244,7 @@
 							});
 						}
 					})
-				} else if (item.type === 'Photograph') {
+				} else{
 					uni.chooseImage({
 						count: 1, //默认9
 						sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -283,12 +275,18 @@
 							});
 						}
 					})
-				} else {
-					console.log('copy');
 				}
-
+			},
+			copyText(data) {
+				const value = data.companyName + "\n" + data.taxId + "\n" + data.companyAdress + "\n" + data.companyPhone +
+					"\n" + data.bank + "\n" + data.bankAccount + "\n" + data.invoiceAmount + "元"
+				uni.setClipboardData({
+					data:value,
+					success: function() {
+						console.log('success');
+					}
+				});
 			}
-
 		}
 	}
 </script>
