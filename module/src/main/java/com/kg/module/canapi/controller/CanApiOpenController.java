@@ -3,7 +3,7 @@ package com.kg.module.canapi.controller;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kg.component.utils.GuidUtils;
-import com.kg.component.utils.WxGetOpenIdUtils;
+import com.kg.component.weixin.xcx.WxXcxUtils;
 import com.kg.core.exception.BaseException;
 import com.kg.module.canapi.dto.CanGroupListDTO;
 import com.kg.module.canapi.dto.CanOrderBillImageDTO;
@@ -63,7 +63,7 @@ public class CanApiOpenController {
     })
     @GetMapping("wxToken")
     public String wxToken(String jsCode) throws BaseException {
-        String openId = WxGetOpenIdUtils.getOpenId(jsCode);
+        String openId = WxXcxUtils.getOpenId(jsCode);
         if (!StringUtils.hasText(openId)) {
             throw new BaseException("获取openid失败");
         }
