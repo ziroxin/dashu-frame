@@ -23,13 +23,7 @@ import './utils/error-log'
 // 导入全局filters
 import * as filters from './filters'
 // 导入权限指令
-import permission from "@/directive/permission";
-
-// todo: 使用mock模拟数据，框架梳理好后，删除引入
-if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
-}
+import permission from '@/directive/permission';
 
 Vue.use(Element, {
   // 设置element-ui默认大小
