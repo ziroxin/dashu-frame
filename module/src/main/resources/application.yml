@@ -1,24 +1,39 @@
 #端口
 server:
   port: 8123
+  servlet:
+    #上下文
+    context-path: /
+    #编码格式
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  #编码格式
+  tomcat:
+    uri-encoding: UTF-8
 
 spring:
+  #上传文件修改限制大小
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 10MB
   #数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     database:
       type: mysql
-    url: jdbc:mysql://39.107.157.91:13306/dashu_frame?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: xxx666888
+    url: jdbc:mysql://localhost:3306/dashu_frame?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+    username: xxxxxx
+    password: xxxxxx
   #Redis配置
   redis:
     host: localhost
     port: 6379
     password: 123456
     database: 0
-
 
 #mybatis-plus配置
 mybatis-plus:
@@ -32,7 +47,11 @@ com:
     weixin:
       appid: xxx
       secret: xxx
-      jscode-url: https://api.weixin.qq.com/sns/jscode2session
+    #百度OCR配置
+    baidu:
+      clientId: xxx
+      clientSecret: xxx
+      grantType: client_credentials
     #文件上传配置
     file:
       allow-extend: jpg|jpeg|png|gif|bpm|
@@ -58,3 +77,9 @@ com:
       jwt:
         token:
           expiry: 120
+#输出日志配置
+logging:
+  level:
+    root: info
+    com:
+      kg: trace
