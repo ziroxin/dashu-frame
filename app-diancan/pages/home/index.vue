@@ -1,15 +1,9 @@
 <template>
     <!-- 首页 -->
     <view class="container u-skeleton">
-        <!-- #ifndef MP-ALIPAY -->
-        <u-navbar class="navbar" title-color="white" title="首页" :background="backGround" :is-back="false"
+        <u-navbar class="navbar" title-color="white" title="扫码快点餐" :background="backGround" :is-back="false"
             :isFixed="false">
         </u-navbar>
-        <!-- #endif -->
-        <!-- #ifdef MP-ALIPAY -->
-        <u-navbar class="navbar" title-color="white" :background="backGround" :is-back="false" :isFixed="false">
-        </u-navbar>
-        <!-- #endif -->
         <view class="header-box u-skeleton-fillet">
             <view class="image-box u-skeleton-fillet">
                 <image v-if="storeInfo.logo" :src="storeInfo.logo" mode="widthFix"></image>
@@ -40,21 +34,10 @@
                 backGround: {
                     backgroundColor: 'tranparent',
                 },
-                currentTabs: 1,
-                scrollTop: 0, //tab标题的滚动条位置
-                current: 0, // 预设当前项的值
-                menuHeight: 0, // 左边菜单的高度
-                menuItemHeight: 0, // 左边菜单item的高度
-                timer: null, // 定时器
-                shopId: '',
-                merchantId: '',
+                qrcodeId: '',
                 storeInfo: {
                     logo: '/static/images/logo.png'
                 },
-                latAndLon: '',
-                SpecShow: false,
-                specItem: '',
-                specActive: '',
             }
         },
         onLoad(options) {},
@@ -62,46 +45,13 @@
             this.loading = false
         },
         methods: {
-            async getAuth(e) {
-                let _that = this;
-                let info = await this.$oauth(e);
-                if (info.loginCode) {
-                    // #ifdef MP-WEIXIN
-                    console.log('首页授权')
-                    uni.setStorageSync('wxLoginCode', info.loginCode)
-                    // #endif
-                }
-            },
-            changesTabs(index) {
-                this.currentTabs = index;
-            },
-            // 获取一个目标元素的高度
-            getElRect(elClass, dataVal) {
-                new Promise((resolve, reject) => {
-                    const query = uni.createSelectorQuery().in(this);
-                    query.select('.' + elClass).fields({
-                        size: true
-                    }, res => {
-                        // 如果节点尚未生成，res值为null，循环调用执行
-                        if (!res) {
-                            setTimeout(() => {
-                                this.getElRect(elClass);
-                            }, 10);
-                            return;
-                        }
-                        this[dataVal] = res.height;
-                    }).exec();
-                })
-            },
             saomiaoClick() {
-                console.log("扫码点餐");
-                uni.scanCode({
+                wx.scanCode({
                     success: (res) => {
-                        console.log("扫码成功", res.result);
-                        // this.shopId = res.result;
-                        this.shopId = '822744f3-3d74-4720-a59d-c1a969b4e7af';
+                        console.log("扫码成功", res);
+                        this.qrcodeId = res.result || '6f83990a374d402290e7236dd205b78a';
                         uni.redirectTo({
-                            url: "/pages/place-order/index?shopId=" + this.shopId
+                            url: "/pages/place-order/index?qrcodeId=" + this.qrcodeId
                         });
                     },
                     fail: (res) => {
@@ -110,7 +60,6 @@
                             icon: 'none',
                             duration: 2000
                         });
-                        console.log(res);
                     }
                 })
             }
@@ -121,7 +70,7 @@
 <style lang="scss" scoped>
     .container {
         width: 100%;
-        min-height: calc(100vh - 100rpx);
+        min-height: 100vh;
         @include bgImg('~@/static/images/home/bg1.jpg');
         overflow: hidden;
     }

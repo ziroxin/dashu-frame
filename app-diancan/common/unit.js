@@ -140,11 +140,6 @@ export function JumpPage(url, params, isTab) {
 
 }
 
-export function test() {
-	console.log('测试按钮')
-}
-
-
 /**
  * 
  * @func uploadImg
@@ -249,58 +244,4 @@ export function saveImg(uri, fileName = '') {
 			})
 			// #endif
 		})
-}
-
-// 根据订单状态 判断订单文本展示
-export function orderStatusText(payStatus) {
-	// 付款状态，确认操作按钮，取消操作按钮
-	let payStatusText, confirmText, cancelText;
-	if (typeof payStatus !== 'string') {
-		payStatus += ''
-	}
-	switch (payStatus) {
-		case '-1':
-			// 退款中
-			payStatusText = '退款中';
-			confirmText = '';
-			cancelText = '取消退款';
-			break;
-		case '-2':
-			// 已退款
-			payStatusText = '已退款';
-			confirmText = '';
-			cancelText = '取消退款';
-			break;
-		case '-3':
-			// 已取消
-			payStatusText = '已取消';
-			confirmText = '';
-			cancelText = '删除订单';
-			break;
-		case '0':
-			// 待支付
-			payStatusText = '待支付';
-			confirmText = '去支付';
-			cancelText = '取消订单';
-			break;
-		case '1':
-			// 已支付
-			payStatusText = '已支付';
-			confirmText = '';
-			cancelText = '申请退款';
-			break;
-		case '2':
-			// 已完成
-			payStatusText = '已完成';
-			confirmText = '';
-			cancelText = '删除订单';
-			break;
-		default:
-			// 待付款
-			payStatusText = '待支付';
-			confirmText = '去支付';
-			cancelText = '取消订单';
-			break;
-	}
-	return [payStatusText, confirmText, cancelText]
 }

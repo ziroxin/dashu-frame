@@ -7,8 +7,7 @@ import {
     message,
     JumpPage,
     uploadImg,
-    saveImg,
-    orderStatusText
+    saveImg
 } from 'common/unit.js'
 
 import {
@@ -19,25 +18,13 @@ import {
 
 import http from 'common/request.js'
 
-import oauth from 'common/oauth.js'
-
-// 获取验证码
-import getCode from 'components/get-auth-code/index.vue'
-// 商品详情
-import GoodDetail from 'components/good-detail/index.vue'
-
 import uniForms from './uni_modules/uni-forms/components/uni-forms/uni-forms.vue'
-
 import uniFormsItem from './uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.vue'
-
 import uniEasyinput from './uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
+Vue.component('uni-forms', uniForms)
+Vue.component('uni-forms-item', uniFormsItem)
+Vue.component('uni-easyinput', uniEasyinput)
 
-
-Vue.component('uni-easyinput',uniEasyinput)
-Vue.component('uni-forms-item',uniFormsItem)
-Vue.component('uni-forms',uniForms)
-Vue.component("getCode", getCode)
-Vue.component('good-detail', GoodDetail)
 Vue.use(uView)
 
 Object.assign(Vue.prototype, {
@@ -49,8 +36,6 @@ Object.assign(Vue.prototype, {
     JumpPage,
     // 网络请求
     $http: http.mainRequest,
-    // 小程序授权
-    $oauth: oauth,
     // 上传图片
     $uploadImg: uploadImg,
     // 保存图片到本地
@@ -59,10 +44,6 @@ Object.assign(Vue.prototype, {
     $imgURL: imgURL,
     // 接口资源地址
     $baseURL: baseURL,
-    // 测试期间模拟订单
-    // 状态以及操作按钮文本
-    $orderStatusText: orderStatusText,
-
 });
 Vue.config.productionTip = false
 

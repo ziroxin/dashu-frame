@@ -1,209 +1,57 @@
 {
-  "easycom": {
-    "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-  },
-  "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    // {
-    // 	"path": "pages/home/index",
-    // 	"style": {
-    // 		"navigationBarTitleText": "首页",
-    // 		"transparentTitle": "auto",
-    // 		"navigationStyle": "custom"
-    // 	}
-    // },
-    {
-      "path": "pages/place-order/index",
-      "style": {
-        "navigationBarTitleText": "点餐"
-      }
+    "easycom": {
+        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
     },
-    {
-      "path": "pages/place-order/pay-the-bill",
-      "style": {
-        "navigationBarTitleText": "确认订单",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/place-order/search",
-      "style": {
-        "navigationBarTitleText": "搜索商品"
-      }
-    },
-    {
-      "path": "pages/order-form/index",
-      "style": {
-        "navigationBarTitleText": "订单",
-        "mp-alipay": {
-          "allowsBounceVertical": "NO"
-        }
-      }
-    },
-    {
-      "path": "pages/order-form/order-details",
-      "style": {
-        "navigationBarTitleText": "订单详情",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom",
-        "app-plus": {
-          "titleNView": false
-        }
-      }
-    },
-    {
-      "path": "pages/order-form/order-bill",
-      "style": {
-        "navigationBarTitleText": "开发票"
-      }
-    },
-    {
-      "path": "pages/my/index",
-      "style": {
-        "navigationBarTitleText": "我的",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/my/balance-details",
-      "style": {
-        "navigationBarTitleText": "余额明细"
-      }
-    },
-    {
-      "path": "pages/my/msg-list",
-      "style": {
-        "navigationBarTitleText": "站内消息"
-      }
-    },
-    {
-      "path": "pages/my/balance-recharge",
-      "style": {
-        "navigationBarTitleText": "余额充值"
-      }
-    },
-    {
-      "path": "pages/my/balance-withdraw",
-      "style": {
-        "navigationBarTitleText": "提现",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom",
-        "app-plus": {
-          "titleNView": false
-        }
-      }
-    },
-    {
-      "path": "pages/my/scan-recharge",
-      "style": {
-        "navigationBarTitleText": "支付",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/my/address-list",
-      "style": {
-        "navigationBarTitleText": "收货地址"
-      }
-    },
-    {
-      "path": "pages/my/add-addr",
-      "style": {
-        "navigationBarTitleText": "新增地址"
-      }
-    },
-    {
-      "path": "pages/my/suggest",
-      "style": {
-        "navigationBarTitleText": "改进建议"
-      }
-    },
-    {
-      "path": "pages/my/discounts-card",
-      "style": {
-        "navigationBarTitleText": "优惠卡包"
-      }
-    },
-    {
-      "path": "pages/my/coupon-code-center",
-      "style": {
-        "navigationBarTitleText": "领券中心",
-        "mp-alipay": {
-          "allowsBounceVertical": "NO"
+    "pages": [
+        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path": "pages/home/index",
+            "style": {
+                "navigationBarTitleText": "首页",
+                "transparentTitle": "auto",
+                "navigationStyle": "custom"
+            }
         },
-        "mp-weixin": {
-          "usingComponents": {
-            "send-coupon": "plugin://sendCoupon/send-coupon"
-          }
+        {
+            "path": "pages/place-order/index",
+            "style": {
+                "navigationBarTitleText": "点餐"
+            }
+        },
+        {
+            "path": "pages/place-order/pay-the-bill",
+            "style": {
+                "navigationBarTitleText": "确认订单",
+                "transparentTitle": "auto",
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/place-order/search",
+            "style": {
+                "navigationBarTitleText": "搜索"
+            }
+        },
+        {
+            "path": "pages/order-form/index",
+            "style": {
+                "navigationBarTitleText": "订单",
+                "mp-alipay": {
+                    "allowsBounceVertical": "NO"
+                }
+            }
+        },
+        {
+            "path": "pages/order-form/order-bill",
+            "style": {
+                "navigationBarTitleText": "开发票"
+            }
         }
-      }
-    },
-    {
-      "path": "pages/my/online-service",
-      "style": {
-        "navigationBarTitleText": "在线客服"
-      }
-    },
-    {
-      "path": "pages/my/invite",
-      "style": {
-        "navigationBarTitleText": "我的邀请",
-        "transparentTitle": "auto",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/my/company-info",
-      "style": {
-        "navigationBarTitleText": "商家信息"
-      }
-    },
-    {
-      "path": "pages/my/agreement-page",
-      "style": {
-        "navigationBarTitleText": "充值协议"
-      }
+    ],
+    "globalStyle": {
+        "navigationBarTitleText": "扫码快点餐",
+        "navigationBarBackgroundColor": "#FF7250",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#F8F8F8"
     }
-  ],
-  "globalStyle": {
-    "navigationBarTitleText": "小饿",
-    "navigationBarBackgroundColor": "#FF7250",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#F8F8F8"
-  },
-  "tabBar": {
-    "iconWidth": "22px",
-    "fontSize": "10px",
-    "color": "#777777",
-    "selectedColor": "#FF7250",
-    "list": [
-      //          {
-      // 	"iconPath": "static/images/tabbar/home.png",
-      // 	"selectedIconPath": "static/images/tabbar/home-active.png",
-      // 	"pagePath": "pages/home/index",
-      // 	"text": "首页"
-      // },
-      {
-        "iconPath": "static/images/tabbar/place-order.png",
-        "selectedIconPath": "static/images/tabbar/place-order-active.png",
-        "pagePath": "pages/place-order/index",
-        "text": "点餐"
-      },
-      {
-        "iconPath": "static/images/tabbar/order-form.png",
-        "selectedIconPath": "static/images/tabbar/order-form-active.png",
-        "pagePath": "pages/order-form/index",
-        "text": "订单"
-      },
-      {
-        "iconPath": "static/images/tabbar/my.png",
-        "selectedIconPath": "static/images/tabbar/my-active.png",
-        "pagePath": "pages/my/index",
-        "text": "我的"
-      }
-    ]
-  }
 }

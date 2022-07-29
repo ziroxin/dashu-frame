@@ -83,7 +83,6 @@ request.mainRequest = (url, method, params, headerParams = {}, contentType = "ap
             break;
     }
     Object.assign(headers, headerParams);
-    console.log("params:", params);
     return new Promise((resolve, reject) => {
         uni.request({
                 url: baseURL + url,

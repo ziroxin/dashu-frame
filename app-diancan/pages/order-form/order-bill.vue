@@ -162,7 +162,6 @@
 						.validate()
 						.then(() => {
 							this.$http('/can/api/open/orderBill/update', 'POST', this.temp).then(data => {
-								console.log(data.data);
 								uni.showToast({
 									title: '修改成功！',
 									duration: 2000,
@@ -178,7 +177,6 @@
 						.validate()
 						.then(() => {
 							this.$http('/can/api/open/orderBill/add', 'POST', this.temp).then(data => {
-								console.log(data.data);
 								uni.showToast({
 									title: '添加成功！',
 									duration: 2000,
@@ -234,7 +232,6 @@
 									}).then(data => {
 										this.content = data.data.data.textData
 										uni.hideLoading(); //把正在加载中隐藏
-										console.log(this.content);
 										this.temp = Object.assign({}, data.data.data);
 										this.temp.invoiceAmount = this.invoiceAmountCopy
 									}).catch((err) => {
@@ -265,7 +262,6 @@
 									}).then(data => {
 										this.content = data.data.data.textData
 										uni.hideLoading(); //把正在加载中隐藏
-										console.log(this.content);
 										this.temp = Object.assign({}, data.data.data);
 										this.temp.invoiceAmount = this.invoiceAmountCopy
 									}).catch((err) => {

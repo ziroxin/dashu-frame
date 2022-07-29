@@ -1,18 +1,12 @@
 {
-    "id": "datang-zhihuidiancan",
-    "name": "【官方补贴】微信支付宝点餐小程序 智慧点餐",
-    "version": "3.0.0",
-    "description": "微信支付宝点餐小程序 智慧数字经营系统 官方补贴 ISV服务商， 开源不易 有问题加我wx：C500580 记得好评哦",
+    "id": "app-diancan",
+    "name": "扫码快点餐",
+    "version": "1.0.0",
+    "description": "微信点餐小程序 扫码点餐 帮您优雅的吃饭",
     "keywords": [
-        "支付宝小程序",
         "微信小程序",
-        "ISV服务商",
-        "智慧数字经营"
-    ],
-    "dcloudext": {
-        "category": [
-            "uni-app前端模板",
-            "uni-app前端项目模板"
-        ]
-    }
+        "微信点餐小程序",
+        "扫码点餐",
+        "扫码快点餐"
+    ]
 }

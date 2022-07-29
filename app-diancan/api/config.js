@@ -1,5 +1,5 @@
 // 接口服务地址
-let baseURL = "https://eat-admin.brt999.com"
+let baseURL = "https://www.keepgrown.com/server"
 // 图片服务地址
 let imgURL = ''
 let testURL = ""
@@ -8,11 +8,12 @@ if (process.env.NODE_ENV === 'development') {
 	//！！！！！！社区版只开放部分功能，商业版含全部功能，如需要请联系微信C500580
 	//！！！！！！社区版只开放部分功能，商业版含全部功能，如需要请联系微信C500580
 	//！！！！！！社区版只开放部分功能，商业版含全部功能，如需要请联系微信C500580
-	baseURL = "http://localhost:8123"   
+	baseURL = "http://localhost:8123"
 	imgURL = 'http://localhost:8123'
 } else {
 	// 生产环境
-	baseURL = 'https://eat-admin.brt999.com'
+	baseURL = "https://www.keepgrown.com/server"
+	imgURL = 'https://www.keepgrown.com/server'
 }
 
 export {

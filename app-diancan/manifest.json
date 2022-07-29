@@ -24,10 +24,7 @@
             "subPackages" : true
         },
         "runmode" : "liberate",
-        "modules" : {
-            "OAuth" : {},
-            "Geolocation" : {}
-        },
+        "modules" : {},
         "distribute" : {
             "android" : {
                 "permissions" : [
@@ -52,7 +49,9 @@
                 ],
                 "abiFilters" : [ "armeabi-v7a", "x86" ]
             },
-            "ios" : {},
+            "ios" : {
+                "idfa" : false
+            },
             "sdkConfigs" : {
                 "oauth" : {},
                 "ad" : {},
@@ -68,21 +67,13 @@
     "mp-weixin" : {
         "appid" : "wxbead4f5df5f07c45",
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "minified" : true
         },
+        "lazyCodeLoading" : "requiredComponents",
         "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : "你的位置信息将用于确定附近商家距离"
-            }
-        },
-        "plugins" : {
-            "sendCoupon" : {
-                "version" : "latest",
-                "provider" : "wxf3f436ba9bd4be7b"
-            }
-        },
+        "permission" : {},
+        "plugins" : {},
         "uniStatistics" : {
             "enable" : true
         }
@@ -90,7 +81,7 @@
     "mp-alipay" : {
         "component2" : true,
         "usingComponents" : true,
-        "appid" : "202100214662****"
+        "appid" : ""
     },
     "mp-baidu" : {
         "usingComponents" : true
@@ -102,16 +93,16 @@
         "enable" : false
     },
     "h5" : {
-        "domain" : "http://eat.brt999.com",
+        "domain" : "http://localhost",
         "router" : {
             "mode" : "hash",
             "base" : "./"
         },
         "devServer" : {
             "https" : false,
-            "port" : 8080
+            "port" : 8123
         },
-        "title" : "智慧门店"
+        "title" : "扫码快点餐"
     },
     "vueVersion" : "2"
 }

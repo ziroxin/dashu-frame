@@ -193,15 +193,7 @@
         mapState,
         mapGetters
     } from 'vuex'
-    // #ifdef MP-ALIPAY
-    import goodDetail from '@/components/good-detail/index.vue'
-    // #endif
     export default {
-        // #ifdef MP-ALIPAY
-        components: {
-            goodDetail
-        },
-        // #endif
         data() {
             return {
                 SpecShow: false,
@@ -212,14 +204,12 @@
                 current: 0, // 预设当前项的值
                 menuHeight: 0, // 左边菜单的高度
                 menuItemHeight: 0, // 左边菜单item的高度
-                GoodsCategoryList: [],
                 isShowText: true,
                 specItem: '',
                 specActive: '',
                 tableName: '', //餐桌
                 personNumber: '0', //就餐人数
                 personNumberArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-                wxLoginCode: '',
                 imgUrl: this.$imgURL,
             }
         },
@@ -231,26 +221,35 @@
             },
         },
         onLoad(options) {
-            if (this.$store.shopId == undefined && options.shopId == undefined) {
-                // 没有店铺信息，跳转首页扫码
-                uni.redirectTo({
+            if (options.qrcodeId == undefined) {
+                // 没有扫码id，跳转首页
+                uni.switchTab({
                     url: "/pages/home/index"
                 })
-                console.log("// 没有店铺信息，跳转首页扫码");
-                return
-            } else if (options.shopId != undefined) {
-                this.$store.commit('SET_SHOP_ID', options.shopId);
             }
-
-            // 加载餐桌信息
-            if (options.tableId) {
-                this.$store.commit('SET_TABLE_ID', options.tableId);
-            }
+            this.$store.commit('SET_QRCODE_ID', options.qrcodeId);
         },
         onShow() {
-            this.$store.dispatch('getShop');
-            this.$store.dispatch('getTable');
-            this.$store.dispatch('getGoodsList');
+            // 根据扫码，加载店铺和餐桌信息
+            this.$http('/can/api/open/table/qrcode', 'GET', {
+                qrcodeId: this.$store.state.qrcodeId
+            }).then(data => {
+                this.$store.commit('SET_SHOP_ID', data.data.data.shopId);
+                this.$store.commit('SET_TABLE_ID', data.data.data.tableId);
+                // todo 查询tableId的订单，是否有未完成订单
+
+                // todo 有订单，跳转订单页
+
+
+                // 加载店铺信息
+                this.$store.dispatch('getShop');
+                // 加载餐桌信息
+                this.$store.dispatch('getTable');
+                // 加载菜品
+                this.$store.dispatch('getGoodsList');
+            }).catch(err => {
+                console.log(JSON.stringify(err))
+            })
         },
         onReady() {
             // 选择就餐人数
