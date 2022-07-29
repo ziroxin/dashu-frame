@@ -18,6 +18,8 @@ import com.kg.module.canorder.dto.CanOrderDTO;
 import com.kg.module.canorder.entity.CanOrderBill;
 import com.kg.module.canorder.service.ICanOrderBillService;
 import com.kg.module.canorder.service.ICanOrderService;
+import com.kg.module.canqrcode.entity.CanTableQrcode;
+import com.kg.module.canqrcode.service.ICanTableQrcodeService;
 import com.kg.module.canshop.entity.CanShop;
 import com.kg.module.canshop.service.ICanShopService;
 import com.kg.module.cantable.entity.CanTable;
@@ -48,6 +50,8 @@ public class CanApiOpenController {
     private ICanShopService shopService;
     @Autowired
     private ICanTableService tableService;
+    @Autowired
+    private ICanTableQrcodeService qrcodeService;
     @Autowired
     private ICanDishesService dishesService;
     @Autowired
@@ -200,5 +204,14 @@ public class CanApiOpenController {
     @PostMapping("/orderBill/textSplit")
     public CanOrderBillTextDTO textSplit(@RequestBody CanOrderBillImageDTO canOrderBillImageDTO) throws BaseException {
         return orderBillService.textSplit(canOrderBillImageDTO);
+    }
+
+    @ApiOperation(value = "can/api/open/table/qrcode", notes = "扫码查询店铺和餐桌信息", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "qrcodeId", value = "扫码Id", paramType = "query", required = true, dataType = "String")
+    })
+    @GetMapping("/table/qrcode")
+    public CanTableQrcode getTableQrcodeList(String qrcodeId) {
+        return qrcodeService.getById(qrcodeId);
     }
 }

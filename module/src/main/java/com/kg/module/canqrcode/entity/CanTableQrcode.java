@@ -1,8 +1,12 @@
 package com.kg.module.canqrcode.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -21,6 +25,7 @@ public class CanTableQrcode implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("微信小程序二维码参数id")
+    @TableId(value = "qrcode_id", type = IdType.ASSIGN_UUID)
     private String qrcodeId;
 
     @ApiModelProperty("餐桌id")
@@ -48,6 +53,7 @@ public class CanTableQrcode implements Serializable {
     public void setQrcodeId(String qrcodeId) {
         this.qrcodeId = qrcodeId;
     }
+
     public String getTableId() {
         return tableId;
     }
@@ -55,6 +61,7 @@ public class CanTableQrcode implements Serializable {
     public void setTableId(String tableId) {
         this.tableId = tableId;
     }
+
     public String getShopId() {
         return shopId;
     }
@@ -62,6 +69,7 @@ public class CanTableQrcode implements Serializable {
     public void setShopId(String shopId) {
         this.shopId = shopId;
     }
+
     public String getQrcodeFileName() {
         return qrcodeFileName;
     }
@@ -69,6 +77,7 @@ public class CanTableQrcode implements Serializable {
     public void setQrcodeFileName(String qrcodeFileName) {
         this.qrcodeFileName = qrcodeFileName;
     }
+
     public String getQrcodeFilePath() {
         return qrcodeFilePath;
     }
@@ -76,6 +85,7 @@ public class CanTableQrcode implements Serializable {
     public void setQrcodeFilePath(String qrcodeFilePath) {
         this.qrcodeFilePath = qrcodeFilePath;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -83,6 +93,7 @@ public class CanTableQrcode implements Serializable {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -94,13 +105,13 @@ public class CanTableQrcode implements Serializable {
     @Override
     public String toString() {
         return "CanTableQrcode{" +
-            "qrcodeId=" + qrcodeId +
-            ", tableId=" + tableId +
-            ", shopId=" + shopId +
-            ", qrcodeFileName=" + qrcodeFileName +
-            ", qrcodeFilePath=" + qrcodeFilePath +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "qrcodeId=" + qrcodeId +
+                ", tableId=" + tableId +
+                ", shopId=" + shopId +
+                ", qrcodeFileName=" + qrcodeFileName +
+                ", qrcodeFilePath=" + qrcodeFilePath +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

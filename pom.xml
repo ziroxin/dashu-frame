@@ -45,6 +45,8 @@
         <reflection.version>0.10.2</reflection.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
+        <com.baidubce.version>1.0.3.1</com.baidubce.version>
+
         <!-- 打包信息 -->
         <finalpackage.path>${project.build.directory}/package-jar</finalpackage.path>
         <finalpackage.name>app</finalpackage.name>
@@ -139,6 +141,13 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- 百度OCR依赖 -->
+            <dependency>
+                <groupId>com.baidubce</groupId>
+                <artifactId>api-explorer-sdk</artifactId>
+                <version>${com.baidubce.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

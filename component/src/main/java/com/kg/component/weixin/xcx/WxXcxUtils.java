@@ -32,7 +32,10 @@ public class WxXcxUtils {
     public FileUploadDTO getQRCode(String scene) {
         String accessToken = wxXcxTokenUtils.getAccessToken();
         JSONObject bodyObj = new JSONObject();
+        // 参数（最大32个可见字符，只支持数字）
         bodyObj.set("scene", scene);
+        // 跳转到点餐页（根路径前不要填加 /，如果不填写这个字段，默认跳主页面）
+        bodyObj.set("page", "pages/place-order/index");
         byte[] buffer = HttpUtil.createPost(WxXcxConfig.WX_GET_QRCODE_URL + "?access_token=" + accessToken)
                 .body(bodyObj.toString()).execute().bodyBytes();
         return FileSaveUtils.bufferToFile(buffer, "wxxcx/qrcode", "jpg");
