@@ -45,6 +45,9 @@
         <reflection.version>0.10.2</reflection.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
+        <!-- 打包信息 -->
+        <finalpackage.path>${project.build.directory}/package-jar</finalpackage.path>
+        <finalpackage.name>app</finalpackage.name>
     </properties>
 
     <!-- 依赖Jar包控制 -->
