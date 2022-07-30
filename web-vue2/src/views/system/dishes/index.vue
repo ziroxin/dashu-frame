@@ -18,7 +18,7 @@
       <el-table-column prop="introduction" label="菜品简介" sortable />
       <el-table-column prop="picture" label="展示图" sortable>
         <template slot-scope="scope">
-          <el-image class="tableImg" :src="'http://localhost:8123' + scope.row.picture" />
+          <el-image class="tableImg" :src="imgUrl+scope.row.picture" />
         </template>
       </el-table-column>
       <el-table-column prop="groupName" label="菜品分组" />
@@ -171,7 +171,8 @@ export default {
           message: '请填写菜品价格',
           trigger: 'blur'
         }, {pattern: /^[+-]?(0|([1-9]\d*))(\.\d{1,2})?$/, message: '请输入正确金额,最多两位小数'}]
-      }
+      },
+      imgUrl: process.env.VUE_APP_IMG
     }
   },
   created() {

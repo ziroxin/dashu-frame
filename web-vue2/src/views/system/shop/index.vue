@@ -18,7 +18,7 @@
       <el-table-column prop="shopName" label="店铺名称" sortable />
       <el-table-column prop="sharingPhoto" label="展示图片" sortable>
         <template slot-scope="scope">
-          <el-image class="tableImg" :src="'http://localhost:8123' + scope.row.sharingPhoto" />
+          <el-image class="tableImg" :src="imgUrl+scope.row.sharingPhoto" />
         </template>
       </el-table-column>
       <el-table-column prop="shopPhone" label="联系电话" sortable />
@@ -130,7 +130,8 @@ export default {
             (v && !(/^(?:(?:\+|00)86)?1\d{10}$/.test(v))) ? b('手机号格式不正确') : b()
           }
         }]
-      }
+      },
+      imgUrl: process.env.VUE_APP_IMG
     }
   },
   created() {

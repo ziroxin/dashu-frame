@@ -4,6 +4,7 @@ package com.kg.module.cantable.controller;
 import com.kg.component.utils.GuidUtils;
 import com.kg.module.cangroup.service.ICanGroupService;
 import com.kg.module.canshop.entity.CanUserShop;
+import com.kg.module.cantable.dto.CanTableDTO;
 import com.kg.module.cantable.entity.CanTable;
 import com.kg.module.cantable.service.ICanTableService;
 import com.kg.core.exception.BaseException;
@@ -39,12 +40,12 @@ public class CanTableController {
     @Autowired
     private ICanGroupService canGroupService;
 
-    @ApiOperation(value = "table/list", notes = "查询餐桌信息", httpMethod = "GET")
+    @ApiOperation(value = "table/getTableList", notes = "查询餐桌信息", httpMethod = "GET")
     @ApiImplicitParams({})
-    @GetMapping("/list")
+    @GetMapping("/getTableList")
     @PreAuthorize("hasAuthority('table:list')")
-    public List<CanTable> List() {
-        return canTableService.list();
+    public List<CanTableDTO> getTableList() {
+        return canTableService.getTableList();
     }
 
 

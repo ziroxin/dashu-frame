@@ -1,7 +1,10 @@
 package com.kg.module.cantable.mapper;
 
+import com.kg.module.cantable.dto.CanTableDTO;
 import com.kg.module.cantable.entity.CanTable;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CanTableMapper extends BaseMapper<CanTable> {
 
+    List<CanTableDTO> getTableList();
 }

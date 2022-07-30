@@ -3,6 +3,8 @@ package com.kg.module.canqrcode.mapper;
 import com.kg.module.canqrcode.entity.CanTableQrcode;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 餐座二维码信息表 Mapper 接口
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-07-28
  */
 public interface CanTableQrcodeMapper extends BaseMapper<CanTableQrcode> {
-
+    CanTableQrcode lookTableCode(String tableId);
 }

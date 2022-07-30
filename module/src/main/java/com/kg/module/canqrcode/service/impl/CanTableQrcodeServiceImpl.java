@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kg.component.file.FileUploadDTO;
 import com.kg.component.utils.GuidUtils;
 import com.kg.component.weixin.xcx.WxXcxUtils;
+import com.kg.module.canorder.entity.CanOrderDetails;
 import com.kg.module.canqrcode.entity.CanTableQrcode;
 import com.kg.module.canqrcode.mapper.CanTableQrcodeMapper;
 import com.kg.module.canqrcode.service.ICanTableQrcodeService;
@@ -32,6 +33,8 @@ public class CanTableQrcodeServiceImpl extends ServiceImpl<CanTableQrcodeMapper,
     private ICanTableService tableService;
     @Autowired
     private WxXcxUtils wxXcxUtils;
+    @Autowired
+    private CanTableQrcodeMapper canTableQrcodeMapper;
 
 
     @Override
@@ -55,5 +58,10 @@ public class CanTableQrcodeServiceImpl extends ServiceImpl<CanTableQrcodeMapper,
         // 保存二维码信息
         saveBatch(saveList);
         return true;
+    }
+
+    @Override
+    public CanTableQrcode lookTableCode(String tableId) {
+        return canTableQrcodeMapper.lookTableCode(tableId);
     }
 }

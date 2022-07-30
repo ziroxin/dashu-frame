@@ -2,6 +2,7 @@ import axios from 'axios'
 import {Message, MessageBox} from 'element-ui'
 import store from '@/store'
 import {getToken} from '@/utils/auth'
+import qs from 'qs'
 
 // 创建axios
 const service = axios.create({
@@ -22,6 +23,12 @@ service.interceptors.request.use(
       // 给每个请求头，加上TOKEN：z_jwt_token
       config.headers['z_jwt_token'] = getToken()
     }
+    if (config.method === 'get') {
+      // 若是是get请求，且params是数组类型如arr=[1,2]，则转换成arr=1&arr=2
+      config.paramsSerializer = function(params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
+    }
     return config
   },
   error => {
@@ -38,7 +45,7 @@ service.interceptors.response.use(
     const res = response.data
 
     // 处理自定义状态码
-    if (res.code === "200" || res.code === 200) {
+    if (res.code === '200' || res.code === 200) {
       return res
     } else {
       Message({

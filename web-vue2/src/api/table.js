@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询餐桌信息
 export function tableList() {
   return request({
-    url: '/table/list',
+    url: '/table/getTableList',
     method: 'get'
   })
 }
@@ -32,5 +32,23 @@ export function tableDelete(data) {
     url: '/table/delete',
     method: 'delete',
     data
+  })
+}
+
+//添加餐桌二维码
+export function tableCodeAdd(tableIds) {
+  return request({
+    url: '/table/qrcode/generate',
+    method: 'get',
+    params:{tableIds}
+  })
+}
+
+// 查询餐桌信息
+export function lookTableCode(tableId) {
+  return request({
+    url: '/table/qrcode/lookTableCode',
+    method: 'get',
+    params:{tableId}
   })
 }
